@@ -175,3 +175,9 @@ button:focus-visible,a:focus-visible{outline:4px solid #315ed0;outline-offset:3p
  .nav-item small{font-size:10px}
 }
 @media(prefers-reduced-motion:reduce){.brand-mark,.hero-character{animation:none!important}}
+
+/* Original supplied MOGU logo */
+.brand{padding:0;background:transparent;box-shadow:none;border-radius:0}
+.brand-mark{width:88px;height:88px;object-fit:contain;animation:none;flex:0 0 auto}
+.brand-copy{display:none}
+@media(max-width:620px){.brand-mark{width:76px;height:76px}}
