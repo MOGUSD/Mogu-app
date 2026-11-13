@@ -4,3 +4,111 @@
 @media(min-width:900px){.feature-grid{gap:20px}.feature-card{min-height:175px;padding:26px}.feature-icon{width:88px;height:88px;flex-basis:88px;font-size:48px}.feature-content strong{font-size:24px}}
 @media(max-width:620px){body{padding:12px 12px calc(100px + env(safe-area-inset-bottom))}.topbar{padding:3px 2px 16px}.brand-mark{width:44px;height:44px}.brand-copy strong{font-size:25px}.brand-copy small{font-size:10px}.welcome{display:none}.top-actions{margin-left:auto}.welcome-panel{min-height:190px;padding:23px 20px;border-radius:24px}.welcome-panel p{font-size:14px;max-width:300px}.sun-art{width:112px;height:135px;flex-basis:112px;margin-right:-13px}.sun-circle{width:112px;height:112px}.hero-mascot{width:105px;height:105px}.spark{font-size:20px}.spark-one{left:0}.spark-two{right:0}.section-heading{margin:24px 3px 12px}.section-heading h2{font-size:21px}.gentle-hint{font-size:11px}.feature-grid{gap:10px}.feature-card{min-height:158px;padding:14px;flex-direction:column;align-items:flex-start;gap:9px;border-radius:21px}.feature-icon{width:52px;height:52px;flex-basis:52px;border-radius:16px;font-size:30px}.feature-content strong{font-size:17px}.feature-content small{font-size:11px}.card-link{margin-top:2px}.bottom-message{padding:12px;gap:7px}.bottom-message p{font-size:11px}.bottom-nav{bottom:calc(7px + env(safe-area-inset-bottom));padding:7px}.nav-item span{font-size:22px}.nav-item small{font-size:10px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* MOGU playful world — bright, warm and gently animated */
+:root{
+  --navy:#25366f;
+  --shadow:0 10px 0 rgba(56,71,135,.08),0 16px 30px rgba(56,71,135,.12);
+}
+body{
+  background:
+    radial-gradient(circle at 8% 12%,#ffe27a 0 7px,transparent 8px),
+    radial-gradient(circle at 94% 27%,#ff9fc6 0 9px,transparent 10px),
+    radial-gradient(circle at 7% 76%,#8fe8d1 0 8px,transparent 9px),
+    linear-gradient(145deg,#fff6c9 0%,#ffe6f1 48%,#dff6ff 100%);
+  background-attachment:fixed;
+}
+.topbar{padding-bottom:20px}
+.brand{
+  padding:8px 16px 8px 9px;border-radius:24px;
+  background:#fff;box-shadow:0 6px 0 #e8dff7,0 10px 20px #5368a51c;
+  transform:rotate(-1deg);
+}
+.brand-mark{filter:drop-shadow(0 5px 3px #e9a94c66);animation:mascot-bob 3.2s ease-in-out infinite}
+.brand-copy strong{color:#6542b8;text-shadow:1px 2px 0 #fce18b}
+.brand-copy small{color:#ef6595}
+.language-switch{border:2px solid #fff;box-shadow:0 5px 0 #d8d5ef,0 8px 18px #5368a51c}
+.lang-button.is-active{background:#ffcf58;color:#5b3d8e;box-shadow:0 2px 0 #e8a83b}
+.welcome-panel{
+  min-height:245px;padding:32px 40px;border:3px solid #fff;border-radius:38px;
+  background:
+    radial-gradient(circle at 86% 22%,#fff9b8 0 10px,transparent 11px),
+    radial-gradient(circle at 72% 82%,#ffd1e6 0 13px,transparent 14px),
+    linear-gradient(115deg,#fff 0%,#fff0a8 46%,#ffd9ed 100%);
+  box-shadow:0 9px 0 #f2c8df,0 18px 34px #725a9b20;
+}
+.eyebrow{color:#8a55bd;font-size:12px;letter-spacing:1px}
+.welcome-panel h1{color:#6944b7;font-size:clamp(38px,5vw,54px);text-shadow:2px 3px 0 #ffe18a}
+.welcome-panel p{color:#4c5487;font-weight:700}
+.welcome-note{background:#fff;border:2px solid #ffe08b;color:#7b4d24;box-shadow:0 4px 0 #f8d36f}
+.sun-art{animation:mascot-bob 4s ease-in-out infinite}
+.sun-circle{background:repeating-conic-gradient(from 0deg,#ffd44f 0 12deg,#ffe58a 12deg 24deg);opacity:1;box-shadow:0 7px 0 #f4b83e}
+.hero-mascot{filter:drop-shadow(0 8px 0 #e8a7bf);animation:mascot-turn 7s ease-in-out infinite}
+.spark{animation:sparkle 2.2s ease-in-out infinite}
+.spark-two{animation-delay:.8s}
+.section-heading{margin-top:34px}
+.section-heading h2{color:#6542b8;text-shadow:1px 2px 0 #fff}
+.feature-grid{gap:19px}
+.feature-card{
+  min-height:174px;padding:23px;border:3px solid #fff;border-radius:31px;
+  box-shadow:0 8px 0 rgba(91,74,150,.12),0 14px 25px rgba(75,71,137,.12);
+  transition:transform .22s cubic-bezier(.2,1.5,.4,1),box-shadow .22s ease,filter .22s ease;
+}
+.feature-card::after{
+  content:"";position:absolute;width:115px;height:115px;border-radius:50%;
+  right:-28px;bottom:-54px;background:#ffffff45;pointer-events:none;
+}
+.feature-card:hover{transform:translateY(-5px) rotate(-.6deg);box-shadow:0 12px 0 rgba(91,74,150,.10),0 20px 30px rgba(75,71,137,.17)}
+.feature-card:active{transform:translateY(3px) scale(.985);box-shadow:0 3px 0 rgba(91,74,150,.12)}
+.talk-card{background:linear-gradient(135deg,#ffb8d4,#ff8fba)}
+.learn-card{background:linear-gradient(135deg,#9be7ff,#66c9f5)}
+.world-card{background:linear-gradient(135deg,#a8efb5,#6bdba6)}
+.feel-card{background:linear-gradient(135deg,#d8baff,#b99aff)}
+.feature-icon{
+  flex-basis:86px;width:86px;height:86px;border-radius:27px;
+  background:#fff;border:3px solid #ffffffb8;font-size:48px;
+  box-shadow:0 6px 0 #ffffff70,0 9px 16px #4d54821c;
+  animation:icon-hop 3.8s ease-in-out infinite;
+}
+.feature-card:nth-child(2) .feature-icon{animation-delay:.35s}
+.feature-card:nth-child(3) .feature-icon{animation-delay:.7s}
+.feature-card:nth-child(4) .feature-icon{animation-delay:1.05s}
+.feature-content strong{font-size:23px;color:#28366f;text-shadow:0 1px 0 #fff8}
+.feature-content small{color:#374777;font-weight:800}
+.card-link{background:#fff;color:#6542b8;padding:7px 14px;box-shadow:0 3px 0 #ffffff8c}
+.card-decoration{color:#fff;font-size:34px;text-shadow:0 2px 0 #ffffff70;animation:sparkle 2.8s ease-in-out infinite}
+.bottom-message{
+  margin-top:25px;border:2px solid #fff;border-radius:25px;
+  background:linear-gradient(90deg,#fff1a9,#ffe0ef,#dff9f0);
+  color:#684b94;box-shadow:0 5px 0 #ead9ef;
+}
+.bottom-message p{font-weight:900}
+.bottom-nav{
+  border:2px solid #fff;border-radius:29px;padding:10px 13px;
+  box-shadow:0 7px 0 #dedaf0,0 12px 28px #5368a52b;
+}
+.nav-item{border-radius:20px;transition:transform .2s ease,background .2s ease}
+.nav-item span{font-size:27px}
+.nav-item.is-current{background:#ffe18a;color:#6944b7;box-shadow:0 3px 0 #efc65d}
+.nav-item:active{transform:scale(.92)}
+.toast{background:#6542b8;border:2px solid #fff;box-shadow:0 5px 0 #4e3294}
+@keyframes mascot-bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-7px) rotate(2deg)}}
+@keyframes mascot-turn{0%,88%,100%{transform:rotate(0) scale(1)}92%{transform:rotate(-7deg) scale(1.04)}96%{transform:rotate(7deg) scale(1.04)}}
+@keyframes icon-hop{0%,85%,100%{transform:translateY(0)}90%{transform:translateY(-6px) rotate(-4deg)}95%{transform:translateY(0) rotate(4deg)}}
+@keyframes sparkle{0%,100%{opacity:.65;transform:scale(.85) rotate(0)}50%{opacity:1;transform:scale(1.15) rotate(18deg)}}
+@media(max-width:620px){
+  .brand{padding:6px 11px 6px 7px}
+  .welcome-panel{min-height:205px;padding:22px 17px;border-radius:29px}
+  .welcome-panel h1{font-size:36px}
+  .sun-art{margin-right:-8px}
+  .feature-grid{gap:12px}
+  .feature-card{min-height:176px;padding:14px;border-radius:25px}
+  .feature-icon{width:60px;height:60px;flex-basis:60px;border-radius:20px;font-size:34px}
+  .feature-content strong{font-size:17px}
+  .feature-content small{font-size:11px}
+  .bottom-nav{padding:8px}
+}
+@media(prefers-reduced-motion:reduce){
+  .brand-mark,.sun-art,.hero-mascot,.spark,.feature-icon,.card-decoration{animation:none!important}
+}
