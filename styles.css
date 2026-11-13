@@ -10,3 +10,26 @@
 .method-status{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:13px;color:#514c63}
 .method-status>div{display:flex;gap:7px}.method-status button{width:36px;height:36px;border-radius:50%;border:1px solid #d6d0e4;background:#fff;font-weight:800;color:#625b77;cursor:pointer}.method-status button.selected{background:#6b4e9b;color:white;border-color:#6b4e9b}
 @media(max-width:560px){.method-domain-grid{grid-template-columns:1fr}.method-domain{min-height:unset}.method-status{align-items:flex-start;flex-direction:column}}
+
+.adventure-home{grid-column:1/-1;background:linear-gradient(120deg,#ffe7a5,#ffd1e3,#d7f4e5);min-height:132px}
+.learn-hub{display:flex;align-items:center;gap:20px;padding:20px;border:3px solid #fff;border-radius:28px;background:linear-gradient(120deg,#dff5ff,#f2eaff);box-shadow:var(--shadow);margin:12px 0 22px}
+.learn-hub img{width:112px;height:112px;object-fit:contain}.learn-hub strong{font-size:22px;color:#493b83}.learn-hub p{color:#596681;line-height:1.5}
+.learn-topic-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.learn-topic{display:flex;align-items:center;gap:12px;min-height:86px;padding:14px;border:2px solid white;border-radius:20px;background:#fff;box-shadow:var(--shadow);text-align:left;font-weight:900;cursor:pointer}
+.learn-topic span{font-size:28px}.learn-topic strong{font-size:15px}
+.adventure-hero{display:flex;align-items:center;gap:16px;padding:16px 20px;margin:12px 0 20px;border-radius:24px;background:linear-gradient(120deg,#e5f7ff,#f4eaff);box-shadow:var(--shadow)}
+.adventure-hero img{width:88px;height:88px;object-fit:contain}.adventure-hero strong{font-size:19px;color:#493b83}.adventure-hero p{margin:6px 0;color:#5b6680;line-height:1.45}.adventure-hero span{font-size:13px;font-weight:900;color:#8765b3}
+.adventure-worlds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.adventure-world{display:flex;flex-direction:column;align-items:flex-start;gap:9px;padding:18px;min-height:185px;border:3px solid #fff;border-radius:24px;background:#fff;box-shadow:var(--shadow);text-align:left;cursor:pointer}
+.adventure-icon{font-size:36px}.adventure-world strong{font-size:18px;color:#493b83}.adventure-world small{font-size:13px;line-height:1.45;color:#68718a}.adventure-meter{margin-top:auto;padding:6px 10px;border-radius:15px;background:#fff2c8;color:#70552b;font-size:12px;font-weight:900}
+.adventure-play{margin-top:18px;padding:20px;border:3px solid #fff;border-radius:28px;background:linear-gradient(145deg,#fff,#f6f1ff);box-shadow:var(--shadow);text-align:center}
+.adventure-progress{margin:16px auto 8px;color:#8568b4;font-size:13px;font-weight:1000}
+.adventure-mascot{font-size:38px;margin:4px}.adventure-play h2{font-size:clamp(23px,4vw,32px);color:#493b83;margin:8px 0}.adventure-question{font-size:18px;line-height:1.5;color:#4e5a76;font-weight:800}
+.adventure-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0}
+.adventure-option{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:130px;padding:15px 10px;border:3px solid #fff;border-radius:22px;background:#e9f7ff;box-shadow:0 5px 0 #dce8f2;cursor:pointer}
+.adventure-option span{font-size:40px}.adventure-option strong{font-size:15px}
+.adventure-feedback{min-height:30px;color:#39805f;font-weight:1000;font-size:17px}
+.adventure-bridge{padding:15px 18px;border-radius:20px;background:#fff5d9;text-align:left;margin:16px 0;color:#63543a}.adventure-bridge strong{font-size:15px}.adventure-bridge p{font-size:14px;line-height:1.55;margin-bottom:0}
+.adventure-next{border:0;border-radius:18px;padding:14px 22px;background:#7354a8;color:white;font-weight:1000;font-size:16px;cursor:pointer;box-shadow:0 5px 0 #513879}
+.adventure-note{font-size:12px;line-height:1.5;color:#72768a;margin-top:18px}
+@media(max-width:620px){.learn-topic-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.adventure-worlds{grid-template-columns:1fr}.adventure-options{grid-template-columns:1fr}.adventure-option{min-height:90px;flex-direction:row;justify-content:flex-start;text-align:left}.adventure-option span{width:58px}.learn-hub{align-items:flex-start}.learn-hub img{width:78px;height:78px}.learn-hub strong{font-size:18px}}
