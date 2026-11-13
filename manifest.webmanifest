@@ -1,15 +1,13 @@
 {
-  "name": "МОГУ — Учусь • Говорю • Играю",
-  "short_name": "МОГУ",
-  "description": "Дружелюбное пространство для общения, обучения и игры.",
-  "lang": "ru",
-  "start_url": "./",
-  "scope": "./",
-  "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#eef4ff",
-  "theme_color": "#eef4ff",
-  "icons": [
-    {"src":"./assets/mogu-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
-  ]
+  "name":"МОГУ — Учусь • Говорю • Играю",
+  "short_name":"МОГУ",
+  "description":"Приложение для общения и обучения детей с синдромом Дауна.",
+  "lang":"ru",
+  "start_url":"./",
+  "scope":"./",
+  "display":"standalone",
+  "orientation":"portrait",
+  "background_color":"#fff8e8",
+  "theme_color":"#fff8e8",
+  "icons":[{"src":"./assets/mogu-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }
