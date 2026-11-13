@@ -33,3 +33,67 @@
 .adventure-next{border:0;border-radius:18px;padding:14px 22px;background:#7354a8;color:white;font-weight:1000;font-size:16px;cursor:pointer;box-shadow:0 5px 0 #513879}
 .adventure-note{font-size:12px;line-height:1.5;color:#72768a;margin-top:18px}
 @media(max-width:620px){.learn-topic-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.adventure-worlds{grid-template-columns:1fr}.adventure-options{grid-template-columns:1fr}.adventure-option{min-height:90px;flex-direction:row;justify-content:flex-start;text-align:left}.adventure-option span{width:58px}.learn-hub{align-items:flex-start}.learn-hub img{width:78px;height:78px}.learn-hub strong{font-size:18px}}
+
+
+/* Typography system — readable, warm, and consistent across RU / KK / EN */
+:root{
+  --font-display:ui-rounded,"Arial Rounded MT Bold","Trebuchet MS","Segoe UI",Arial,sans-serif;
+  --font-reading:ui-rounded,"Trebuchet MS","Segoe UI",Arial,sans-serif;
+  --text-xs:clamp(12px,1.8vw,13px);
+  --text-sm:clamp(14px,1.9vw,15px);
+  --text-md:clamp(16px,2vw,17px);
+  --text-lg:clamp(19px,2.4vw,22px);
+  --text-xl:clamp(25px,3.4vw,32px);
+  --reading-leading:1.5;
+}
+html{font-family:var(--font-reading);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-family:var(--font-reading);font-size:16px;line-height:var(--reading-leading);font-weight:600;letter-spacing:.005em}
+button,input,textarea,select{font-family:var(--font-reading);font-size:inherit;line-height:1.25;letter-spacing:inherit}
+h1,h2,h3,h4,.brand-copy strong,.route-copy strong,.screen-title,.adventure-world strong,.adventure-play h2{
+  font-family:var(--font-display);
+  font-weight:800;
+  letter-spacing:-.025em;
+  line-height:1.16;
+}
+p{line-height:var(--reading-leading)}
+.brand-copy strong{font-size:28px;letter-spacing:-.035em}
+.brand-copy small{font-size:11px;letter-spacing:.025em;line-height:1.25}
+.hero h1{line-height:1.08;letter-spacing:-.035em}
+.hero p,.route-copy small,.screen-subtitle,.hint,.adventure-hero p{
+  line-height:1.55;
+  letter-spacing:.01em;
+}
+.eyebrow,.lesson-kicker{font-size:var(--text-xs);letter-spacing:.07em;line-height:1.4}
+.route-copy strong{line-height:1.2;letter-spacing:-.02em}
+.route-copy small{font-size:var(--text-sm);font-weight:650}
+.screen-title{line-height:1.18}
+.screen-subtitle{font-size:var(--text-sm);font-weight:600}
+.phrase-head strong,.phrase-chip,.pictogram strong,.world-card strong,.feel-card,.learn-topic strong{
+  line-height:1.35;
+  letter-spacing:0;
+}
+.phrase-chip{font-size:var(--text-md);font-weight:750}
+.pictogram strong{font-size:var(--text-sm);font-weight:750}
+.category-button,.urgent,.say-button,.back-button,.soft-button,.nav-item small{
+  line-height:1.3;
+  letter-spacing:0;
+}
+.lesson-question,.adventure-question{
+  line-height:1.4;
+  letter-spacing:-.01em;
+  text-wrap:pretty;
+}
+.lesson-option strong,.adventure-option strong{font-size:var(--text-sm);line-height:1.35}
+.method-domain strong,.method-activity h3{line-height:1.3}
+.method-domain small,.method-activity p,.method-note,.method-footnote{line-height:1.6}
+.setting-card p,.stat-card small{line-height:1.5}
+:lang(kk),:lang(ru),:lang(en){font-kerning:normal}
+@media(max-width:560px){
+  body{font-size:16px}
+  .brand-copy small{font-size:10px}
+  .hero p,.route-copy small,.screen-subtitle,.adventure-hero p{line-height:1.5}
+  .pictogram strong,.lesson-option strong,.adventure-option strong{font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+}
