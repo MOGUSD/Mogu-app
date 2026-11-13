@@ -229,3 +229,17 @@ body{font-weight:700}
 
 /* One visible text label per answer button */
 .adventure-option span{display:none!important}
+
+
+/* Give the original family logo a clear, prominent place in the app */
+.brand{display:flex;align-items:center;justify-content:center;flex:0 0 auto;padding:4px;background:#fff;border:3px solid #fff;border-radius:30px;box-shadow:0 6px 0 #f2dfeb,0 10px 22px #514c7918}
+.brand-mark{display:block;width:156px;height:156px;max-width:40vw;object-fit:contain;object-position:center;animation:none;flex:0 0 auto}
+@media(max-width:620px){
+ .topbar{align-items:center;gap:8px;padding:4px 0 14px}
+ .brand{padding:3px;border-radius:25px}
+ .brand-mark{width:140px;height:140px;max-width:39vw}
+ .top-actions{flex:0 0 auto}
+}
+@media(max-width:360px){
+ .brand-mark{width:122px;height:122px}
+}
