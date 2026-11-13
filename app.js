@@ -12,7 +12,7 @@ function showToast(message){
 }
 function setLanguage(lang){
  if(!translations[lang])return;
- currentLang=lang;document.documentElement.lang=lang==="kk"?"kk":lang;
+ currentLang=lang;document.documentElement.lang=lang;
  document.querySelectorAll("[data-i18n]").forEach(el=>{
   const key=el.dataset.i18n;if(translations[lang][key])el.textContent=translations[lang][key];
  });
@@ -24,10 +24,13 @@ function setLanguage(lang){
 document.querySelectorAll(".lang-button").forEach(button=>button.addEventListener("click",()=>setLanguage(button.dataset.lang)));
 document.querySelectorAll(".feature-card").forEach(button=>button.addEventListener("click",()=>showToast(translations[currentLang].coming)));
 document.querySelectorAll(".nav-item").forEach(button=>button.addEventListener("click",()=>{
+ if(button.dataset.nav!=="home"){
+  showToast(translations[currentLang].coming);
+  return;
+ }
  document.querySelectorAll(".nav-item").forEach(item=>{item.classList.remove("is-current");item.removeAttribute("aria-current")});
  button.classList.add("is-current");button.setAttribute("aria-current","page");
- if(button.dataset.nav!=="home")showToast(translations[currentLang].coming);
- else window.scrollTo({top:0,behavior:"smooth"});
+ window.scrollTo({top:0,behavior:"smooth"});
 }));
 try{const saved=localStorage.getItem("mogu-language");if(saved&&translations[saved])setLanguage(saved)}catch(_){}
 if("serviceWorker" in navigator && location.protocol!=="file:"){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}
