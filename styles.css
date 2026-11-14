@@ -422,3 +422,7 @@ button:active{transform:translateY(3px) scale(.98);filter:saturate(1.12)}
 #app-main{padding-bottom:calc(132px + env(safe-area-inset-bottom));scroll-margin-bottom:132px}
 .method-domain{overflow-wrap:anywhere}
 .method-domain strong,.method-domain small{max-width:100%;overflow-wrap:anywhere}
+
+/* Clear, gentle feedback for a retry without making an incorrect choice feel punitive */
+.lesson-option.try-again{background:#fff4e9;border-color:#f4d7bd}
+.lesson-option:focus-visible,.adventure-option:focus-visible,.method-domain:focus-visible{outline:4px solid #6b5bd2;outline-offset:3px}
