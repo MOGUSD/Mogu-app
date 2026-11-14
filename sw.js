@@ -1,8 +1,8 @@
-const CACHE_NAME="mogu-browser-v18";
+const CACHE_NAME="mogu-browser-v19";
 const APP_SHELL=[
   "./","./index.html",
-  "./styles.css?v=browser-fix18",
-  "./app.js?v=method-fix18",
+  "./styles.css?v=controls-fix19",
+  "./app.js?v=controls-fix19",
   "./manifest.webmanifest",
   "./assets/mogu-icon.svg","./assets/mimi.svg","./assets/tiko.svg","./assets/luna.svg","./assets/bobi.svg",
   "./assets/audio/bouncy-adventure.mp3",
