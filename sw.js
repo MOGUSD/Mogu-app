@@ -1,4 +1,4 @@
-const CACHE_NAME="mogu-browser-v26";
+const CACHE_NAME="mogu-browser-v27";
 const APP_SHELL=[
   "./","./index.html",
   "./styles.css?v=madina-hub2",
