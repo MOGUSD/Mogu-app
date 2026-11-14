@@ -100,7 +100,14 @@ jobs:
               }
             }
             for (const icon of ['ic_launcher', 'ic_launcher_round']) {
-              fs.writeFileSync(`android/app/src/main/res/mipmap-anydpi-v26/${icon}.xml`, `<?xml version="1.0" encoding="utf-8"?>\\n<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">\\n    <background android:drawable="@android:color/white" />\\n    <foreground android:drawable="@mipmap/ic_launcher_foreground" />\\n</adaptive-icon>\\n`);
+              fs.writeFileSync(`android/app/src/main/res/mipmap-anydpi-v26/${icon}.xml`, [
+                '<?xml version="1.0" encoding="utf-8"?>',
+                '<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">',
+                '    <background android:drawable="@android:color/white" />',
+                '    <foreground android:drawable="@mipmap/ic_launcher_foreground" />',
+                '</adaptive-icon>',
+                ''
+              ].join(String.fromCharCode(10)));
             }
             const foregrounds = Object.keys(sizes).flatMap(d => [`android/app/src/main/res/mipmap-${d}-v4/ic_launcher_foreground.png`, `android/app/src/main/res/mipmap-${d}/ic_launcher_foreground.png`]).filter(fs.existsSync);
             if (!foregrounds.length) throw new Error('No adaptive launcher foreground PNGs were generated');
