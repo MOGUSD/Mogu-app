@@ -4,7 +4,7 @@ const APP_SHELL=[
   "./styles.css?v=madina-hub1",
   "./app.js?v=madina-hub1",
   "./manifest.webmanifest",
-  "./assets/mogu-icon.svg","./assets/mimi.svg","./assets/tiko.svg","./assets/luna.svg","./assets/bobi.svg",
+  "./assets/mogu-icon.svg","./assets/mimi.svg","./assets/tiko.svg","./assets/luna.svg","./assets/bobi.svg","./assets/madina.svg","./assets/hub-play.svg","./assets/hub-learn.svg","./assets/hub-world.svg","./assets/hub-feel.svg","./assets/hub-talk.svg",
   "./assets/audio/bouncy-adventure.mp3",
   "./assets/audio/button-pop.mp3"
 ];
