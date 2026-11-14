@@ -1,8 +1,8 @@
-const CACHE_NAME="mogu-audio-demo-v17";
+const CACHE_NAME="mogu-browser-v18";
 const APP_SHELL=[
   "./","./index.html",
-  "./styles.css?v=fairytale-alawar17",
-  "./app.js?v=audio-bright16",
+  "./styles.css?v=browser-fix18",
+  "./app.js?v=method-fix18",
   "./manifest.webmanifest",
   "./assets/mogu-icon.svg","./assets/mimi.svg","./assets/tiko.svg","./assets/luna.svg","./assets/bobi.svg",
   "./assets/audio/bouncy-adventure.mp3",
