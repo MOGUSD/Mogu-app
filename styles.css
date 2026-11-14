@@ -416,3 +416,9 @@ button:active{transform:translateY(3px) scale(.98);filter:saturate(1.12)}
 
 .phrase-chip{display:inline-flex;align-items:center;gap:6px}
 .phrase-chip .pic-art{width:34px;height:34px;display:inline-flex;flex:0 0 34px}
+
+
+/* Keep the fixed navigation from covering the last content on short screens */
+#app-main{padding-bottom:calc(132px + env(safe-area-inset-bottom));scroll-margin-bottom:132px}
+.method-domain{overflow-wrap:anywhere}
+.method-domain strong,.method-domain small{max-width:100%;overflow-wrap:anywhere}
