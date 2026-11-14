@@ -10,22 +10,17 @@
 <title>МОГУ — Учусь • Говорю • Играю</title>
 <link rel="icon" href="./assets/mogu-icon.svg" type="image/svg+xml">
 <link rel="manifest" href="./manifest.webmanifest">
-<link rel="stylesheet" href="./styles.css?v=controls-fix19">
+<link rel="stylesheet" href="./styles.css?v=madina-hub1">
 </head>
 <body>
 <div class="app-shell">
 <header class="topbar">
  <a class="brand" href="./" data-action="home" aria-label="МОГУ — главная"><img src="./assets/mogu-icon.svg" alt="" class="brand-mark"><span class="brand-copy"><strong>МОГУ</strong><small>Учусь • Говорю • Играю</small></span></a>
- <div class="top-actions"><span class="welcome" id="top-welcome">Привет, друг!</span><div class="language-switch" aria-label="Язык"><button class="lang-button is-active" data-lang="ru">RU</button><button class="lang-button" data-lang="kk">ҚАЗ</button><button class="lang-button" data-lang="en">EN</button></div></div>
+ <div class="top-actions"><div class="language-switch" aria-label="Язык"><button class="lang-button is-active" data-lang="ru">RU</button><button class="lang-button" data-lang="kk">ҚАЗ</button><button class="lang-button" data-lang="en">EN</button></div><button class="top-settings" data-action="settings" aria-label="Настройки" title="Настройки">⚙</button></div>
 </header>
 <main id="app-main" tabindex="-1"></main>
-<nav class="bottom-nav" aria-label="Главная навигация" id="bottom-nav">
- <button class="nav-item is-current" data-nav="home"><span>⌂</span><small>Главная</small></button>
- <button class="nav-item" data-nav="talk"><span>💬</span><small>Сказать</small></button>
- <button class="nav-item" data-nav="progress"><span>⭐</span><small>Мой путь</small></button>
- <button class="nav-item" data-nav="adult"><span>⚙️</span><small>Взрослым</small></button>
-</nav>
+<nav class="bottom-nav" aria-label="Домой" id="bottom-nav"><button class="nav-home" data-nav="home" aria-label="Домой"><span>⌂</span></button></nav>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="./app.js?v=controls-fix19" defer></script>
+<script src="./app.js?v=madina-hub1" defer></script>
 </body></html>
