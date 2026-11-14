@@ -62,11 +62,14 @@ jobs:
           })().catch(err => { console.error(err); process.exit(1); });
           NODE
 
-      - name: Generate Android launcher icons
-        run: npx capacitor-assets generate --android
-
       - name: Create Capacitor Android project
         run: npx cap add android
+
+      - name: Generate Android launcher icons from МОГУ artwork
+        run: |
+          test -s assets/icon-only.png
+          test -s assets/splash.png
+          npx capacitor-assets generate --android
 
       - name: Sync web application into Android
         run: npx cap sync android
