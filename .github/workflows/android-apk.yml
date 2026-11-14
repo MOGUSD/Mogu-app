@@ -71,6 +71,19 @@ jobs:
           test -s assets/splash.png
           npx capacitor-assets generate --android
 
+      - name: Force Android adaptive icons to use the original МОГУ artwork
+        run: |
+          for icon in ic_launcher ic_launcher_round; do
+            cat > "android/app/src/main/res/mipmap-anydpi-v26/${icon}.xml" <<'XML'
+          <?xml version="1.0" encoding="utf-8"?>
+          <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+              <background android:drawable="@android:color/white" />
+              <foreground android:drawable="@mipmap/ic_launcher_foreground" />
+          </adaptive-icon>
+          XML
+          done
+          test -s android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png
+
       - name: Sync web application into Android
         run: npx cap sync android
 
