@@ -80,6 +80,19 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleDebug
 
+      - name: Install and launch МОГУ in Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          arch: x86_64
+          disable-animations: true
+          script: |
+            adb install -r android/app/build/outputs/apk/debug/app-debug.apk
+            adb shell monkey -p com.mogu.app 1
+            sleep 10
+            adb shell pidof com.mogu.app
+            adb shell dumpsys activity activities | grep -E 'mResumedActivity|topResumedActivity'
+
       - name: Publish APK artifact
         uses: actions/upload-artifact@v4
         with:
