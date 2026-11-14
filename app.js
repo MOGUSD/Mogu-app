@@ -13,6 +13,10 @@ Object.assign(words.ru,{body:"Части тела",school:"Школа",music:"М
 Object.assign(words.kk,{body:"Дене мүшелері",school:"Мектеп",music:"Музыка",cow:"Сиыр",horse:"Жылқы",fish:"Балық",rabbit:"Қоян",elephant:"Піл",lion:"Арыстан",butterfly:"Көбелек",banana:"Банан",orange:"Апельсин",carrot:"Сәбіз",egg:"Жұмыртқа",cheese:"Ірімшік",rice:"Күріш",potato:"Картоп",table:"Үстел",chair:"Орындық",door:"Есік",window:"Терезе",cup:"Кесе",spoon:"Қасық",shoes:"Аяқ киім",pants:"Шалбар",hat:"Бас киім",coat:"Пальто",bicycle:"Велосипед",train:"Пойыз",plane:"Ұшақ",boat:"Қайық",rain:"Жаңбыр",snow:"Қар",cloud:"Бұлт",star:"Жұлдыз",moon:"Ай",head:"Бас",hand:"Қол",eye:"Көз",ear:"Құлақ",nose:"Мұрын",mouth:"Ауыз",foot:"Табан",pencil:"Қарындаш",scissors:"Қайшы",drum:"Барабан",guitar:"Гитара",finished:"Бітті",open:"Ашу",close:"Жабу",go:"Бар",come:"Кел",look:"Қара",wait:"Күт",together:"Бірге",turn:"Менің кезегім",wash:"Жуу",hot:"Ыстық",cold:"Суық",break:"Үзіліс"});
 Object.assign(words.en,{body:"Body",school:"School",music:"Music",cow:"Cow",horse:"Horse",fish:"Fish",rabbit:"Rabbit",elephant:"Elephant",lion:"Lion",butterfly:"Butterfly",banana:"Banana",orange:"Orange",carrot:"Carrot",egg:"Egg",cheese:"Cheese",rice:"Rice",potato:"Potato",table:"Table",chair:"Chair",door:"Door",window:"Window",cup:"Cup",spoon:"Spoon",shoes:"Shoes",pants:"Trousers",hat:"Hat",coat:"Coat",bicycle:"Bicycle",train:"Train",plane:"Plane",boat:"Boat",rain:"Rain",snow:"Snow",cloud:"Cloud",star:"Star",moon:"Moon",head:"Head",hand:"Hand",eye:"Eye",ear:"Ear",nose:"Nose",mouth:"Mouth",foot:"Foot",pencil:"Pencil",scissors:"Scissors",drum:"Drum",guitar:"Guitar",finished:"Finished",open:"Open",close:"Close",go:"Go",come:"Come here",look:"Look",wait:"Wait",together:"Together",turn:"My turn",wash:"Wash",hot:"Hot",cold:"Cold",break:"Break"});
 
+Object.assign(words.ru,{orange:"Оранжевый",white:"Белый",black:"Чёрный",pink:"Розовый",purple:"Фиолетовый",brown:"Коричневый"});
+Object.assign(words.kk,{orange:"Қызғылт сары",white:"Ақ",black:"Қара",pink:"Қызғылт",purple:"Күлгін",brown:"Қоңыр"});
+Object.assign(words.en,{orange:"Orange",white:"White",black:"Black",pink:"Pink",purple:"Purple",brown:"Brown"});
+
 const audioPrefs={music:true,effects:true,musicVolume:0.22,effectVolume:0.5,voiceVolume:0.95,...store.get("audio",{})};
 const backgroundMusic=new Audio("./assets/audio/bouncy-adventure.mp3");
 backgroundMusic.loop=true;backgroundMusic.preload="auto";
@@ -123,9 +127,36 @@ function selectAdventure(i){if(!Number.isInteger(i)||!adventureTracks[i])return;
 const lessonSets={
 colors:[
 {question:{ru:"Найди красный цвет",kk:"Қызыл түсті тап",en:"Find the colour red"},options:[["red","🔴"],["blue","🔵"],["yellow","🟡"]],answer:"red"},
-{question:{ru:"Какого цвета солнце?",kk:"Күн қандай түсті?",en:"What colour is the sun?"},options:[["yellow","🟡"],["green","🟢"],["blue","🔵"]],answer:"yellow"}
-],
-math:[
+{question:{ru:"Какого цвета клубника? 🍓",kk:"Құлпынай қандай түсті? 🍓",en:"What colour is a strawberry? 🍓"},options:[["red","🔴"],["green","🟢"],["white","⚪"]],answer:"red"},
+{question:{ru:"Какого цвета спелый помидор? 🍅",kk:"Піскен қызанақ қандай түсті? 🍅",en:"What colour is a ripe tomato? 🍅"},options:[["red","🔴"],["yellow","🟡"],["blue","🔵"]],answer:"red"},
+{question:{ru:"Найди красное яблоко 🍎",kk:"Қызыл алманы тап 🍎",en:"Find the red apple 🍎"},options:[["red","🔴"],["green","🟢"],["orange","🟠"]],answer:"red"},
+{question:{ru:"Найди синий цвет",kk:"Көк түсті тап",en:"Find the colour blue"},options:[["blue","🔵"],["red","🔴"],["yellow","🟡"]],answer:"blue"},
+{question:{ru:"Какого цвета небо в ясный день? ☀️",kk:"Ашық күнде аспан қандай түсті? ☀️",en:"What colour is the sky on a clear day? ☀️"},options:[["blue","🔵"],["green","🟢"],["brown","🟤"]],answer:"blue"},
+{question:{ru:"Какого цвета черника? 🫐",kk:"Көкжидек қандай түсті? 🫐",en:"What colour are blueberries? 🫐"},options:[["blue","🔵"],["red","🔴"],["yellow","🟡"]],answer:"blue"},
+{question:{ru:"Найди синюю рыбку 🐟",kk:"Көк балықты тап 🐟",en:"Find the blue fish 🐟"},options:[["blue","🔵"],["orange","🟠"],["white","⚪"]],answer:"blue"},
+{question:{ru:"Найди жёлтый цвет",kk:"Сары түсті тап",en:"Find the colour yellow"},options:[["yellow","🟡"],["blue","🔵"],["green","🟢"]],answer:"yellow"},
+{question:{ru:"Какого цвета спелый банан? 🍌",kk:"Піскен банан қандай түсті? 🍌",en:"What colour is a ripe banana? 🍌"},options:[["yellow","🟡"],["blue","🔵"],["black","⚫"]],answer:"yellow"},
+{question:{ru:"Какого цвета лимон? 🍋",kk:"Лимон қандай түсті? 🍋",en:"What colour is a lemon? 🍋"},options:[["yellow","🟡"],["red","🔴"],["purple","🟣"]],answer:"yellow"},
+{question:{ru:"Найди жёлтый подсолнух 🌻",kk:"Сары күнбағысты тап 🌻",en:"Find the yellow sunflower 🌻"},options:[["yellow","🟡"],["white","⚪"],["brown","🟤"]],answer:"yellow"},
+{question:{ru:"Найди зелёный цвет",kk:"Жасыл түсті тап",en:"Find the colour green"},options:[["green","🟢"],["red","🔴"],["blue","🔵"]],answer:"green"},
+{question:{ru:"Какого цвета трава? 🌱",kk:"Шөп қандай түсті? 🌱",en:"What colour is grass? 🌱"},options:[["green","🟢"],["pink","🩷"],["yellow","🟡"]],answer:"green"},
+{question:{ru:"Какого цвета огурец? 🥒",kk:"Қияр қандай түсті? 🥒",en:"What colour is a cucumber? 🥒"},options:[["green","🟢"],["orange","🟠"],["white","⚪"]],answer:"green"},
+{question:{ru:"Найди зелёную лягушку 🐸",kk:"Жасыл бақаны тап 🐸",en:"Find the green frog 🐸"},options:[["green","🟢"],["purple","🟣"],["red","🔴"]],answer:"green"},
+{question:{ru:"Найди оранжевый цвет",kk:"Қызғылт сары түсті тап",en:"Find the colour orange"},options:[["orange","🟠"],["blue","🔵"],["white","⚪"]],answer:"orange"},
+{question:{ru:"Какого цвета апельсин? 🍊",kk:"Апельсин қандай түсті? 🍊",en:"What colour is an orange? 🍊"},options:[["orange","🟠"],["red","🔴"],["blue","🔵"]],answer:"orange"},
+{question:{ru:"Какого цвета морковь? 🥕",kk:"Сәбіз қандай түсті? 🥕",en:"What colour is a carrot? 🥕"},options:[["orange","🟠"],["green","🟢"],["purple","🟣"]],answer:"orange"},
+{question:{ru:"Найди оранжевую тыкву 🎃",kk:"Қызғылт сары асқабақты тап 🎃",en:"Find the orange pumpkin 🎃"},options:[["orange","🟠"],["pink","🩷"],["black","⚫"]],answer:"orange"},
+{question:{ru:"Найди белый цвет",kk:"Ақ түсті тап",en:"Find the colour white"},options:[["white","⚪"],["black","⚫"],["green","🟢"]],answer:"white"},
+{question:{ru:"Какого цвета свежий снег? ❄️",kk:"Жаңа жауған қар қандай түсті? ❄️",en:"What colour is fresh snow? ❄️"},options:[["white","⚪"],["red","🔴"],["orange","🟠"]],answer:"white"},
+{question:{ru:"Какого цвета молоко? 🥛",kk:"Сүт қандай түсті? 🥛",en:"What colour is milk? 🥛"},options:[["white","⚪"],["blue","🔵"],["yellow","🟡"]],answer:"white"},
+{question:{ru:"Найди чёрный цвет",kk:"Қара түсті тап",en:"Find the colour black"},options:[["black","⚫"],["white","⚪"],["pink","🩷"]],answer:"black"},
+{question:{ru:"Какого цвета ночное небо? 🌃",kk:"Түнгі аспан қандай түсті? 🌃",en:"What colour is the night sky? 🌃"},options:[["black","⚫"],["yellow","🟡"],["green","🟢"]],answer:"black"},
+{question:{ru:"Найди чёрную кошку 🐈‍⬛",kk:"Қара мысықты тап 🐈‍⬛",en:"Find the black cat 🐈‍⬛"},options:[["black","⚫"],["orange","🟠"],["white","⚪"]],answer:"black"},
+{question:{ru:"Найди розовый цвет",kk:"Қызғылт түсті тап",en:"Find the colour pink"},options:[["pink","🩷"],["blue","🔵"],["brown","🟤"]],answer:"pink"},
+{question:{ru:"Какого цвета фламинго? 🦩",kk:"Қоқиқаз қандай түсті? 🦩",en:"What colour is a flamingo? 🦩"},options:[["pink","🩷"],["green","🟢"],["black","⚫"]],answer:"pink"},
+{question:{ru:"Найди фиолетовый цвет",kk:"Күлгін түсті тап",en:"Find the colour purple"},options:[["purple","🟣"],["yellow","🟡"],["white","⚪"]],answer:"purple"},
+{question:{ru:"Какого цвета шоколад? 🍫",kk:"Шоколад қандай түсті? 🍫",en:"What colour is chocolate? 🍫"},options:[["brown","🟤"],["red","🔴"],["blue","🔵"]],answer:"brown"}
+],math:[
 {question:{ru:"Выбери число два",kk:"Екі санын таңда",en:"Choose the number two"},options:[["one","1️⃣"],["two","2️⃣"],["three","3️⃣"]],answer:"two"},
 {question:{ru:"Сколько будет один плюс один?",kk:"Бірге бірді қосқанда қанша болады?",en:"What is one plus one?"},options:[["three","3️⃣"],["two","2️⃣"],["one","1️⃣"]],answer:"two"}
 ],
@@ -160,10 +191,16 @@ function renderLearn(){
  $("#app-main").innerHTML=head(t("learn"),question)+'<section class="learn-layout"><section class="learn-main"><div class="lesson-kicker">'+topics.find(x=>x[0]===activeLesson)[2][idx]+'</div><h2 class="lesson-question">'+question+'</h2><div class="lesson-options">'+L.options.map(x=>'<button class="lesson-option '+(L.lastAnswer===x[0]?(L.lastCorrect?"correct":"try-again"):"")+'" data-answer="'+x[0]+'" aria-pressed="'+(L.lastAnswer===x[0])+'"><span>'+x[1]+'</span><strong>'+t(x[0])+'</strong></button>').join("")+'</div><p class="lesson-feedback" aria-live="polite">'+(L.feedback||"")+'</p><button class="soft-button" data-action="repeat">🔊 '+t("again")+'</button> <button class="soft-button" data-action="newlesson">'+t("next")+' →</button> <button class="soft-button" data-action="learn-back">← '+(l==="kk"?"Тақырыптар":l==="en"?"Topics":"К темам")+'</button></section><aside class="lesson-side"><div class="panel lesson-madina"><img src="./assets/madina-guide.webp" alt="Мадина"><p>'+t("youCan")+'</p></div><div class="panel lesson-tools">'+topics.map(x=>'<button class="category-button '+(activeLesson===x[0]?"active":"")+'" data-lesson="'+x[0]+'">'+x[2][idx]+'</button>').join("")+'</div></aside></section>';
  nav("home");
 }
+let colorLessonDeck=[];
+function shuffleLessonDeck(deck){for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]]}return deck}
 function newLesson(){
  const set=lessonSets[activeLesson]||lessonSets.colors;
- const item=set[Math.floor(Math.random()*set.length)];
- const options=item.options.slice().sort(()=>Math.random()-.5);
+ let item;
+ if(activeLesson==="colors"){
+  if(!colorLessonDeck.length)colorLessonDeck=shuffleLessonDeck(Array.from({length:set.length},(_,i)=>i));
+  item=set[colorLessonDeck.pop()];
+ }else item=set[Math.floor(Math.random()*set.length)];
+ const options=shuffleLessonDeck(item.options.slice());
  state.lesson={topic:activeLesson,question:item.question,options,answer:item.answer,lastAnswer:null,lastCorrect:false,feedback:""};
 }
 function renderWorld(){state.screen="world";const groups=["animals","food","home","clothes","transport","nature"];$("#app-main").innerHTML=head(t("world"),t("worldDesc"))+'<div class="section-head"><h2>'+t("explore")+'</h2><span class="hint">🌱</span></div><div class="world-grid">'+worldData.map(x=>'<button class="world-card" data-world="'+x[0]+'" data-icon="'+x[1]+'"><span class="pic">'+x[1]+'</span><strong>'+t(x[0])+'</strong><small>'+t(x[2])+'</small></button>').join("")+'</div>'+(state.worldItem?'<div class="detail-card"><span class="detail-pic">'+state.worldItem.icon+'</span><div><h3>'+t(state.worldItem.key)+'</h3><p>'+t("explore")+'</p></div><button class="soft-button" data-action="worldsay">🔊</button></div>':"");nav("home")}
