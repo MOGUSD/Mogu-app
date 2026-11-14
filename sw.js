@@ -1,10 +1,10 @@
-const CACHE_NAME="mogu-browser-v27";
+const CACHE_NAME="mogu-browser-v28";
 const APP_SHELL=[
   "./","./index.html",
   "./styles.css?v=madina-hub2",
   "./app.js?v=madina-hub2",
   "./manifest.webmanifest",
-  "./assets/mogu-icon.svg","./assets/mimi.svg","./assets/tiko.svg","./assets/luna.svg","./assets/bobi.svg","./assets/madina-cutout.svg","./assets/hub-play.svg","./assets/hub-learn.svg","./assets/hub-world.svg","./assets/hub-feel.svg","./assets/hub-talk.svg",
+  "./assets/mogu-icon.svg","./assets/mimi.svg","./assets/tiko.svg","./assets/luna.svg","./assets/bobi.svg","./assets/madina-guide.webp","./assets/hub-play.svg","./assets/hub-learn.svg","./assets/hub-world.svg","./assets/hub-feel.svg","./assets/hub-talk.svg",
   "./assets/audio/bouncy-adventure.mp3",
   "./assets/audio/button-pop.mp3"
 ];
