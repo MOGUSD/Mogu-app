@@ -71,6 +71,10 @@ jobs:
           test -s assets/splash.png
           npx capacitor-assets generate --android
 
+      - name: Sync web application into Android
+        run: npx cap sync android
+
+      # Capacitor sync can replace launcher resources, so enforce adaptive icons AFTER sync.
       - name: Force Android adaptive icons to use the original МОГУ artwork
         run: |
           for icon in ic_launcher ic_launcher_round; do
@@ -83,9 +87,6 @@ jobs:
           XML
           done
           test -s android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png
-
-      - name: Sync web application into Android
-        run: npx cap sync android
 
       - name: Build installable debug APK
         run: |
