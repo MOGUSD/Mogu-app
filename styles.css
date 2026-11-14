@@ -440,3 +440,6 @@ button:active{transform:translateY(3px) scale(.98);filter:saturate(1.12)}
 @keyframes madina-wave{from{transform:rotate(-9deg)}to{transform:rotate(12deg)}}
 @keyframes madina-blink{0%,46%,50%,100%{transform:scaleY(1)}48%{transform:scaleY(.12)}}
 @media(prefers-reduced-motion:reduce){.madina-character,.madina-wave,.madina-eye{animation:none!important}}
+
+/* Remove the white matte around the original Madina artwork on pastel backgrounds. */
+.madina-character,.hub-madina img{mix-blend-mode:multiply;background:transparent}
