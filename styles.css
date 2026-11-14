@@ -413,3 +413,6 @@ button:active{transform:translateY(3px) scale(.98);filter:saturate(1.12)}
 .pic-art svg{display:block;width:100%;height:100%;overflow:visible}
 .urgent .pic-art{width:42px;height:42px;flex:0 0 42px}
 @media(max-width:760px){.pictogram .pic-art{width:58px;height:58px}.urgent .pic-art{width:36px;height:36px;flex-basis:36px}}
+
+.phrase-chip{display:inline-flex;align-items:center;gap:6px}
+.phrase-chip .pic-art{width:34px;height:34px;display:inline-flex;flex:0 0 34px}
