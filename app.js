@@ -182,4 +182,4 @@ if(b.dataset.setting){const k=b.dataset.setting,v=b.dataset.value;state.settings
 });
 try{const saved=store.get("language","ru");if(words[saved])state.lang=saved}catch(_){}
 render();
-if("serviceWorker"in navigator&&location.protocol!=="file:")window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+// Service worker disabled during interface redesign to prevent stale UI from being shown.
