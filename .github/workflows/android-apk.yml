@@ -74,19 +74,39 @@ jobs:
       - name: Sync web application into Android
         run: npx cap sync android
 
-      # Capacitor sync can replace launcher resources, so enforce adaptive icons AFTER sync.
+      # Capacitor sync may restore its default artwork. Replace the adaptive foreground PNGs
+      # themselves with the original МОГУ artwork AFTER sync, then point both adaptive icons at them.
       - name: Force Android adaptive icons to use the original МОГУ artwork
         run: |
-          for icon in ic_launcher ic_launcher_round; do
-            cat > "android/app/src/main/res/mipmap-anydpi-v26/${icon}.xml" <<'XML'
-          <?xml version="1.0" encoding="utf-8"?>
-          <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-              <background android:drawable="@android:color/white" />
-              <foreground android:drawable="@mipmap/ic_launcher_foreground" />
-          </adaptive-icon>
-          XML
-          done
-          test -s android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png
+          node - <<'NODE'
+          const sharp = require('sharp');
+          const fs = require('fs');
+          const path = require('path');
+          (async () => {
+            const sizes = { mdpi: 108, hdpi: 162, xhdpi: 216, xxhdpi: 324, xxxhdpi: 432 };
+            for (const [density, size] of Object.entries(sizes)) {
+              const dirs = [
+                `android/app/src/main/res/mipmap-${density}-v4`,
+                `android/app/src/main/res/mipmap-${density}`
+              ];
+              for (const dir of dirs) {
+                if (!fs.existsSync(dir)) continue;
+                const output = path.join(dir, 'ic_launcher_foreground.png');
+                await sharp('assets/mogu-original.webp')
+                  .resize(Math.round(size * 0.66), Math.round(size * 0.66), { fit: 'contain', background: { r: 255, g: 255, b: 255, alpha: 1 } })
+                  .extend({ top: Math.round(size * 0.17), bottom: size - Math.round(size * 0.17) - Math.round(size * 0.66), left: Math.round(size * 0.17), right: size - Math.round(size * 0.17) - Math.round(size * 0.66), background: { r: 255, g: 255, b: 255, alpha: 1 } })
+                  .png()
+                  .toFile(output);
+              }
+            }
+            for (const icon of ['ic_launcher', 'ic_launcher_round']) {
+              fs.writeFileSync(`android/app/src/main/res/mipmap-anydpi-v26/${icon}.xml`, `<?xml version="1.0" encoding="utf-8"?>\\n<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">\\n    <background android:drawable="@android:color/white" />\\n    <foreground android:drawable="@mipmap/ic_launcher_foreground" />\\n</adaptive-icon>\\n`);
+            }
+            const foregrounds = Object.keys(sizes).flatMap(d => [`android/app/src/main/res/mipmap-${d}-v4/ic_launcher_foreground.png`, `android/app/src/main/res/mipmap-${d}/ic_launcher_foreground.png`]).filter(fs.existsSync);
+            if (!foregrounds.length) throw new Error('No adaptive launcher foreground PNGs were generated');
+            console.log('Replaced adaptive foreground assets:', foregrounds.join(', '));
+          })().catch(err => { console.error(err); process.exit(1); });
+          NODE
 
       - name: Build installable debug APK
         run: |
