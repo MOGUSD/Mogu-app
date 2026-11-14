@@ -51,11 +51,11 @@ jobs:
           node - <<'NODE'
           const sharp = require('sharp');
           (async () => {
-            await sharp('assets/mogu-icon.svg')
+            await sharp('assets/mogu-original.webp')
               .resize(1024, 1024, { fit: 'contain', background: '#fff8e8' })
               .png()
               .toFile('assets/icon-only.png');
-            await sharp('assets/mogu-icon.svg')
+            await sharp('assets/mogu-original.webp')
               .resize(2732, 2732, { fit: 'contain', background: '#fff8e8' })
               .png()
               .toFile('assets/splash.png');
@@ -65,7 +65,7 @@ jobs:
       - name: Create Capacitor Android project
         run: npx cap add android
 
-      - name: Generate Android launcher icons from МОГУ artwork
+      - name: Generate Android launcher icons from original МОГУ logo
         run: |
           test -s assets/icon-only.png
           test -s assets/splash.png
