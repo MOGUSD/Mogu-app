@@ -1,0 +1,10 @@
+{
+  "appId": "com.mogu.app",
+  "appName": "МОГУ",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "backgroundColor": "#fff8e8",
+  "android": {
+    "allowMixedContent": false
+  }
+}
