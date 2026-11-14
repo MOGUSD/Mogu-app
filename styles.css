@@ -407,3 +407,9 @@ button:active{transform:translateY(3px) scale(.98);filter:saturate(1.12)}
  .route-card:before{height:24%}
 }
 @media(prefers-reduced-motion:reduce){button{transition:none}}
+
+/* МОГУ TALK — единый набор векторных иллюстраций вместо эмодзи */
+.pictogram .pic-art{display:flex;width:68px;height:68px;align-items:center;justify-content:center;font-size:initial}
+.pic-art svg{display:block;width:100%;height:100%;overflow:visible}
+.urgent .pic-art{width:42px;height:42px;flex:0 0 42px}
+@media(max-width:760px){.pictogram .pic-art{width:58px;height:58px}.urgent .pic-art{width:36px;height:36px;flex-basis:36px}}
