@@ -13,9 +13,9 @@ Object.assign(words.ru,{body:"Части тела",school:"Школа",music:"М
 Object.assign(words.kk,{body:"Дене мүшелері",school:"Мектеп",music:"Музыка",cow:"Сиыр",horse:"Жылқы",fish:"Балық",rabbit:"Қоян",elephant:"Піл",lion:"Арыстан",butterfly:"Көбелек",banana:"Банан",orange:"Апельсин",carrot:"Сәбіз",egg:"Жұмыртқа",cheese:"Ірімшік",rice:"Күріш",potato:"Картоп",table:"Үстел",chair:"Орындық",door:"Есік",window:"Терезе",cup:"Кесе",spoon:"Қасық",shoes:"Аяқ киім",pants:"Шалбар",hat:"Бас киім",coat:"Пальто",bicycle:"Велосипед",train:"Пойыз",plane:"Ұшақ",boat:"Қайық",rain:"Жаңбыр",snow:"Қар",cloud:"Бұлт",star:"Жұлдыз",moon:"Ай",head:"Бас",hand:"Қол",eye:"Көз",ear:"Құлақ",nose:"Мұрын",mouth:"Ауыз",foot:"Табан",pencil:"Қарындаш",scissors:"Қайшы",drum:"Барабан",guitar:"Гитара",finished:"Бітті",open:"Ашу",close:"Жабу",go:"Бар",come:"Кел",look:"Қара",wait:"Күт",together:"Бірге",turn:"Менің кезегім",wash:"Жуу",hot:"Ыстық",cold:"Суық",break:"Үзіліс"});
 Object.assign(words.en,{body:"Body",school:"School",music:"Music",cow:"Cow",horse:"Horse",fish:"Fish",rabbit:"Rabbit",elephant:"Elephant",lion:"Lion",butterfly:"Butterfly",banana:"Banana",orange:"Orange",carrot:"Carrot",egg:"Egg",cheese:"Cheese",rice:"Rice",potato:"Potato",table:"Table",chair:"Chair",door:"Door",window:"Window",cup:"Cup",spoon:"Spoon",shoes:"Shoes",pants:"Trousers",hat:"Hat",coat:"Coat",bicycle:"Bicycle",train:"Train",plane:"Plane",boat:"Boat",rain:"Rain",snow:"Snow",cloud:"Cloud",star:"Star",moon:"Moon",head:"Head",hand:"Hand",eye:"Eye",ear:"Ear",nose:"Nose",mouth:"Mouth",foot:"Foot",pencil:"Pencil",scissors:"Scissors",drum:"Drum",guitar:"Guitar",finished:"Finished",open:"Open",close:"Close",go:"Go",come:"Come here",look:"Look",wait:"Wait",together:"Together",turn:"My turn",wash:"Wash",hot:"Hot",cold:"Cold",break:"Break"});
 
-Object.assign(words.ru,{orange:"Оранжевый",white:"Белый",black:"Чёрный",pink:"Розовый",purple:"Фиолетовый",brown:"Коричневый"});
-Object.assign(words.kk,{orange:"Қызғылт сары",white:"Ақ",black:"Қара",pink:"Қызғылт",purple:"Күлгін",brown:"Қоңыр"});
-Object.assign(words.en,{orange:"Orange",white:"White",black:"Black",pink:"Pink",purple:"Purple",brown:"Brown"});
+Object.assign(words.ru,{orangeColor:"Оранжевый",white:"Белый",black:"Чёрный",pink:"Розовый",purple:"Фиолетовый",brown:"Коричневый"});
+Object.assign(words.kk,{orangeColor:"Қызғылт сары",white:"Ақ",black:"Қара",pink:"Қызғылт",purple:"Күлгін",brown:"Қоңыр"});
+Object.assign(words.en,{orangeColor:"Orange",white:"White",black:"Black",pink:"Pink",purple:"Purple",brown:"Brown"});
 
 const audioPrefs={music:true,effects:true,musicVolume:0.22,effectVolume:0.5,voiceVolume:0.95,...store.get("audio",{})};
 const backgroundMusic=new Audio("./assets/audio/bouncy-adventure.mp3");
@@ -129,29 +129,29 @@ colors:[
 {question:{ru:"Найди красный цвет",kk:"Қызыл түсті тап",en:"Find the colour red"},options:[["red","🔴"],["blue","🔵"],["yellow","🟡"]],answer:"red"},
 {question:{ru:"Какого цвета клубника? 🍓",kk:"Құлпынай қандай түсті? 🍓",en:"What colour is a strawberry? 🍓"},options:[["red","🔴"],["green","🟢"],["white","⚪"]],answer:"red"},
 {question:{ru:"Какого цвета спелый помидор? 🍅",kk:"Піскен қызанақ қандай түсті? 🍅",en:"What colour is a ripe tomato? 🍅"},options:[["red","🔴"],["yellow","🟡"],["blue","🔵"]],answer:"red"},
-{question:{ru:"Найди красное яблоко 🍎",kk:"Қызыл алманы тап 🍎",en:"Find the red apple 🍎"},options:[["red","🔴"],["green","🟢"],["orange","🟠"]],answer:"red"},
+{question:{ru:"Найди красное яблоко 🍎",kk:"Қызыл алманы тап 🍎",en:"Find the red apple 🍎"},options:[["red","🔴"],["green","🟢"],["orangeColor","🟠"]],answer:"red"},
 {question:{ru:"Найди синий цвет",kk:"Көк түсті тап",en:"Find the colour blue"},options:[["blue","🔵"],["red","🔴"],["yellow","🟡"]],answer:"blue"},
 {question:{ru:"Какого цвета небо в ясный день? ☀️",kk:"Ашық күнде аспан қандай түсті? ☀️",en:"What colour is the sky on a clear day? ☀️"},options:[["blue","🔵"],["green","🟢"],["brown","🟤"]],answer:"blue"},
 {question:{ru:"Какого цвета черника? 🫐",kk:"Көкжидек қандай түсті? 🫐",en:"What colour are blueberries? 🫐"},options:[["blue","🔵"],["red","🔴"],["yellow","🟡"]],answer:"blue"},
-{question:{ru:"Найди синюю рыбку 🐟",kk:"Көк балықты тап 🐟",en:"Find the blue fish 🐟"},options:[["blue","🔵"],["orange","🟠"],["white","⚪"]],answer:"blue"},
+{question:{ru:"Найди синюю рыбку 🐟",kk:"Көк балықты тап 🐟",en:"Find the blue fish 🐟"},options:[["blue","🔵"],["orangeColor","🟠"],["white","⚪"]],answer:"blue"},
 {question:{ru:"Найди жёлтый цвет",kk:"Сары түсті тап",en:"Find the colour yellow"},options:[["yellow","🟡"],["blue","🔵"],["green","🟢"]],answer:"yellow"},
 {question:{ru:"Какого цвета спелый банан? 🍌",kk:"Піскен банан қандай түсті? 🍌",en:"What colour is a ripe banana? 🍌"},options:[["yellow","🟡"],["blue","🔵"],["black","⚫"]],answer:"yellow"},
 {question:{ru:"Какого цвета лимон? 🍋",kk:"Лимон қандай түсті? 🍋",en:"What colour is a lemon? 🍋"},options:[["yellow","🟡"],["red","🔴"],["purple","🟣"]],answer:"yellow"},
 {question:{ru:"Найди жёлтый подсолнух 🌻",kk:"Сары күнбағысты тап 🌻",en:"Find the yellow sunflower 🌻"},options:[["yellow","🟡"],["white","⚪"],["brown","🟤"]],answer:"yellow"},
 {question:{ru:"Найди зелёный цвет",kk:"Жасыл түсті тап",en:"Find the colour green"},options:[["green","🟢"],["red","🔴"],["blue","🔵"]],answer:"green"},
 {question:{ru:"Какого цвета трава? 🌱",kk:"Шөп қандай түсті? 🌱",en:"What colour is grass? 🌱"},options:[["green","🟢"],["pink","🩷"],["yellow","🟡"]],answer:"green"},
-{question:{ru:"Какого цвета огурец? 🥒",kk:"Қияр қандай түсті? 🥒",en:"What colour is a cucumber? 🥒"},options:[["green","🟢"],["orange","🟠"],["white","⚪"]],answer:"green"},
+{question:{ru:"Какого цвета огурец? 🥒",kk:"Қияр қандай түсті? 🥒",en:"What colour is a cucumber? 🥒"},options:[["green","🟢"],["orangeColor","🟠"],["white","⚪"]],answer:"green"},
 {question:{ru:"Найди зелёную лягушку 🐸",kk:"Жасыл бақаны тап 🐸",en:"Find the green frog 🐸"},options:[["green","🟢"],["purple","🟣"],["red","🔴"]],answer:"green"},
-{question:{ru:"Найди оранжевый цвет",kk:"Қызғылт сары түсті тап",en:"Find the colour orange"},options:[["orange","🟠"],["blue","🔵"],["white","⚪"]],answer:"orange"},
-{question:{ru:"Какого цвета апельсин? 🍊",kk:"Апельсин қандай түсті? 🍊",en:"What colour is an orange? 🍊"},options:[["orange","🟠"],["red","🔴"],["blue","🔵"]],answer:"orange"},
-{question:{ru:"Какого цвета морковь? 🥕",kk:"Сәбіз қандай түсті? 🥕",en:"What colour is a carrot? 🥕"},options:[["orange","🟠"],["green","🟢"],["purple","🟣"]],answer:"orange"},
-{question:{ru:"Найди оранжевую тыкву 🎃",kk:"Қызғылт сары асқабақты тап 🎃",en:"Find the orange pumpkin 🎃"},options:[["orange","🟠"],["pink","🩷"],["black","⚫"]],answer:"orange"},
+{question:{ru:"Найди оранжевый цвет",kk:"Қызғылт сары түсті тап",en:"Find the colour orange"},options:[["orangeColor","🟠"],["blue","🔵"],["white","⚪"]],answer:"orangeColor"},
+{question:{ru:"Какого цвета апельсин? 🍊",kk:"Апельсин қандай түсті? 🍊",en:"What colour is an orange? 🍊"},options:[["orangeColor","🟠"],["red","🔴"],["blue","🔵"]],answer:"orangeColor"},
+{question:{ru:"Какого цвета морковь? 🥕",kk:"Сәбіз қандай түсті? 🥕",en:"What colour is a carrot? 🥕"},options:[["orangeColor","🟠"],["green","🟢"],["purple","🟣"]],answer:"orangeColor"},
+{question:{ru:"Найди оранжевую тыкву 🎃",kk:"Қызғылт сары асқабақты тап 🎃",en:"Find the orange pumpkin 🎃"},options:[["orangeColor","🟠"],["pink","🩷"],["black","⚫"]],answer:"orangeColor"},
 {question:{ru:"Найди белый цвет",kk:"Ақ түсті тап",en:"Find the colour white"},options:[["white","⚪"],["black","⚫"],["green","🟢"]],answer:"white"},
-{question:{ru:"Какого цвета свежий снег? ❄️",kk:"Жаңа жауған қар қандай түсті? ❄️",en:"What colour is fresh snow? ❄️"},options:[["white","⚪"],["red","🔴"],["orange","🟠"]],answer:"white"},
+{question:{ru:"Какого цвета свежий снег? ❄️",kk:"Жаңа жауған қар қандай түсті? ❄️",en:"What colour is fresh snow? ❄️"},options:[["white","⚪"],["red","🔴"],["orangeColor","🟠"]],answer:"white"},
 {question:{ru:"Какого цвета молоко? 🥛",kk:"Сүт қандай түсті? 🥛",en:"What colour is milk? 🥛"},options:[["white","⚪"],["blue","🔵"],["yellow","🟡"]],answer:"white"},
 {question:{ru:"Найди чёрный цвет",kk:"Қара түсті тап",en:"Find the colour black"},options:[["black","⚫"],["white","⚪"],["pink","🩷"]],answer:"black"},
 {question:{ru:"Какого цвета ночное небо? 🌃",kk:"Түнгі аспан қандай түсті? 🌃",en:"What colour is the night sky? 🌃"},options:[["black","⚫"],["yellow","🟡"],["green","🟢"]],answer:"black"},
-{question:{ru:"Найди чёрную кошку 🐈‍⬛",kk:"Қара мысықты тап 🐈‍⬛",en:"Find the black cat 🐈‍⬛"},options:[["black","⚫"],["orange","🟠"],["white","⚪"]],answer:"black"},
+{question:{ru:"Найди чёрную кошку 🐈‍⬛",kk:"Қара мысықты тап 🐈‍⬛",en:"Find the black cat 🐈‍⬛"},options:[["black","⚫"],["orangeColor","🟠"],["white","⚪"]],answer:"black"},
 {question:{ru:"Найди розовый цвет",kk:"Қызғылт түсті тап",en:"Find the colour pink"},options:[["pink","🩷"],["blue","🔵"],["brown","🟤"]],answer:"pink"},
 {question:{ru:"Какого цвета фламинго? 🦩",kk:"Қоқиқаз қандай түсті? 🦩",en:"What colour is a flamingo? 🦩"},options:[["pink","🩷"],["green","🟢"],["black","⚫"]],answer:"pink"},
 {question:{ru:"Найди фиолетовый цвет",kk:"Күлгін түсті тап",en:"Find the colour purple"},options:[["purple","🟣"],["yellow","🟡"],["white","⚪"]],answer:"purple"},
