@@ -324,21 +324,28 @@ daily:[
 let activeLesson="colors";
 function geometricShapeVisual(key,size=88){
  const shapes={
- circle:["#58C5EA","#2189C4",'<circle cx="50" cy="50" r="37"/>'],
- square:["#FFC05A","#E58B26",'<rect x="15" y="15" width="70" height="70" rx="11"/>'],
- triangle:["#FF8792","#D94F68",'<path d="M50 12 91 84H9Z"/>'],
- rectangle:["#A392F2","#7058CE",'<rect x="8" y="27" width="84" height="46" rx="10"/>'],
- oval:["#72D5AE","#2D9D77",'<ellipse cx="50" cy="50" rx="42" ry="29"/>'],
- diamond:["#E6A1D8","#B96CB0",'<path d="M50 7 91 50 50 93 9 50Z"/>'],
- starShape:["#FFD35B","#D89B20",'<path d="m50 6 12 29 31 2-24 20 8 31-27-17-27 17 8-31L7 37l31-2Z"/>'],
- heartShape:["#FF829E","#D94E73",'<path d="M50 88 15 55C-5 32 22 5 43 25l7 7 7-7C78 5 105 32 85 55Z"/>'],
- pentagon:["#F2A65A","#CE7630",'<path d="m50 7 42 31-16 49H24L8 38Z"/>'],
- hexagon:["#69B8D9","#3187AD",'<path d="m27 10 46 0 23 40-23 40H27L4 50Z"/>']
+  circle:["#9BE7F5","#27A7D2",'<circle cx="50" cy="50" r="36"/>'],
+  square:["#FFE09A","#E9A72F",'<rect x="16" y="16" width="68" height="68" rx="7"/>'],
+  triangle:["#FFB1A8","#E96D65",'<path d="M50 12 91 84H9Z"/>'],
+  rectangle:["#C5B8FF","#8068DB",'<rect x="8" y="27" width="84" height="46" rx="6"/>'],
+  oval:["#A8EBCB","#36B98B",'<ellipse cx="50" cy="50" rx="42" ry="29"/>'],
+  diamond:["#F4B8E8","#C56BB5",'<path d="M50 7 91 50 50 93 9 50Z"/>'],
+  starShape:["#FFE58A","#E5AD27",'<path d="m50 6 12 29 31 2-24 20 8 31-27-17-27 17 8-31L7 37l31-2Z"/>'],
+  heartShape:["#FFB1C2","#E75E83",'<path d="M50 88 15 55C-5 32 22 5 43 25l7 7 7-7C78 5 105 32 85 55Z"/>'],
+  pentagon:["#FFC28D","#E58A43",'<path d="m50 7 42 31-16 49H24L8 38Z"/>'],
+  hexagon:["#A9DDF2","#4A9FC8",'<path d="m27 10 46 0 23 40-23 40H27L4 50Z"/>']
  };
  const item=shapes[key];
  if(!item){const n={two:2,three:3,four:4,five:5,six:6}[key];return n?'<span class="shape-number">'+n+'</span>':'';}
- const id="geo-"+key;
- return '<svg class="geometry-shape" viewBox="0 0 100 100" width="'+size+'" height="'+size+'" role="img" aria-label="'+key+'"><defs><linearGradient id="'+id+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+item[0]+'"/><stop offset="1" stop-color="'+item[1]+'"/></linearGradient><filter id="'+id+'-shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#49345f" flood-opacity=".2"/></filter></defs><g fill="url(#'+id+')" stroke="#fff" stroke-width="3" stroke-linejoin="round" filter="url(#'+id+'-shadow)">'+item[2]+'</g><path d="M22 27 Q50 10 74 26" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="5" stroke-linecap="round"/></svg>';
+ geometricShapeVisual._uid=(geometricShapeVisual._uid||0)+1;
+ const id="geo-"+key+"-"+geometricShapeVisual._uid;
+ return '<svg class="geometry-shape" viewBox="0 0 100 100" width="'+size+'" height="'+size+'" aria-hidden="true"><defs>'+
+ '<linearGradient id="'+id+'-fill" x1="15%" y1="5%" x2="85%" y2="100%"><stop offset="0" stop-color="'+item[0]+'"/><stop offset=".52" stop-color="'+item[0]+'"/><stop offset="1" stop-color="'+item[1]+'"/></linearGradient>'+
+ '<linearGradient id="'+id+'-shine" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".78"/><stop offset=".55" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>'+
+ '<filter id="'+id+'-shadow" x="-30%" y="-30%" width="160%" height="180%"><feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/><feOffset dy="5" result="offset"/><feComponentTransfer><feFuncA type="linear" slope=".22"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>'+
+ '<g filter="url(#'+id+'-shadow)"><g fill="url(#'+id+'-fill)" stroke="'+item[1]+'" stroke-width="2.2" stroke-linejoin="round">'+item[2]+'</g>'+
+ '<g fill="url(#'+id+'-shine)" stroke="#fff" stroke-opacity=".48" stroke-width="1.2" stroke-linejoin="round">'+item[2]+'</g></g>'+
+ '<path d="M25 25 Q42 13 59 19" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".48"/></svg>';
 }
 function geometricQuestionVisual(question){
  const q=String(question||"").toLowerCase();
@@ -367,7 +374,7 @@ function renderLearn(){
   nav("home");return;
  }
  const question=L.question[l]||L.question.ru;const shapeDemo=activeLesson==="thinking"?geometricQuestionVisual(question):"";const colorProgress=(L.topic==="colors"||L.topic==="math"||L.topic==="reading"||L.topic==="thinking")&&L.colorPosition?(l==="kk"?"Тапсырма ":l==="en"?"Question ":"Задание ")+L.colorPosition+" / "+L.colorTotal:"";
- $("#app-main").innerHTML=head(t("learn"),question)+'<section class="learn-layout"><section class="learn-main"><div class="lesson-kicker">'+topics.find(x=>x[0]===activeLesson)[2][idx]+(colorProgress?' · '+colorProgress:"")+'</div><h2 class="lesson-question">'+question+'</h2>'+shapeDemo+'<div class="lesson-options">'+L.options.map(x=>'<button class="lesson-option '+(activeLesson==="thinking"?"geometry-option is-geometric ":"")+((activeLesson==="math"||activeLesson==="reading")?"math-answer ":"")+(L.lastAnswer===x[0]?(L.lastCorrect?"correct":"try-again"):"")+'" data-answer="'+x[0]+'" aria-pressed="'+(L.lastAnswer===x[0])+'"><span>'+(activeLesson==="thinking"?geometricShapeVisual(x[0],88):(activeLesson==="reading"?t(x[0]):(activeLesson==="colors"&&x[0]==="pink"?'<i class="lesson-color-dot lesson-color-dot-pink" aria-label="Розовый круг"></i>':x[1])))+'</span>'+((activeLesson==="math"||activeLesson==="reading")?"":'<strong>'+t(x[0])+'</strong>')+'</button>').join("")+'</div><p class="lesson-feedback" aria-live="polite">'+(L.feedback||"")+'</p><button class="soft-button" data-action="repeat">🔊 '+t("again")+'</button> <button class="soft-button" data-action="newlesson">'+t("next")+' →</button> <button class="soft-button" data-action="learn-back">← '+(l==="kk"?"Тақырыптар":l==="en"?"Topics":"К темам")+'</button></section><aside class="lesson-side"><div class="panel lesson-madina"><img src="./assets/madina-guide.webp" alt="Мадина"><p>'+t("youCan")+'</p></div><div class="panel lesson-tools">'+topics.map(x=>'<button class="category-button '+(activeLesson===x[0]?"active":"")+'" data-lesson="'+x[0]+'">'+x[2][idx]+'</button>').join("")+'</div></aside></section>';
+ $("#app-main").innerHTML=head(t("learn"),question)+'<section class="learn-layout"><section class="learn-main"><div class="lesson-kicker">'+topics.find(x=>x[0]===activeLesson)[2][idx]+(colorProgress?' · '+colorProgress:"")+'</div><h2 class="lesson-question">'+question+'</h2>'+shapeDemo+'<div class="lesson-options">'+L.options.map(x=>'<button class="lesson-option '+(activeLesson==="thinking"?"geometry-option is-geometric ":"")+((activeLesson==="math"||activeLesson==="reading")?"math-answer ":"")+(L.lastAnswer===x[0]?(L.lastCorrect?"correct":"try-again"):"")+'" data-answer="'+x[0]+'" aria-pressed="'+(L.lastAnswer===x[0])+'"><span>'+(activeLesson==="thinking"?geometricShapeVisual(x[0],88):(activeLesson==="reading"?t(x[0]):(activeLesson==="colors"&&x[0]==="pink"?'<i class="lesson-color-dot lesson-color-dot-pink" aria-label="Розовый круг"></i>':x[1])))+'</span>'+((activeLesson==="math"||activeLesson==="reading"||activeLesson==="thinking")?"":'<strong>'+t(x[0])+'</strong>')+'</button>').join("")+'</div><p class="lesson-feedback" aria-live="polite">'+(L.feedback||"")+'</p><button class="soft-button" data-action="repeat">🔊 '+t("again")+'</button> <button class="soft-button" data-action="newlesson">'+t("next")+' →</button> <button class="soft-button" data-action="learn-back">← '+(l==="kk"?"Тақырыптар":l==="en"?"Topics":"К темам")+'</button></section><aside class="lesson-side"><div class="panel lesson-madina"><img src="./assets/madina-guide.webp" alt="Мадина"><p>'+t("youCan")+'</p></div><div class="panel lesson-tools">'+topics.map(x=>'<button class="category-button '+(activeLesson===x[0]?"active":"")+'" data-lesson="'+x[0]+'">'+x[2][idx]+'</button>').join("")+'</div></aside></section>';
  nav("home");
 }
 let colorLessonDeck=[];
