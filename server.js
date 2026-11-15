@@ -70,6 +70,36 @@ function audioStorageReady() {
 async function readAudioObject(key) {
   return await s3Request("GET",key);
 }
+function startAudioGenerator() {
+  if (audioGenerationChild && audioGenerationChild.exitCode === null) return false;
+  audioGenerationChild = spawn(process.execPath,[path.join(ROOT,"scripts","generate-madina-audio.js")],{
+    cwd:ROOT,env:process.env,stdio:"inherit"
+  });
+  audioGenerationChild.on("exit",(code,signal)=>{
+    console.log("[madina-library] generator finished",JSON.stringify({code,signal}));
+    audioGenerationChild = null;
+  });
+  return true;
+}
+async function maybeStartAudioGenerator() {
+  if (process.env.MADINA_GENERATE_LIBRARY_ON_START !== "1" || !audioStorageReady()) return;
+  try {
+    const response = await s3Request("GET","audio/madina/status.json");
+    if (response.ok) {
+      const status = await response.json();
+      if (status.status === "completed") {
+        console.log("[madina-library] full library already generated; skipping");
+        return;
+      }
+    } else if (response.status !== 404) {
+      console.error("[madina-library] cannot read generation status; HTTP",response.status);
+      return;
+    }
+    if (startAudioGenerator()) console.log("[madina-library] starting requested one-time generation");
+  } catch (error) {
+    console.error("[madina-library] startup check failed",String(error.message||error).slice(0,180));
+  }
+}
 function adminAuthorized(url) {
   const expected = process.env.MADINA_GENERATION_TOKEN || "";
   const supplied = url.searchParams.get("token") || "";
@@ -221,16 +251,8 @@ const server = http.createServer(async (req, res) => {
     if (req.method === "GET" && url.pathname === "/api/madina/admin/generate") {
       if (!adminAuthorized(url)) return json(res,404,{error:"Not found"});
       if (!audioStorageReady()) return json(res,503,{error:"Audio storage is not configured"});
-      if (audioGenerationChild && audioGenerationChild.exitCode === null)
-        return json(res,202,{status:"already_running"});
-      audioGenerationChild = spawn(process.execPath,[path.join(ROOT,"scripts","generate-madina-audio.js")],{
-        cwd:ROOT,env:process.env,stdio:"inherit"
-      });
-      audioGenerationChild.on("exit",(code,signal)=>{
-        console.log("[madina-library] generator finished",JSON.stringify({code,signal}));
-        audioGenerationChild = null;
-      });
-      return json(res,202,{status:"started"});
+      const started=startAudioGenerator();
+      return json(res,202,{status:started?"started":"already_running"});
     }
     if (req.method === "GET" && url.pathname === "/api/madina/admin/status") {
       if (!adminAuthorized(url)) return json(res,404,{error:"Not found"});
@@ -303,6 +325,7 @@ const server = http.createServer(async (req, res) => {
   fs.createReadStream(filePath).on("error", () => { if (!res.headersSent) send(res, 500, "Read error", "text/plain; charset=utf-8"); else res.destroy(); }).pipe(res);
 });
 server.listen(PORT, "0.0.0.0", () => {
+  void maybeStartAudioGenerator();
   console.log("[mogu] web + Fish Audio TTS server listening on " + PORT);
   console.log("[madina-tts] provider=Fish Audio; configured=" + Boolean(FISH_API_KEY) + "; model=" + FISH_MODEL + "; voice=" + FISH_REFERENCE_ID);
 });
