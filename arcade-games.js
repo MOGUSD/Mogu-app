@@ -68,11 +68,11 @@ function setupGame(){
  if(id==="breakout"){game.paddle=4;game.ball={x:4.5,y:7,dx:.08+l*.003,dy:-.12-l*.004};game.bricks=[];for(let y=0;y<Math.min(3+Math.ceil(l/5),6);y++)for(let x=0;x<8;x++)game.bricks.push({x:x+.08,y:y+.5,alive:true})}
  if(id==="space"){game.player={x:4,y:8};game.entities=[];game.bullets=[];game.wave=1;game.wavesTotal=game.level===1?1:game.level===2?2:Math.min(5,2+Math.floor((game.level-3)/2));game.hasBoss=game.level>=3&&game.level%3===0;game.spawnedInWave=0;game.spawn=0;game.stagePause=0;game.boss=null;game.bossSpawned=false;game.bossShots=[];game.fireHeld=false;game.fireCooldown=0;game.kills=0}
  if(id==="jumper"){game.player={x:3.7,y:670,vy:-11,face:1};game.platforms=[];for(let i=0;i<9;i++){const r=Math.random();const type=i===0?"start":r<.13?"falling":r<.25?"spikes":r<.36?"timed":r<.48?"moving":"normal";game.platforms.push({x:i===0?3.1:Math.random()*7.0,y:760-i*112,w:1.25+Math.random()*.45,type,phase:Math.random()*6,triggered:false,fallSpeed:0})}game.stars=[];game.camera=0;game.maxHeight=0;game.bonusClock=0;game.targetMeters=game.level*250}
- if(id==="fruit"){game.player={x:4,y:8};game.entities=[];game.spawn=0}
+ if(id==="fruit"){game.player={x:4,y:8};game.entities=[];game.spawn=0;game.fruitsCaught=0;game.missed=0;game.fruitTarget=100+(l-1)*50}
  if(id==="racing"){game.player={x:1,y:8};game.entities=[];game.spawn=0}
  const spaceHud=id==="space"?'<span>Волна: <b id="arcade-wave">1/'+game.wavesTotal+'</b></span>':"";
  const spaceFire=id==="space"?'<button class="space-fire-btn" type="button">🔥 ОГОНЬ</button>':"";
- const canvas='<div class="arcade-stats"><span>Уровень: <b id="arcade-level">'+l+'/30</b></span>'+spaceHud+'<span>Очки: <b id="arcade-score">0</b></span><span>❤️ <b id="arcade-lives">3</b></span></div><canvas id="arcade-canvas" width="800" height="900" aria-label="Игровое поле"></canvas>'+spaceFire+'<p class="arcade-hint" id="arcade-hint">'+hint(id)+'</p><div id="arcade-message"></div>';
+ const fruitHud=id==="fruit"?'<span>Фрукты: <b id="arcade-fruit-count">0/'+game.fruitTarget+'</b></span><span>Пропущено: <b id="arcade-fruit-missed">0/5</b></span>':"";const canvas='<div class="arcade-stats"><span>Уровень: <b id="arcade-level">'+l+'/30</b></span>'+spaceHud+fruitHud+'<span>Очки: <b id="arcade-score">0</b></span><span>❤️ <b id="arcade-lives">3</b></span></div><canvas id="arcade-canvas" width="800" height="900" aria-label="Игровое поле"></canvas>'+spaceFire+'<p class="arcade-hint" id="arcade-hint">'+hint(id)+'</p><div id="arcade-message"></div>';
  shell(G.find(x=>x.id===id),canvas);
 }
 function hint(id){return ({frog:"Проведи лягушку через дорогу к домику. Касайся поля или проводи пальцем в нужную сторону.",snake:"Собирай фрукты. Не касайся стен и собственного хвоста.",breakout:"Веди пальцем по полю — платформа будет двигаться за ним.",space:"Веди пальцем, чтобы двигать корабль, и нажимай кнопку ОГОНЬ. В каждой волне 10 врагов.",jumper:"Прыгай по платформам всё выше! Веди пальцем влево и вправо, касайся экрана для дополнительного прыжка. Собирай звёзды.",fruit:"Перемещай корзинку пальцем по полю.",racing:"Свайпай влево и вправо, чтобы менять полосу."})[id]}
@@ -386,12 +386,15 @@ function drawFruit(c,dt){
  const ground=c.createLinearGradient(0,770,0,900);ground.addColorStop(0,"#8ee77c");ground.addColorStop(1,"#3dbb83");
  c.fillStyle=ground;c.fillRect(0,770,800,130);
  c.fillStyle="#ffffff55";for(let x=15;x<800;x+=42){c.beginPath();c.arc(x,785+(x%4)*3,3,0,Math.PI*2);c.fill()}
- // Spawn immediately, then keep a steady stream of fruit
+ // The round starts gently; falling speed and spawn rate rise as fruit is caught.
+ const pace=Math.min(1,game.fruitsCaught/Math.max(1,game.fruitTarget));
+ const fallSpeed=.92+Math.min(1.75,game.elapsed*.006)+pace*.45;
+ const spawnDelay=Math.max(27,68-game.elapsed*.055-pace*12);
  game.spawn=(game.spawn??0)-dt;
- if(game.spawn<=0){
+ if(game.spawn<=0&&game.fruitsCaught<game.fruitTarget){
   const roll=Math.random();
-  game.entities.push({x:48+Math.random()*704,y:-45,bomb:roll<.17,speed:2.05+l*.12,spin:Math.random()*6.28,size:1});
-  game.spawn=Math.max(24,36-l*.35);
+  game.entities.push({x:48+Math.random()*704,y:-45,bomb:roll<.17,speed:fallSpeed,spin:Math.random()*6.28,size:1});
+  game.spawn=spawnDelay;
  }
  // Fruit and bombs: custom vector artwork, not emoji glyphs
  game.entities.forEach(e=>{
@@ -420,11 +423,18 @@ function drawFruit(c,dt){
  const center=50+game.player.x*100;
  game.entities=game.entities.filter(e=>{
   if(e.y>745&&e.y<850&&Math.abs(e.x-center)<82){
-   if(e.bomb)loseLife();else game.score+=10;
+   if(e.bomb)loseLife();else {game.score+=10;game.fruitsCaught++}
    return false;
   }
-  return e.y<960;
+  if(e.y>=900){
+   if(!e.bomb){game.missed++;if(game.missed>5){loseLife(true);return false}}
+   return false;
+  }
+  return true;
  });
+ const caughtLabel=$q("#arcade-fruit-count"),missedLabel=$q("#arcade-fruit-missed");
+ if(caughtLabel)caughtLabel.textContent=game.fruitsCaught+"/"+game.fruitTarget;
+ if(missedLabel)missedLabel.textContent=game.missed+"/5";
  // Polished woven basket with curved handle, rim, body and colorful weave
  c.save();c.translate(center,0);
  c.lineCap="round";c.lineJoin="round";
@@ -440,7 +450,7 @@ function drawFruit(c,dt){
  c.strokeStyle="#9a552e";c.lineWidth=5;c.beginPath();c.ellipse(0,808,75,17,0,0,Math.PI*2);c.stroke();
  c.restore();
  if(game.lives<=0)loseLife(true);
- if(game.score>=game.target*10)completeLevel("Корзинка полна!");
+ if(game.fruitsCaught>=game.fruitTarget)completeLevel("Собрано "+game.fruitTarget+" фруктов!");
 }
 function drawRacing(c,dt){
  const l=game.level;
