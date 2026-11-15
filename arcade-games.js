@@ -101,9 +101,10 @@ function drawFrog(c,dt){
 function drawSnake(c,dt){
  c.fillStyle="#f5f9dc";c.fillRect(0,0,800,900);const cell=50;
  c.font="44px sans-serif";c.fillText("🍎",game.food.x*cell,game.food.y*cell+40);
- game.snake.unshift({...game.snake[0]});const h=game.snake[0];if(game.player.dir==="left")h.x--;if(game.player.dir==="right")h.x++;if(game.player.dir==="up")h.y--;if(game.player.dir==="down")h.y++;
- if(h.x<0||h.x>=16||h.y<0||h.y>=18||game.snake.slice(1).some(s=>s.x===h.x&&s.y===h.y)){game.snake=game.snake.slice(0,3);game.player.dir="right";loseLife();return}
- if(h.x===game.food.x&&h.y===game.food.y){game.score+=10;placeFood()}else game.snake.pop();
+ game.moveClock=(game.moveClock||0)+dt;
+ if(game.moveClock>=Math.max(4,11-game.level*.22)){game.moveClock=0;game.snake.unshift({...game.snake[0]});const h=game.snake[0];if(game.player.dir==="left")h.x--;if(game.player.dir==="right")h.x++;if(game.player.dir==="up")h.y--;if(game.player.dir==="down")h.y++;
+ if(h.x<0||h.x>=16||h.y<0||h.y>=18||game.snake.slice(1).some(s=>s.x===h.x&&s.y===h.y)){game.snake=[{x:7,y:7},{x:6,y:7},{x:5,y:7}];game.player.dir="right";loseLife();return}
+ if(h.x===game.food.x&&h.y===game.food.y){game.score+=10;placeFood()}else game.snake.pop();}
  game.snake.forEach((s,i)=>rect(c,s.x*cell+3,s.y*cell+3,44,44,i?"#62b96e":"#25894a",12));
  if(game.score>=(game.level*30+30))completeLevel("Змейка выросла! Уровень пройден.");
 }
@@ -170,7 +171,7 @@ function act(dir){
  if(current==="snake"){if(["left","right","up","down"].includes(dir)){const opposite={left:"right",right:"left",up:"down",down:"up"};if(opposite[dir]!==game.player.dir)game.player.dir=dir}}
  if(current==="breakout"){if(dir==="left")game.paddle=Math.max(0,game.paddle-.65);if(dir==="right")game.paddle=Math.min(6.5,game.paddle+.65)}
  if(current==="space"){if(dir==="left")game.player.x=Math.max(0,game.player.x-.6);if(dir==="right")game.player.x=Math.min(9,game.player.x+.6)}
- if(current==="jumper"&&dir==="up"&&game.player.vy>0)game.player.vy=-10;
+ if(current==="jumper"){if(dir==="up"&&game.player.vy>0)game.player.vy=-10;if(dir==="left")game.player.x=Math.max(0,game.player.x-.35);if(dir==="right")game.player.x=Math.min(7.2,game.player.x+.35)}
  if(current==="fruit"||current==="racing"){if(dir==="left")game.player.x=Math.max(0,game.player.x-1);if(dir==="right")game.player.x=Math.min(current==="racing"?2:7,game.player.x+1)}
 }
 function action(a){if(!game||game.done||game.over)return;if(a==="fire"&&current==="space")game.bullets.push({x:game.player.x*80+35,y:820});if(a==="jump"&&current==="jumper"&&game.player.vy>0)game.player.vy=-10}
