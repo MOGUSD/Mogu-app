@@ -71,7 +71,7 @@ function speakMadina(text,language=state.lang,onComplete=null,rateOverride=null)
  let completed=false;
  const complete=()=>{if(completed||run!==madinaSpeechRun)return;completed=true;if(typeof onComplete==="function")onComplete()};
  const cleanupAudio=()=>{if(activeMadinaAudio){const old=activeMadinaAudio;activeMadinaAudio=null;old.onended=null;old.onerror=null;try{const src=old.src;if(src&&src.startsWith("blob:"))URL.revokeObjectURL(src);old.pause();old.removeAttribute("src");old.load()}catch(_){}}};
- const spokenText=String(text??"").replace(/\\p{Extended_Pictographic}/gu,"").replace(/[\\uFE0E\\uFE0F\\u200D\\u{1F1E6}-\\u{1F1FF}]/gu,"").replace(/[\\\\\\/"'«»“”‘’„‟]/g,"").replace(/\\s+/g," ").replace(/\\s+([,.!?])/g,"$1").trim();
+ const spokenText=String(text??"").replace(/\p{Extended_Pictographic}/gu,"").replace(/[\uFE0E\uFE0F\u200D\u{1F1E6}-\u{1F1FF}]/gu,"").replace(/[\\\/"'«»“”‘’„‟]/g,"").replace(/\s+/g," ").replace(/\s+([,.!?])/g,"$1").trim();
  if(!spokenText){complete();return false}
  cleanupAudio();
  if("speechSynthesis"in window)speechSynthesis.cancel();
