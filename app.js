@@ -320,9 +320,9 @@ function speakLessonPrompt(){
   const match=question.match(l==="en"?/^Find the letter\\s+(.+)[.!?]?$/i:l==="kk"?/^(.+?) әрпін тап[.!?]?$/i:/^Найди букву\\s+(.+)[.!?]?$/i);
   if(match){
    const instruction=l==="en"?"Find the letter":l==="kk"?"Әріпті тап":"Найди букву";
-   speakMadina(instruction,l,()=>later(()=>speakMadina(match[1],l,()=>later(()=>speakMadina(prefix+choices,l,null,.65),1700),.65),1400),.65);
+   speakMadina(instruction,l,()=>later(()=>speakMadina(match[1],l,()=>later(()=>speakMadina(prefix+choices,l,null,.65),120),.65),120),.65);
   }else{
-   speakMadina(question,l,()=>later(()=>speakMadina(prefix+choices,l,null,.72),1200),.72);
+   speakMadina(question,l,()=>later(()=>speakMadina(prefix+choices,l,null,.72),100),.72);
   }
   return;
  }
