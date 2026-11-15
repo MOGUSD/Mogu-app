@@ -811,7 +811,7 @@ body.mogu-splash-mode #app-main{width:100%;height:100%;min-height:100dvh;margin:
 .welcome-screen.mogu-splash{
  position:relative;width:100%;height:100%;min-height:100dvh;margin:0;padding:0;overflow:hidden;
  border:0;border-radius:0;box-shadow:none;background-color:#0878ff;
- background-image:url("https://d2jqrm6oza8nb6.cloudfront.net/datasets/828a8ce3-53e2-4b0d-8dfe-cd129bd07289.jpeg?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiZjNiNmU0NDI1NWE1OThmZCIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5NDg0MzA3NH0.a6ihGa83qIepiFRmLLVRT0MFJUE9nN-uP0BCY0q2r7Q");background-position:center center;background-size:cover;background-repeat:no-repeat;
+ background-image:url("https://d2jqrm6oza8nb6.cloudfront.net/datasets/04ed7c76-fd36-4c32-8191-f76ded08b203.jpeg?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMDBkZTk2OTU5MzA1YTMwYyIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5NDg1OTU0MX0.3q5K5BxFn7Yqp1mnCcWnCz2qxMB0oN1apMErpIduzSs");background-position:center center;background-size:cover;background-repeat:no-repeat;
 }
 .mogu-splash .splash-play,.mogu-splash .splash-settings,.mogu-splash .splash-info{
  position:absolute;z-index:5;display:block;padding:0;border:0;background:transparent;box-shadow:none;
