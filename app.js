@@ -66,14 +66,14 @@ let activeMadinaAudio=null;
 let madinaSpeechRun=0;
 const MADINA_API_BASE="https://mogu-web-production.up.railway.app";
 let madinaAudioManifest={entries:{}};
-const madinaAudioManifestReady=fetch("./assets/audio/madina/manifest.json",{cache:"no-cache"})
+const madinaAudioManifestReady=fetch(MADINA_API_BASE+"/api/madina/library/manifest.json",{cache:"no-cache"})
  .then(response=>response.ok?response.json():null)
  .then(data=>{if(data&&data.voiceId==="33d2eff7a2f449b4b1a2e95d42ebbb33")madinaAudioManifest=data;})
  .catch(()=>{});
 function findMadinaLibraryAudio(text,language){
  const entries=Object.values(madinaAudioManifest.entries||{});
  const entry=entries.find(item=>item.lang===language&&item.text===text);
- return entry?new URL("./assets/audio/madina/"+(entry.src.startsWith("./")?entry.src.slice(2):entry.src),document.baseURI).href:null;
+ return entry?MADINA_API_BASE+"/api/madina/library/"+(entry.src.startsWith("./")?entry.src.slice(2):entry.src):null;
 }
 function cancelMadinaSpeech(){madinaSpeechRun++;if(activeMadinaAudio){const old=activeMadinaAudio;activeMadinaAudio=null;old.onended=null;old.onerror=null;try{const src=old.src;if(src&&src.startsWith("blob:"))URL.revokeObjectURL(src);old.pause();old.removeAttribute("src");old.load()}catch(_){}}if("speechSynthesis"in window)speechSynthesis.cancel();const el=document.querySelector(".madina-character");if(el)el.classList.remove("is-speaking")}
 function speakMadina(text,language=state.lang,onComplete=null,rateOverride=null){
