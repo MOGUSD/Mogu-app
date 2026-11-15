@@ -461,6 +461,7 @@ button:active{transform:translateY(3px) scale(.98);filter:saturate(1.12)}
 
 /* Geometry learning: clean picture-first cards, no text captions */
 .geometry-question-visual{display:flex;align-items:center;justify-content:center;min-height:164px;margin:12px auto 22px;padding:14px;border-radius:30px;background:linear-gradient(145deg,#f4fbff,#f5f0ff 58%,#fff7ed);border:1px solid #fff;box-shadow:inset 0 1px 0 #fff,0 8px 22px #51416b12}
+.geometry-question-visual .geometry-object-visual{width:clamp(150px,24vw,190px);height:160px;overflow:visible;filter:drop-shadow(0 8px 8px #4b607522)}
 .geometry-question-visual .geometry-shape{width:clamp(112px,19vw,140px);height:auto;overflow:visible}
 .lesson-options:has(.geometry-option.is-geometric){grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:15px}
 .geometry-option.is-geometric{min-height:150px;display:flex;align-items:center;justify-content:center;padding:14px;border:2px solid #fff;border-radius:28px;background:linear-gradient(145deg,#fff 5%,#f8faff 58%,#f2efff);box-shadow:0 5px 0 #e3e4ef,0 10px 22px #49345f10;color:transparent;transition:transform .16s,box-shadow .16s,border-color .16s}
