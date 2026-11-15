@@ -62,7 +62,55 @@ function announceGuide(message=guideMessage()){speakMadina(message,state.lang)}
 
 let toastTimer;function toast(s){const el=$("#toast");el.textContent=s;el.classList.add("visible");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("visible"),2300)}
 function head(title,sub){return '<div class="screen-top"><button class="back-button" data-action="home">'+t("back")+'</button><div class="screen-heading-copy"><h1 class="screen-title">'+title+'</h1><p class="screen-subtitle">'+(sub||"")+'</p></div><button class="page-guide" data-action="guide-speak" aria-label="Послушать Мадину"><img src="./assets/madina-guide.webp" alt=""><span><strong>'+(state.lang==="kk"?"Мадина":state.lang==="en"?"Madina":"Мадина")+'</strong><small>'+(state.lang==="kk"?"Тыңдау":"Послушать")+' 🔊</small></span></button></div>'}
-function speakMadina(text,language=state.lang,onComplete=null,rateOverride=null){let completed=false;const complete=()=>{if(completed)return;completed=true;if(typeof onComplete==="function")onComplete()};const spokenText=String(text??"").replace(/\p{Extended_Pictographic}/gu,"").replace(/[\uFE0E\uFE0F\u200D\u{1F1E6}-\u{1F1FF}]/gu,"").replace(/[\\/"'«»“”‘’„‟]/g,"").replace(/\s+/g," ").replace(/\s+([,.!?])/g,"$1").trim();if(!spokenText){complete();return false}if(!("speechSynthesis"in window)||!("SpeechSynthesisUtterance"in window)){toast(state.lang==="kk"?"Дыбыстау қолжетімсіз":state.lang==="en"?"Speech is unavailable":"Озвучивание недоступно");complete();return false}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(spokenText);const locale=({ru:"ru-RU",kk:"kk-KZ",en:"en-US"})[language]||"ru-RU";u.lang=locale;u.rate=rateOverride==null?Math.max(.65,Math.min(1.15,Number(state.settings.rate)||.82)):Math.max(.65,Math.min(1.15,Number(rateOverride)||.72));u.pitch=1.28;u.volume=Math.max(0,Math.min(1,Number(audioPrefs.voiceVolume??.95)));const voices=speechSynthesis.getVoices();const same=voices.filter(v=>v.lang&&v.lang.toLowerCase().startsWith(language));const female=same.find(v=>/female|woman|girl|zira|irina|alena|milena|katya|samantha|aria|jenny|sonia/i.test(v.name));u.voice=female||same[0]||voices.find(v=>/female|woman|girl|zira|irina|alena|samantha|aria|jenny/i.test(v.name))||null;u.onstart=()=>{if(state.screen==="welcome")state.welcomeAudioStarted=true;const el=document.querySelector(".madina-character");if(el)el.classList.add("is-speaking")};u.onend=()=>{const el=document.querySelector(".madina-character");if(el)el.classList.remove("is-speaking");complete()};u.onerror=()=>{const el=document.querySelector(".madina-character");if(el)el.classList.remove("is-speaking");complete()};speechSynthesis.speak(u);return true}
+let activeMadinaAudio=null;
+let madinaSpeechRun=0;
+const MADINA_API_BASE="https://mogu-web-production.up.railway.app";
+function speakMadina(text,language=state.lang,onComplete=null,rateOverride=null){
+ const run=++madinaSpeechRun;
+ let completed=false;
+ const complete=()=>{if(completed||run!==madinaSpeechRun)return;completed=true;if(typeof onComplete==="function")onComplete()};
+ const cleanupAudio=()=>{if(activeMadinaAudio){const old=activeMadinaAudio;activeMadinaAudio=null;old.onended=null;old.onerror=null;try{old.pause();old.removeAttribute("src");old.load()}catch(_){}}};
+ const spokenText=String(text??"").replace(/\\p{Extended_Pictographic}/gu,"").replace(/[\\uFE0E\\uFE0F\\u200D\\u{1F1E6}-\\u{1F1FF}]/gu,"").replace(/[\\\\/"'«»“”‘’„‟]/g,"").replace(/\\s+/g," ").replace(/\\s+([,.!?])/g,"$1").trim();
+ if(!spokenText){complete();return false}
+ cleanupAudio();
+ if("speechSynthesis"in window)speechSynthesis.cancel();
+ const locale=({ru:"ru",kk:"kk",en:"en"})[language]||"ru";
+ const fallback=()=>{
+  if(run!==madinaSpeechRun)return;
+  cleanupAudio();
+  if(!("speechSynthesis"in window)||!("SpeechSynthesisUtterance"in window)){complete();return}
+  const u=new SpeechSynthesisUtterance(spokenText);
+  u.lang=({ru:"ru-RU",kk:"kk-KZ",en:"en-US"})[language]||"ru-RU";
+  u.rate=rateOverride==null?Math.max(.65,Math.min(1.15,Number(state.settings.rate)||.82)):Math.max(.65,Math.min(1.15,Number(rateOverride)||.72));
+  u.pitch=1.28;
+  u.volume=Math.max(0,Math.min(1,Number(audioPrefs.voiceVolume??.95)));
+  const voices=speechSynthesis.getVoices();
+  const same=voices.filter(v=>v.lang&&v.lang.toLowerCase().startsWith(language));
+  const female=same.find(v=>/female|woman|girl|zira|irina|alena|milena|katya|samantha|aria|jenny|sonia/i.test(v.name));
+  u.voice=female||same[0]||voices.find(v=>/female|woman|girl|zira|irina|alena|samantha|aria|jenny/i.test(v.name))||null;
+  u.onstart=()=>{if(run!==madinaSpeechRun)return;if(state.screen==="welcome")state.welcomeAudioStarted=true;const el=document.querySelector(".madina-character");if(el)el.classList.add("is-speaking")};
+  u.onend=()=>{if(run!==madinaSpeechRun)return;const el=document.querySelector(".madina-character");if(el)el.classList.remove("is-speaking");complete()};
+  u.onerror=()=>{if(run!==madinaSpeechRun)return;const el=document.querySelector(".madina-character");if(el)el.classList.remove("is-speaking");complete()};
+  speechSynthesis.speak(u);
+ };
+ const playCloud=async()=>{
+  try{
+   const response=await fetch(MADINA_API_BASE+"/api/madina/speech",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:spokenText,language:locale}),signal:AbortSignal.timeout(18000)});
+   if(!response.ok)throw new Error("TTS "+response.status);
+   const blob=await response.blob();
+   if(!blob.size||run!==madinaSpeechRun)throw new Error("Empty or cancelled audio");
+   const audio=new Audio(URL.createObjectURL(blob));
+   activeMadinaAudio=audio;
+   audio.volume=Math.max(0,Math.min(1,Number(audioPrefs.voiceVolume??.95)));
+   audio.onended=()=>{if(run!==madinaSpeechRun)return;activeMadinaAudio=null;URL.revokeObjectURL(audio.src);const el=document.querySelector(".madina-character");if(el)el.classList.remove("is-speaking");complete()};
+   audio.onerror=()=>{if(run!==madinaSpeechRun)return;activeMadinaAudio=null;URL.revokeObjectURL(audio.src);fallback()};
+   const el=document.querySelector(".madina-character");if(el)el.classList.add("is-speaking");
+   await audio.play();
+  }catch(_){if(run===madinaSpeechRun)fallback()}
+ };
+ playCloud();
+ return true;
+}
 function speakWelcome(retry=false){if(state.welcomeAudioStarted||(state.welcomeSpoken&&!retry))return;state.welcomeSpoken=true;const phrase=state.lang==="kk"?"Сәлем! Менің атым Мадина, бірге ойнайық!":state.lang==="en"?"Hello! My name is Madina. Let’s play together!":"Привет! Меня зовут Мадина, давай поиграем!";speakMadina(phrase)}
 function renderWelcome(){state.screen="welcome";const phrase=state.lang==="kk"?"Сәлем! Менің атым Мадина, бірге ойнайық!":state.lang==="en"?"Hello! My name is Madina. Let’s play together!":"Привет! Меня зовут Мадина, давай поиграем!";$( "#app-main" ).innerHTML='<section class="welcome-screen"><div class="welcome-sparkle sparkle-one">✦</div><div class="welcome-sparkle sparkle-two">✧</div><div class="welcome-copy"><span class="welcome-brand">МОГУ</span><h1>'+(state.lang==="kk"?"Сәлем! Мен Мадинамын!":state.lang==="en"?"Hi! I'm Madina!":"Привет! Я Мадина!")+'</h1><p>'+(state.lang==="kk"?"Кәне, бірге ойнайық!":state.lang==="en"?"Let’s play together!":"Давай поиграем!")+'</p><div class="speech-bubble">'+phrase+'</div><button class="welcome-start" data-action="start">Давай! <span>→</span></button><button class="welcome-voice" data-action="welcome-voice" aria-label="Послушать приветствие">🔊 Послушать Мадину</button></div><div class="madina-wrap"><img class="madina-character" src="./assets/madina-guide.webp" alt="Мадина машет рукой и приветствует тебя"></div></section>';document.getElementById("bottom-nav").hidden=true;speakWelcome()}function home(){state.screen="home";$("#app-main").innerHTML='<section class="hub-heading"><span class="hub-kicker">МОГУ</span><h1>'+(state.lang==="kk"?"Не істейміз?":state.lang==="en"?"What shall we do?":"Чем займёмся?")+'</h1><p>'+(state.lang==="kk"?"Өзіңе ұнайтын ойынды немесе бөлімді таңда!":state.lang==="en"?"Choose a game or a place to explore!":"Выбери игру или то, что хочется открыть сегодня!")+'</p><button class="hub-madina" data-action="guide-speak" aria-label="Послушать Мадину"><img src="./assets/madina-guide.webp" alt=""><span>'+(state.lang==="kk"?"Мен сенімен біргемін!":state.lang==="en"?"I'll play with you!":"Я буду играть с тобой!")+'</span><span class="guide-audio">🔊</span></button></section><section class="hub-grid"><button class="hub-card hub-play" data-screen="adventures"><span class="hub-card-icon"><img src="./assets/hub-play.svg" alt=""></span><span class="hub-card-copy"><strong>'+(state.lang==="kk"?"Ойнаймыз":state.lang==="en"?"Play":"Играть")+'</strong><small>'+(state.lang==="kk"?"МОГУ оқиғалары":state.lang==="en"?"MOGU Adventures":"Приключения МОГУ")+'</small></span><span class="hub-arrow">→</span></button><button class="hub-card hub-learn" data-screen="learn"><span class="hub-card-icon"><img src="./assets/hub-learn.svg" alt=""></span><span class="hub-card-copy"><strong>'+(state.lang==="kk"?"Үйренемін":state.lang==="en"?"Learn":"Учусь")+'</strong><small>'+(state.lang==="kk"?"Жаңа нәрселерді ашамыз":state.lang==="en"?"Discover something new":"Открываем новое")+'</small></span><span class="hub-arrow">→</span></button><button class="hub-card hub-world" data-screen="world"><span class="hub-card-icon"><img src="./assets/hub-world.svg" alt=""></span><span class="hub-card-copy"><strong>'+(state.lang==="kk"?"Қоршаған әлем":state.lang==="en"?"The world around me":"Мир вокруг")+'</strong><small>'+(state.lang==="kk"?"Заттар мен жануарлар":state.lang==="en"?"Things and animals":"Предметы и животные")+'</small></span><span class="hub-arrow">→</span></button><button class="hub-card hub-feel" data-screen="feel"><span class="hub-card-icon"><img src="./assets/hub-feel.svg" alt=""></span><span class="hub-card-copy"><strong>'+(state.lang==="kk"?"Менің эмоцияларым":state.lang==="en"?"My feelings":"Мои эмоции")+'</strong><small>'+(state.lang==="kk"?"Сезімдерімді айтамын":state.lang==="en"?"I can share my feelings":"Я могу рассказать о чувствах")+'</small></span><span class="hub-arrow">→</span></button><button class="hub-card hub-talk" data-screen="talk"><span class="hub-card-icon"><img src="./assets/hub-talk.svg" alt=""></span><span class="hub-card-copy"><strong>'+(state.lang==="kk"?"Сөйлейміз":state.lang==="en"?"Let's talk":"Говорим")+'</strong><small>'+(state.lang==="kk"?"Менің сөздерім":state.lang==="en"?"My words and phrases":"Мои слова и фразы")+'</small></span><span class="hub-arrow">→</span></button></section>';document.getElementById("bottom-nav").hidden=false;nav("home")}
 function nav(which){document.querySelectorAll(".nav-item").forEach(b=>b.classList.toggle("is-current",b.dataset.nav===which));}
