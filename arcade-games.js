@@ -214,13 +214,50 @@ function drawBreakout(c,dt){
  if(game.bricks.every(x=>!x.alive))completeLevel("Все кирпичики разбиты!");
 }
 function drawSpace(c,dt){
- const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#17105c");bg.addColorStop(.55,"#33218d");bg.addColorStop(1,"#075b9c");c.fillStyle=bg;c.fillRect(0,0,800,900);c.font="30px sans-serif";for(let i=0;i<30;i++)c.fillText("✦",(i*137)%790,(i*193+game.tick*2)%880);
- game.spawn-=dt;if(game.spawn<=0){game.entities.push({x:Math.random()*740+20,y:50,speed:.8+l*.025});game.spawn=Math.max(24,72-l*1.2)}
- game.entities.forEach(e=>{e.y+=e.speed*dt*2;c.font="48px sans-serif";if(e.y<=800)c.fillText("👾",e.x,e.y);if(e.y>800&&!e.passed){e.passed=true;game.lives--;if(game.lives<=0)loseLife(true)}});
- game.bullets=game.bullets||[];game.bullets.forEach(b=>b.y-=14*dt);game.bullets=game.bullets.filter(b=>b.y>0);
- game.entities=game.entities.filter(e=>{const hit=game.bullets.find(b=>Math.abs(b.x-e.x)<48&&Math.abs(b.y-e.y)<48);if(hit){game.score+=10;game.bullets.splice(game.bullets.indexOf(hit),1);return false}return e.y<950});
- game.bullets.forEach(b=>{c.font="32px sans-serif";c.fillText("✨",b.x,b.y)});
- c.font="62px sans-serif";c.fillText("🚀",game.player.x*80+8,850);
+ const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#100b45");bg.addColorStop(.5,"#292078");bg.addColorStop(1,"#075b9c");c.fillStyle=bg;c.fillRect(0,0,800,900);
+ // Bright stars with a gentle twinkle
+ for(let i=0;i<48;i++){const x=(i*137)%790+5,y=(i*193+game.tick*(1+i%3)*.35)%880+8;c.fillStyle=i%4===0?"#ffe99a":"#ffffffbb";c.beginPath();c.arc(x,y,i%5===0?3:1.8,0,Math.PI*2);c.fill()}
+ // Keep a steady stream of large, clearly visible enemy ships on screen
+ game.spawn-=dt;
+ if(game.spawn<=0){
+  game.entities.push({x:Math.random()*650+75,y:75,speed:.48+l*.012,hp:1,phase:Math.random()*Math.PI*2,kind:Math.floor(Math.random()*3)});
+  game.spawn=Math.max(34,58-l*.55);
+ }
+ game.entities.forEach(e=>{
+  e.y+=e.speed*dt*1.25;e.x+=Math.sin(game.tick*.025+e.phase)*.28*dt;
+  const x=e.x,y=e.y;
+  c.save();c.translate(x,y);
+  const colors=["#ff668e","#ffb83f","#62e6d0"],col=colors[e.kind];
+  // Glowing alien saucer body, side fins and cockpit
+  c.shadowColor=col;c.shadowBlur=20;
+  c.fillStyle=col;c.beginPath();c.moveTo(-35,4);c.lineTo(-57,20);c.lineTo(-43,-7);c.lineTo(-28,-17);c.lineTo(0,-28);c.lineTo(28,-17);c.lineTo(43,-7);c.lineTo(57,20);c.lineTo(35,4);c.quadraticCurveTo(0,36,-35,4);c.fill();
+  c.shadowBlur=0;c.fillStyle="#eafaff";c.beginPath();c.ellipse(0,-9,20,13,0,Math.PI,Math.PI*2);c.fill();
+  c.fillStyle="#4d3d9e";c.beginPath();c.ellipse(0,-8,12,7,0,Math.PI,Math.PI*2);c.fill();
+  c.fillStyle="#fff2a6";for(let k=-1;k<=1;k++){c.beginPath();c.arc(k*23,9,4,0,Math.PI*2);c.fill()}
+  c.restore();
+  if(e.y>825&&!e.passed){e.passed=true;game.lives--;if(game.lives<=0)loseLife(true)}
+ });
+ // Player laser bolts
+ game.bullets=game.bullets||[];
+ game.bullets.forEach(b=>{b.y-=17*dt;c.save();c.shadowColor="#7df8ff";c.shadowBlur=16;rect(c,b.x-5,b.y-20,10,34,"#9effff",5);c.restore()});
+ game.bullets=game.bullets.filter(b=>b.y>0);
+ // Laser hits destroy an enemy immediately, with a clear score reward
+ game.entities=game.entities.filter(e=>{
+  const hit=game.bullets.find(b=>Math.abs(b.x-e.x)<58&&Math.abs(b.y-e.y)<42);
+  if(hit){game.bullets.splice(game.bullets.indexOf(hit),1);game.score+=10;return false}
+  return e.y<940;
+ });
+ // Draw a proper player spacecraft instead of an emoji
+ const px=game.player.x*80+40,py=820;
+ c.save();c.translate(px,py);
+ c.shadowColor="#64efff";c.shadowBlur=24;
+ c.fillStyle="#d8f7ff";c.beginPath();c.moveTo(0,-58);c.lineTo(34,25);c.lineTo(15,18);c.lineTo(0,30);c.lineTo(-15,18);c.lineTo(-34,25);c.closePath();c.fill();
+ c.shadowBlur=0;
+ c.fillStyle="#397be8";c.beginPath();c.moveTo(0,-43);c.lineTo(15,12);c.lineTo(0,5);c.lineTo(-15,12);c.closePath();c.fill();
+ c.fillStyle="#8df7ff";c.beginPath();c.ellipse(0,-17,9,17,0,0,Math.PI*2);c.fill();
+ c.fillStyle="#ffcf65";c.beginPath();c.moveTo(-12,22);c.lineTo(0,48+Math.sin(game.tick*.6)*7);c.lineTo(12,22);c.closePath();c.fill();
+ c.fillStyle="#ff6c8b";c.beginPath();c.moveTo(-23,18);c.lineTo(-29,39);c.lineTo(-12,25);c.closePath();c.fill();c.beginPath();c.moveTo(23,18);c.lineTo(29,39);c.lineTo(12,25);c.closePath();c.fill();
+ c.restore();
  if(game.score>=game.target*10)completeLevel("Волна пришельцев побеждена!");
 }
 function drawJumper(c,dt){
