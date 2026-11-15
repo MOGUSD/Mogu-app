@@ -374,6 +374,7 @@ function drawJumper(c,dt){
  if(meters>=target){completeLevel("Цель достигнута — "+target+" метров!")}
 }
 function drawFruit(c,dt){
+ const l=game.level;
  const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#fff18a");bg.addColorStop(.5,"#ffc1a6");bg.addColorStop(1,"#ff9fce");c.fillStyle=bg;c.fillRect(0,0,800,900);game.spawn-=dt;if(game.spawn<=0){game.entities.push({x:Math.random()*740+20,y:-20,bomb:Math.random()<.18,speed:1.3+l*.035});game.spawn=Math.max(22,42-l*.55)}
  game.entities.forEach(e=>{e.y+=e.speed*dt*2;c.font="48px sans-serif";c.fillText(e.bomb?"💣":"🍎",e.x,e.y)});
  game.entities=game.entities.filter(e=>{if(e.y>790&&e.y<890&&Math.abs(e.x-(game.player.x*100+50))<85){if(e.bomb)game.lives--;else game.score+=10;return false}return e.y<940});
@@ -381,6 +382,7 @@ function drawFruit(c,dt){
  if(game.lives<=0)loseLife(true);if(game.score>=game.target*10)completeLevel("Корзинка полна!");
 }
 function drawRacing(c,dt){
+ const l=game.level;
  const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#9df06e");bg.addColorStop(.5,"#49d69a");bg.addColorStop(1,"#22b8b5");c.fillStyle=bg;c.fillRect(0,0,800,900);rect(c,110,0,580,900,"#39445f",0);
  c.setLineDash([35,30]);c.strokeStyle="#fff";c.lineWidth=7;c.beginPath();c.moveTo(303,0);c.lineTo(303,900);c.moveTo(496,0);c.lineTo(496,900);c.stroke();c.setLineDash([]);
  game.spawn-=dt;if(game.spawn<=0){game.entities.push({lane:Math.floor(Math.random()*3),y:-100,speed:1.8+l*.045});game.spawn=Math.max(24,48-l*.7)}
