@@ -213,3 +213,46 @@ body.arcade-playing #arcade-canvas {
   body.arcade-playing .arcade-stats { margin:0!important; }
   body.arcade-playing #arcade-canvas { align-self:center!important; }
 }
+
+
+/* 2048 — яркая конфетная палитра для каждой плитки */
+.board-2048{
+  background:linear-gradient(135deg,#7965b9,#4f9fc2 52%,#65b78d)!important;
+  gap:9px!important;
+  padding:10px!important;
+  border:4px solid #fff!important;
+  box-shadow:0 14px 30px #40305b30, inset 0 2px 8px #ffffff55!important;
+}
+.tile{
+  position:relative;
+  overflow:hidden;
+  border:2px solid #ffffff9c;
+  color:#fff!important;
+  text-shadow:0 2px 5px #26304b55;
+  box-shadow:inset 0 3px 0 #ffffff75,0 3px 7px #26304b20!important;
+  animation:tile-pop .13s ease-out;
+}
+.tile:after{
+  content:"";
+  position:absolute;
+  width:70%;height:45%;
+  left:15%;top:5%;
+  border-radius:50%;
+  background:#ffffff24;
+  filter:blur(9px);
+  pointer-events:none;
+}
+.tile-0{background:#ffffff38!important;border:1px dashed #ffffff70!important;box-shadow:inset 0 0 14px #ffffff20!important}
+.tile-2{background:linear-gradient(145deg,#ff9aaf,#f45c91)!important}
+.tile-4{background:linear-gradient(145deg,#ffbd72,#ff864d)!important}
+.tile-8{background:linear-gradient(145deg,#ffe477,#ffad32)!important}
+.tile-16{background:linear-gradient(145deg,#b8e978,#69c96b)!important}
+.tile-32{background:linear-gradient(145deg,#68dfbd,#24b99b)!important}
+.tile-64{background:linear-gradient(145deg,#70d8f4,#329bdc)!important}
+.tile-128{background:linear-gradient(145deg,#a7a0ff,#7668e8)!important}
+.tile-256{background:linear-gradient(145deg,#d9a0ff,#a45de0)!important}
+.tile-512{background:linear-gradient(145deg,#ff9cdb,#e34fa8)!important}
+.tile-1024{background:linear-gradient(145deg,#ff9b91,#e94e67)!important}
+.tile-2048{background:linear-gradient(145deg,#fff18a,#ffb82e 48%,#ff7b55)!important;animation:tile-win .7s ease-in-out infinite alternate}
+@keyframes tile-pop{from{transform:scale(.88);filter:brightness(1.25)}to{transform:scale(1);filter:brightness(1)}}
+@keyframes tile-win{from{box-shadow:0 0 8px #ffcf58,inset 0 3px 0 #ffffffa8}to{box-shadow:0 0 24px #ffcf58,inset 0 3px 0 #ffffffa8}}
