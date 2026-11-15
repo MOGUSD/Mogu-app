@@ -353,6 +353,7 @@ function lessonPromptText(){if(!state.lesson)return "";const l=state.lang,questi
 function speakLessonPrompt(){
  if(!state.lesson)return;
  const run=++lessonSpeechRun,l=state.lang,question=state.lesson.question[l]||state.lesson.question.ru;
+ if(activeLesson==="thinking"){speakMadina(question,l);return;}
  const choices=state.lesson.options.map(x=>t(x[0])).join(", ");
  const prefix=l==="kk"?"Жауап нұсқалары: ":l==="en"?"Answer choices: ":"Варианты ответа: ";
  const later=(fn,delay)=>setTimeout(()=>{if(run===lessonSpeechRun&&state.screen==="learn"&&state.lessonMode)fn()},delay);
