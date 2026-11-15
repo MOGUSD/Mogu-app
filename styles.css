@@ -456,3 +456,5 @@ button:active{transform:translateY(3px) scale(.98);filter:saturate(1.12)}
 .page-guide small{font-size:11px;font-weight:850;color:#785a94}
 .page-guide:active{transform:translateY(2px);box-shadow:0 2px 0 #dac9e8}
 @media(max-width:520px){.screen-top{gap:8px}.screen-heading-copy{min-width:0;flex:1}.page-guide{padding:4px 8px 4px 5px}.page-guide img{width:38px;height:43px}.page-guide strong{font-size:12px}.page-guide small{font-size:10px}}
+
+.lesson-color-dot{display:block;width:1em;height:1em;border-radius:50%;background:#ed78bd;box-shadow:inset 0 -4px 0 #d452a0,0 2px 4px #8b477a33}
