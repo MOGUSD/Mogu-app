@@ -578,3 +578,17 @@ button:active{transform:translateY(3px) scale(.98);filter:saturate(1.12)}
 @keyframes daily-sparkle{0%,100%{transform:scale(.8) rotate(0);opacity:.55}50%{transform:scale(1.15) rotate(25deg);opacity:1}}
 @media(prefers-reduced-motion:reduce){.daily-scene-character,.daily-scene-action,.daily-scene-sparkle{animation:none!important}}
 @media(max-width:560px){.daily-learning{padding:14px;border-radius:24px}.daily-scene{height:220px}.daily-controls{flex-direction:column}.daily-controls button{width:100%}}
+
+/* Life skills category picker and tap-to-advance lesson cards */
+.daily-category-intro{display:flex;align-items:center;gap:16px;margin:16px 0 22px;padding:16px 20px;border-radius:24px;background:linear-gradient(120deg,#fff2c9,#e7f8ff);box-shadow:0 5px 16px #57407812}
+.daily-category-intro img{width:76px;height:76px;object-fit:contain}
+.daily-category-intro strong{font-size:20px;color:#543b70}.daily-category-intro p{margin:5px 0 0;color:#705e80;font-weight:650}
+.daily-category-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.daily-category-card{position:relative;display:flex;align-items:center;gap:12px;min-height:88px;padding:14px 36px 14px 14px;border:2px solid #fff;border-radius:22px;background:linear-gradient(145deg,#fff,#f0f8ff);box-shadow:0 5px 0 #dce6ef,0 8px 18px #55426b10;text-align:left;color:#4e3b68;cursor:pointer;transition:transform .16s,box-shadow .16s}
+.daily-category-card:active{transform:translateY(3px);box-shadow:0 2px 0 #dce6ef}
+.daily-category-number{position:absolute;top:7px;left:9px;width:21px;height:21px;border-radius:50%;display:grid;place-items:center;background:#fff0bd;color:#7c5b24;font-size:11px;font-weight:950}
+.daily-category-icon{font-size:34px;flex-shrink:0;margin-left:10px}.daily-category-card strong{font-size:15px;line-height:1.2}.daily-category-arrow{position:absolute;right:14px;font-size:28px;color:#9a82b4}
+.daily-scene{width:100%;border:3px solid #fff;cursor:pointer;padding:0;color:inherit}
+.daily-scene-tap{position:absolute;right:18px;bottom:14px;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:#fff;color:#8066a0;box-shadow:0 3px 9px #48305b20;font-size:13px}
+.daily-tap-hint{font-weight:900;color:#8065a0;margin:8px 0 12px}
+@media(max-width:560px){.daily-category-grid{grid-template-columns:1fr;gap:10px}.daily-category-card{min-height:76px}.daily-category-intro{padding:12px}.daily-category-intro img{width:60px;height:60px}}
