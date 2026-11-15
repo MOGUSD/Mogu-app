@@ -1,8 +1,8 @@
-const CACHE_NAME="mogu-browser-v37";
+const CACHE_NAME="mogu-browser-v38";
 const APP_SHELL=[
   "./","./index.html",
-  "./styles.css?v=colors-30-cycle1",
-  "./app.js?v=counting-30-1",
+  "./styles.css?v=mogu-splash-v6-20261115",
+  "./app.js?v=mogu-splash-v6-20261115",
   "./manifest.webmanifest",
   "./assets/mogu-icon.svg","./assets/mimi.svg","./assets/tiko.svg","./assets/luna.svg","./assets/madina-guide.webp","./assets/hub-play.svg","./assets/hub-learn.svg","./assets/hub-world.svg","./assets/hub-feel.svg","./assets/hub-talk.svg",
   "./assets/audio/bouncy-adventure.mp3",
