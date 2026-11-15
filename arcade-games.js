@@ -452,15 +452,53 @@ function drawFruit(c,dt){
  if(game.lives<=0)loseLife(true);
  if(game.fruitsCaught>=game.fruitTarget)completeLevel("Собрано "+game.fruitTarget+" фруктов!");
 }
+function drawRaceCar(c,x,y,color,player=false,phase=0){
+ const w=112,h=174;
+ c.save();c.translate(x,y);
+ // Soft shadow and four chunky tires
+ c.fillStyle="#18253b55";c.beginPath();c.ellipse(w/2+5,h/2+8,62,91,0,0,Math.PI*2);c.fill();
+ rect(c,-5,28,22,43,"#202a3b",8);rect(c,w-17,28,22,43,"#202a3b",8);
+ rect(c,-5,111,22,43,"#202a3b",8);rect(c,w-17,111,22,43,"#202a3b",8);
+ // Main sculpted chassis
+ const body=c.createLinearGradient(0,0,w,0);body.addColorStop(0,"#26364e");body.addColorStop(.18,color);body.addColorStop(.52,player?"#ffffff55":"#ffffff35");body.addColorStop(.82,color);body.addColorStop(1,"#26364e");
+ c.fillStyle=body;c.beginPath();c.moveTo(w*.28,5);c.quadraticCurveTo(w*.5,-5,w*.72,5);c.lineTo(w*.94,38);c.quadraticCurveTo(w,58,w*.94,139);c.quadraticCurveTo(w*.88,165,w*.68,170);c.lineTo(w*.32,170);c.quadraticCurveTo(w*.12,165,w*.06,139);c.quadraticCurveTo(0,58,w*.06,38);c.closePath();c.fill();
+ // Front hood and rear bumper details
+ rect(c,w*.2,13,w*.6,35,player?"#ffffff40":"#ffffff30",14);
+ rect(c,w*.13,139,w*.74,10,"#26364e",5);
+ // Panoramic front and rear windows
+ const glass=c.createLinearGradient(0,43,0,125);glass.addColorStop(0,"#dffaff");glass.addColorStop(.55,"#7eb8d5");glass.addColorStop(1,"#315b83");
+ c.fillStyle=glass;c.beginPath();c.moveTo(w*.2,48);c.quadraticCurveTo(w*.5,38,w*.8,48);c.lineTo(w*.77,91);c.quadraticCurveTo(w*.5,103,w*.23,91);c.closePath();c.fill();
+ c.fillStyle="#c9f5ff";c.beginPath();c.moveTo(w*.24,111);c.lineTo(w*.76,111);c.lineTo(w*.7,135);c.lineTo(w*.3,135);c.closePath();c.fill();
+ // Roof center stripe and reflections
+ rect(c,w*.47,49,w*.06,84,"#ffffff65",3);
+ rect(c,w*.16,57,5,31,"#ffffff70",3);
+ // Bright headlights, tail lights and racing trim
+ rect(c,w*.08,7,w*.23,10,"#fff7bd",5);rect(c,w*.69,7,w*.23,10,"#fff7bd",5);
+ rect(c,w*.08,153,w*.22,9,"#ff405f",4);rect(c,w*.7,153,w*.22,9,"#ff405f",4);
+ if(player){rect(c,w*.43,4,w*.14,14,"#ffffff",5);rect(c,w*.43,158,w*.14,8,"#ffe66d",4)}
+ c.restore();
+}
 function drawRacing(c,dt){
  const l=game.level;
- const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#9df06e");bg.addColorStop(.5,"#49d69a");bg.addColorStop(1,"#22b8b5");c.fillStyle=bg;c.fillRect(0,0,800,900);rect(c,110,0,580,900,"#39445f",0);
- c.setLineDash([35,30]);c.strokeStyle="#fff";c.lineWidth=7;c.beginPath();c.moveTo(303,0);c.lineTo(303,900);c.moveTo(496,0);c.lineTo(496,900);c.stroke();c.setLineDash([]);
- game.spawn-=dt;if(game.spawn<=0){game.entities.push({lane:Math.floor(Math.random()*3),y:-100,speed:1.8+l*.045});game.spawn=Math.max(24,48-l*.7)}
- game.entities.forEach(e=>{e.y+=e.speed*dt*2;rect(c,130+e.lane*193,e.y,95,130,"#f2a04c",18);c.font="55px sans-serif";c.fillText("🚙",145+e.lane*193,e.y+85)});
- if(game.entities.some(e=>e.lane===game.player.x&&e.y>690&&e.y<890)){game.entities=game.entities.filter(e=>!(e.lane===game.player.x&&e.y>690&&e.y<890));loseLife()}
- game.entities=game.entities.filter(e=>{if(e.y>920){game.score+=5;return false}return true});
- c.font="66px sans-serif";c.fillText("🏎️",140+game.player.x*193,850);
+ const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#a8f477");bg.addColorStop(.55,"#51d99d");bg.addColorStop(1,"#22b9b9");c.fillStyle=bg;c.fillRect(0,0,800,900);
+ // Road shoulder, asphalt and safety rails
+ rect(c,92,0,616,900,"#dce8a0",0);rect(c,110,0,580,900,"#35435a",0);
+ rect(c,110,0,12,900,"#f8d66d",0);rect(c,678,0,12,900,"#f8d66d",0);
+ // Lane lines scroll toward the player to create a sense of speed
+ game.roadOffset=(game.roadOffset||0)+dt*(5+l*.25);
+ c.setLineDash([48,38]);c.lineDashOffset=-game.roadOffset%86;c.strokeStyle="#ffffffd9";c.lineWidth=7;c.beginPath();c.moveTo(303,0);c.lineTo(303,900);c.moveTo(496,0);c.lineTo(496,900);c.stroke();c.setLineDash([]);
+ // Small roadside details
+ for(let i=0;i<9;i++){const yy=((i*125+game.roadOffset*1.7)%1020)-80;rect(c,45,yy,28,48,"#ffffffa8",8);rect(c,727,yy,28,48,"#ffffffa8",8);rect(c,52,yy+8,14,32,"#ff9c4a",5);rect(c,734,yy+8,14,32,"#ff9c4a",5)}
+ game.spawn-=dt;
+ if(game.spawn<=0){game.entities.push({lane:Math.floor(Math.random()*3),y:-190,speed:1.35+l*.045,color:["#ff5268","#ffb52e","#6d7cff","#ac63e8","#24c99a"][Math.floor(Math.random()*5)]});game.spawn=Math.max(27,54-l*.65)}
+ game.entities.forEach(e=>{e.y+=e.speed*dt*2.15;drawRaceCar(c,150+e.lane*193,e.y,e.color,false,e.y)});
+ // Player car is deliberately larger and brighter so it is easy to distinguish
+ const playerX=150+game.player.x*193;
+ drawRaceCar(c,playerX,700,"#2878ff",true,game.elapsed||0);
+ if(game.entities.some(e=>e.lane===game.player.x&&e.y>535&&e.y<825)){
+  game.entities=game.entities.filter(e=>!(e.lane===game.player.x&&e.y>535&&e.y<825));loseLife();
+ }
+ game.entities=game.entities.filter(e=>{if(e.y>930){game.score+=5;return false}return true});
  if(game.score>=game.target*5)completeLevel("Финиш! Ты справился с трассой!");
 }
 function completeLevel(msg){
