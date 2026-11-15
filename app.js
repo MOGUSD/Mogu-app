@@ -73,7 +73,7 @@ const madinaAudioManifestReady=fetch("./assets/audio/madina/manifest.json",{cach
 function findMadinaLibraryAudio(text,language){
  const entries=Object.values(madinaAudioManifest.entries||{});
  const entry=entries.find(item=>item.lang===language&&item.text===text);
- return entry?new URL("./assets/audio/madina/"+entry.src.replace(/^\\.\\//,""),document.baseURI).href:null;
+ return entry?new URL("./assets/audio/madina/"+(entry.src.startsWith("./")?entry.src.slice(2):entry.src),document.baseURI).href:null;
 }
 function cancelMadinaSpeech(){madinaSpeechRun++;if(activeMadinaAudio){const old=activeMadinaAudio;activeMadinaAudio=null;old.onended=null;old.onerror=null;try{const src=old.src;if(src&&src.startsWith("blob:"))URL.revokeObjectURL(src);old.pause();old.removeAttribute("src");old.load()}catch(_){}}if("speechSynthesis"in window)speechSynthesis.cancel();const el=document.querySelector(".madina-character");if(el)el.classList.remove("is-speaking")}
 function speakMadina(text,language=state.lang,onComplete=null,rateOverride=null){
