@@ -256,3 +256,22 @@ body.arcade-playing #arcade-canvas {
 .tile-2048{background:linear-gradient(145deg,#fff18a,#ffb82e 48%,#ff7b55)!important;animation:tile-win .7s ease-in-out infinite alternate}
 @keyframes tile-pop{from{transform:scale(.88);filter:brightness(1.25)}to{transform:scale(1);filter:brightness(1)}}
 @keyframes tile-win{from{box-shadow:0 0 8px #ffcf58,inset 0 3px 0 #ffffffa8}to{box-shadow:0 0 24px #ffcf58,inset 0 3px 0 #ffffffa8}}
+
+
+/* Bright, playful candy palette across every arcade game */
+.arcade-hub{background:radial-gradient(circle at 8% 12%,#fff1a8 0 7%,transparent 22%),radial-gradient(circle at 95% 30%,#ffc7e5 0 8%,transparent 24%),linear-gradient(180deg,#fff9e9,#f4efff 55%,#e8faff)!important}
+.arcade-welcome{background:linear-gradient(115deg,#fff078 0%,#ffb4d5 38%,#9deaff 72%,#b9f7c5 100%)!important;box-shadow:0 12px 28px #8a55c52b!important}
+.arcade-yellow{background:linear-gradient(145deg,#fff36b,#ffad45 58%,#ff8eb5)!important}
+.arcade-mint{background:linear-gradient(145deg,#baff75,#48e0b0 58%,#58d8ed)!important}
+.arcade-pink{background:linear-gradient(145deg,#ffb1e1,#ff78a9 55%,#b995ff)!important}
+.arcade-blue{background:linear-gradient(145deg,#8cecff,#7da9ff 55%,#c09aff)!important}
+.arcade-card{border:3px solid #fff!important;box-shadow:0 7px 0 #49356f12,0 12px 25px #49356f20!important}
+.arcade-icon{background:linear-gradient(145deg,#ffffffed,#ffffff9c)!important}
+.arcade-play{background:linear-gradient(100deg,#fff,#fff9)!important;color:#593b9b!important}
+.arcade-top{background:linear-gradient(100deg,#fff078,#ffb9df 48%,#a8eaff)!important;border:2px solid #fff!important}
+.arcade-stats{background:linear-gradient(100deg,#fff078,#ffb9df 45%,#a8eaff)!important;color:#49356f!important;border:2px solid #fff!important}
+.arcade-hint{background:linear-gradient(100deg,#fff4b8,#fbd5eb,#d4f5ff)!important;border:2px solid #fff!important;color:#49356f!important}
+.arcade-main-btn{background:linear-gradient(100deg,#ff7eae,#a276f4 50%,#39bfe4)!important;box-shadow:0 5px 0 #6046a0,0 8px 18px #57447730!important}
+.arcade-restart{background:linear-gradient(145deg,#ffb7d9,#b5a1ff)!important;color:#fff!important}
+@media(prefers-reduced-motion:no-preference){.arcade-card{background-size:180% 180%;animation:arcade-gradient 7s ease infinite alternate}}
+@keyframes arcade-gradient{from{background-position:0% 50%}to{background-position:100% 50%}}
