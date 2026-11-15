@@ -101,6 +101,1422 @@
       "ru": "Мне нужен перерыв.",
       "kk": "Маған үзіліс керек.",
       "en": "I need a break."
+    },
+    {
+      "id": "word-welcome",
+      "ru": "Привет, друг!",
+      "kk": "Сәлем, досым!",
+      "en": "Hello, friend!"
+    },
+    {
+      "id": "word-hello",
+      "ru": "Привет!",
+      "kk": "Сәлем!",
+      "en": "Hello!"
+    },
+    {
+      "id": "word-intro",
+      "ru": "Здесь можно говорить, играть и открывать новое. Всё в твоём темпе!",
+      "kk": "Мұнда сөйлесуге, ойнауға және жаңа нәрсе ашуға болады. Өз қарқыныңмен!",
+      "en": "A place to talk, play and discover. At your own pace!"
+    },
+    {
+      "id": "word-youCan",
+      "ru": "Ты можешь! Каждый шаг важен.",
+      "kk": "Сенің қолыңнан келеді!",
+      "en": "You can do it! Every step matters."
+    },
+    {
+      "id": "word-choose",
+      "ru": "Куда отправимся?",
+      "kk": "Қайда барамыз?",
+      "en": "Where shall we go?"
+    },
+    {
+      "id": "word-talk",
+      "ru": "Я хочу сказать",
+      "kk": "Менің айтқым келеді",
+      "en": "I want to say"
+    },
+    {
+      "id": "word-talkDesc",
+      "ru": "Мои слова и важные просьбы",
+      "kk": "Менің сөздерім мен өтініштерім",
+      "en": "My words and important requests"
+    },
+    {
+      "id": "word-learn",
+      "ru": "Учусь",
+      "kk": "Үйренемін",
+      "en": "I learn"
+    },
+    {
+      "id": "word-learnDesc",
+      "ru": "Цвета, формы, буквы и числа",
+      "kk": "Түстер, пішіндер, әріптер мен сандар",
+      "en": "Colours, shapes, letters and numbers"
+    },
+    {
+      "id": "word-world",
+      "ru": "Мир вокруг меня",
+      "kk": "Қоршаған әлем",
+      "en": "The world around me"
+    },
+    {
+      "id": "word-worldDesc",
+      "ru": "Узнаём и называем новое",
+      "kk": "Жаңа нәрселерді танимыз",
+      "en": "Discover and name new things"
+    },
+    {
+      "id": "word-feel",
+      "ru": "Мои эмоции",
+      "kk": "Менің эмоцияларым",
+      "en": "My feelings"
+    },
+    {
+      "id": "word-feelDesc",
+      "ru": "Я могу рассказать, что чувствую",
+      "kk": "Мен не сезінетінімді айта аламын",
+      "en": "I can tell how I feel"
+    },
+    {
+      "id": "word-progress",
+      "ru": "Мой путь",
+      "kk": "Менің жетістіктерім",
+      "en": "My journey"
+    },
+    {
+      "id": "word-adult",
+      "ru": "Взрослым",
+      "kk": "Ересектерге",
+      "en": "For adults"
+    },
+    {
+      "id": "word-back",
+      "ru": "← Назад",
+      "kk": "← Артқа",
+      "en": "← Back"
+    },
+    {
+      "id": "word-tap",
+      "ru": "Выбери карточку",
+      "kk": "Карточканы таңда",
+      "en": "Choose a card"
+    },
+    {
+      "id": "word-urgent",
+      "ru": "Мне срочно нужно",
+      "kk": "Маған шұғыл көмек керек",
+      "en": "I need help now"
+    },
+    {
+      "id": "word-pain",
+      "ru": "Больно",
+      "kk": "Ауырады",
+      "en": "It hurts"
+    },
+    {
+      "id": "word-help",
+      "ru": "Помоги",
+      "kk": "Көмектес",
+      "en": "Help me"
+    },
+    {
+      "id": "word-stop",
+      "ru": "Стоп",
+      "kk": "Тоқта",
+      "en": "Stop"
+    },
+    {
+      "id": "word-toilet",
+      "ru": "Туалет",
+      "kk": "Дәретхана",
+      "en": "Toilet"
+    },
+    {
+      "id": "word-phrase",
+      "ru": "Я хочу сказать",
+      "kk": "Менің айтқым келеді",
+      "en": "I want to say"
+    },
+    {
+      "id": "word-empty",
+      "ru": "Выбери карточки, чтобы составить фразу",
+      "kk": "Сөйлем құрау үшін карточкаларды таңда",
+      "en": "Choose cards to build a phrase"
+    },
+    {
+      "id": "word-undo",
+      "ru": "Отменить",
+      "kk": "Болдырмау",
+      "en": "Undo"
+    },
+    {
+      "id": "word-remove",
+      "ru": "Убрать последнюю",
+      "kk": "Соңғысын өшіру",
+      "en": "Remove last"
+    },
+    {
+      "id": "word-clear",
+      "ru": "Очистить",
+      "kk": "Тазалау",
+      "en": "Clear"
+    },
+    {
+      "id": "word-say",
+      "ru": "🔊 Сказать",
+      "kk": "🔊 Айту",
+      "en": "🔊 Say it"
+    },
+    {
+      "id": "word-categories",
+      "ru": "Категории",
+      "kk": "Санаттар",
+      "en": "Categories"
+    },
+    {
+      "id": "word-all",
+      "ru": "Все",
+      "kk": "Барлығы",
+      "en": "All"
+    },
+    {
+      "id": "word-favorite",
+      "ru": "Избранное",
+      "kk": "Таңдаулылар",
+      "en": "Favorites"
+    },
+    {
+      "id": "word-recent",
+      "ru": "Недавние",
+      "kk": "Соңғылар",
+      "en": "Recent"
+    },
+    {
+      "id": "word-i",
+      "ru": "Я",
+      "kk": "Мен",
+      "en": "Me"
+    },
+    {
+      "id": "word-want",
+      "ru": "Хочу",
+      "kk": "Қалаймын",
+      "en": "I want"
+    },
+    {
+      "id": "word-feelCat",
+      "ru": "Чувствую",
+      "kk": "Сезінемін",
+      "en": "I feel"
+    },
+    {
+      "id": "word-food",
+      "ru": "Еда",
+      "kk": "Тамақ",
+      "en": "Food"
+    },
+    {
+      "id": "word-drink",
+      "ru": "Напитки",
+      "kk": "Сусындар",
+      "en": "Drinks"
+    },
+    {
+      "id": "word-action",
+      "ru": "Действия",
+      "kk": "Әрекеттер",
+      "en": "Actions"
+    },
+    {
+      "id": "word-people",
+      "ru": "Люди",
+      "kk": "Адамдар",
+      "en": "People"
+    },
+    {
+      "id": "word-places",
+      "ru": "Места",
+      "kk": "Орындар",
+      "en": "Places"
+    },
+    {
+      "id": "word-play",
+      "ru": "Игры",
+      "kk": "Ойындар",
+      "en": "Play"
+    },
+    {
+      "id": "word-need",
+      "ru": "Помощь",
+      "kk": "Көмек",
+      "en": "Help"
+    },
+    {
+      "id": "word-chooseAnswer",
+      "ru": "Послушай и выбери",
+      "kk": "Тыңда да таңда",
+      "en": "Listen and choose"
+    },
+    {
+      "id": "word-again",
+      "ru": "Послушать ещё",
+      "kk": "Қайта тыңдау",
+      "en": "Listen again"
+    },
+    {
+      "id": "word-next",
+      "ru": "Новое задание",
+      "kk": "Жаңа тапсырма",
+      "en": "New activity"
+    },
+    {
+      "id": "word-try",
+      "ru": "Давай попробуем ещё!",
+      "kk": "Қайта байқап көрейік!",
+      "en": "Let's try again!"
+    },
+    {
+      "id": "word-great",
+      "ru": "У тебя получилось!",
+      "kk": "Жарайсың! Болды!",
+      "en": "You did it!"
+    },
+    {
+      "id": "word-explore",
+      "ru": "Нажми на картинку, чтобы узнать слово",
+      "kk": "Сөзді білу үшін суретті бас",
+      "en": "Tap a picture to learn the word"
+    },
+    {
+      "id": "word-animals",
+      "ru": "Животные",
+      "kk": "Жануарлар",
+      "en": "Animals"
+    },
+    {
+      "id": "word-home",
+      "ru": "Дом",
+      "kk": "Үй",
+      "en": "Home"
+    },
+    {
+      "id": "word-clothes",
+      "ru": "Одежда",
+      "kk": "Киім",
+      "en": "Clothes"
+    },
+    {
+      "id": "word-transport",
+      "ru": "Транспорт",
+      "kk": "Көлік",
+      "en": "Transport"
+    },
+    {
+      "id": "word-nature",
+      "ru": "Природа",
+      "kk": "Табиғат",
+      "en": "Nature"
+    },
+    {
+      "id": "word-happy",
+      "ru": "Радость",
+      "kk": "Қуаныш",
+      "en": "Happy"
+    },
+    {
+      "id": "word-sad",
+      "ru": "Грусть",
+      "kk": "Мұң",
+      "en": "Sad"
+    },
+    {
+      "id": "word-angry",
+      "ru": "Злость",
+      "kk": "Ашу",
+      "en": "Angry"
+    },
+    {
+      "id": "word-scared",
+      "ru": "Страх",
+      "kk": "Қорқыныш",
+      "en": "Scared"
+    },
+    {
+      "id": "word-tired",
+      "ru": "Усталость",
+      "kk": "Шаршау",
+      "en": "Tired"
+    },
+    {
+      "id": "word-calm",
+      "ru": "Спокойствие",
+      "kk": "Тыныштық",
+      "en": "Calm"
+    },
+    {
+      "id": "word-surprised",
+      "ru": "Удивление",
+      "kk": "Таңғалу",
+      "en": "Surprised"
+    },
+    {
+      "id": "word-iFeel",
+      "ru": "Я чувствую:",
+      "kk": "Мен сезінемін:",
+      "en": "I feel:"
+    },
+    {
+      "id": "word-addTalk",
+      "ru": "Добавить в МОГУ TALK",
+      "kk": "МОГУ TALK бөліміне қосу",
+      "en": "Add to MOGU TALK"
+    },
+    {
+      "id": "word-spoken",
+      "ru": "Сказано фраз",
+      "kk": "Айтылған сөйлемдер",
+      "en": "Phrases spoken"
+    },
+    {
+      "id": "word-explored",
+      "ru": "Открыто карточек",
+      "kk": "Ашылған карточкалар",
+      "en": "Cards explored"
+    },
+    {
+      "id": "word-lessons",
+      "ru": "Попыток в играх",
+      "kk": "Ойын әрекеттері",
+      "en": "Learning tries"
+    },
+    {
+      "id": "word-feelings",
+      "ru": "Выражено эмоций",
+      "kk": "Айтылған эмоциялар",
+      "en": "Feelings expressed"
+    },
+    {
+      "id": "word-progressNote",
+      "ru": "Здесь мы замечаем твои открытия. Не нужно спешить или сравнивать себя с кем-то.",
+      "kk": "Біз сенің жаңалықтарыңды байқаймыз. Асығудың және салыстырудың қажеті жоқ.",
+      "en": "We notice your discoveries. No rush and no comparisons."
+    },
+    {
+      "id": "word-settings",
+      "ru": "Настройки для взрослых",
+      "kk": "Ересектерге арналған баптаулар",
+      "en": "Adult settings"
+    },
+    {
+      "id": "word-size",
+      "ru": "Размер карточек",
+      "kk": "Карточка өлшемі",
+      "en": "Card size"
+    },
+    {
+      "id": "word-normal",
+      "ru": "Обычный",
+      "kk": "Қалыпты",
+      "en": "Normal"
+    },
+    {
+      "id": "word-large",
+      "ru": "Крупный",
+      "kk": "Үлкен",
+      "en": "Large"
+    },
+    {
+      "id": "word-xlarge",
+      "ru": "Очень крупный",
+      "kk": "Өте үлкен",
+      "en": "Extra large"
+    },
+    {
+      "id": "word-simple",
+      "ru": "Меньше карточек на экране",
+      "kk": "Экранда карточкалар аз болсын",
+      "en": "Fewer cards on screen"
+    },
+    {
+      "id": "word-motion",
+      "ru": "Мягкая анимация",
+      "kk": "Жұмсақ анимация",
+      "en": "Gentle animation"
+    },
+    {
+      "id": "word-rate",
+      "ru": "Скорость речи",
+      "kk": "Сөйлеу жылдамдығы",
+      "en": "Speech speed"
+    },
+    {
+      "id": "word-privacy",
+      "ru": "Настройки и отметки хранятся только на этом устройстве. Данные ребёнка никуда не отправляются.",
+      "kk": "Баптаулар мен белгілер тек осы құрылғыда сақталады. Баланың деректері жіберілмейді.",
+      "en": "Settings and activity marks stay on this device. No child data is sent."
+    },
+    {
+      "id": "word-on",
+      "ru": "Вкл.",
+      "kk": "Қосулы",
+      "en": "On"
+    },
+    {
+      "id": "word-off",
+      "ru": "Выкл.",
+      "kk": "Өшірулі",
+      "en": "Off"
+    },
+    {
+      "id": "word-favoriteAdded",
+      "ru": "Добавлено в избранное",
+      "kk": "Таңдаулыға қосылды",
+      "en": "Added to favorites"
+    },
+    {
+      "id": "word-noVoice",
+      "ru": "На устройстве нет голоса для этого языка.",
+      "kk": "Бұл тілге арналған дауыс құрылғыда жоқ.",
+      "en": "No voice for this language is available on this device."
+    },
+    {
+      "id": "word-speakFirst",
+      "ru": "Сначала выбери карточку.",
+      "kk": "Алдымен карточканы таңда.",
+      "en": "Choose a card first."
+    },
+    {
+      "id": "word-homeNav",
+      "ru": "Главная",
+      "kk": "Басты бет",
+      "en": "Home"
+    },
+    {
+      "id": "word-talkNav",
+      "ru": "Сказать",
+      "kk": "Айту",
+      "en": "Talk"
+    },
+    {
+      "id": "word-progressNav",
+      "ru": "Мой путь",
+      "kk": "Жетістіктер",
+      "en": "My journey"
+    },
+    {
+      "id": "word-adultNav",
+      "ru": "Взрослым",
+      "kk": "Ересектерге",
+      "en": "Adults"
+    },
+    {
+      "id": "word-colors",
+      "ru": "Цвета",
+      "kk": "Түстер",
+      "en": "Colours"
+    },
+    {
+      "id": "word-shapes",
+      "ru": "Формы",
+      "kk": "Пішіндер",
+      "en": "Shapes"
+    },
+    {
+      "id": "word-numbers",
+      "ru": "Числа",
+      "kk": "Сандар",
+      "en": "Numbers"
+    },
+    {
+      "id": "word-red",
+      "ru": "Красный",
+      "kk": "Қызыл",
+      "en": "Red"
+    },
+    {
+      "id": "word-blue",
+      "ru": "Синий",
+      "kk": "Көк",
+      "en": "Blue"
+    },
+    {
+      "id": "word-yellow",
+      "ru": "Жёлтый",
+      "kk": "Сары",
+      "en": "Yellow"
+    },
+    {
+      "id": "word-green",
+      "ru": "Зелёный",
+      "kk": "Жасыл",
+      "en": "Green"
+    },
+    {
+      "id": "word-orangeColor",
+      "ru": "Оранжевый",
+      "kk": "Қызғылт сары",
+      "en": "Orange"
+    },
+    {
+      "id": "word-white",
+      "ru": "Белый",
+      "kk": "Ақ",
+      "en": "White"
+    },
+    {
+      "id": "word-black",
+      "ru": "Чёрный",
+      "kk": "Қара",
+      "en": "Black"
+    },
+    {
+      "id": "word-pink",
+      "ru": "Розовый",
+      "kk": "Қызғылт",
+      "en": "Pink"
+    },
+    {
+      "id": "word-purple",
+      "ru": "Фиолетовый",
+      "kk": "Күлгін",
+      "en": "Purple"
+    },
+    {
+      "id": "word-brown",
+      "ru": "Коричневый",
+      "kk": "Қоңыр",
+      "en": "Brown"
+    },
+    {
+      "id": "word-circle",
+      "ru": "Круг",
+      "kk": "Шеңбер",
+      "en": "Circle"
+    },
+    {
+      "id": "word-square",
+      "ru": "Квадрат",
+      "kk": "Шаршы",
+      "en": "Square"
+    },
+    {
+      "id": "word-triangle",
+      "ru": "Треугольник",
+      "kk": "Үшбұрыш",
+      "en": "Triangle"
+    },
+    {
+      "id": "word-one",
+      "ru": "Один",
+      "kk": "Бір",
+      "en": "One"
+    },
+    {
+      "id": "word-two",
+      "ru": "Два",
+      "kk": "Екі",
+      "en": "Two"
+    },
+    {
+      "id": "word-three",
+      "ru": "Три",
+      "kk": "Үш",
+      "en": "Three"
+    },
+    {
+      "id": "word-a",
+      "ru": "А",
+      "kk": "А",
+      "en": "A"
+    },
+    {
+      "id": "word-b",
+      "ru": "Б",
+      "kk": "Б",
+      "en": "B"
+    },
+    {
+      "id": "word-v",
+      "ru": "В",
+      "kk": "В",
+      "en": "C"
+    },
+    {
+      "id": "word-letterA",
+      "ru": "А",
+      "kk": "А",
+      "en": "A"
+    },
+    {
+      "id": "word-letterM",
+      "ru": "М",
+      "kk": "М",
+      "en": "M"
+    },
+    {
+      "id": "word-letterK",
+      "ru": "К",
+      "kk": "К",
+      "en": "K"
+    },
+    {
+      "id": "word-letterO",
+      "ru": "О",
+      "kk": "О",
+      "en": "O"
+    },
+    {
+      "id": "word-letterT",
+      "ru": "Т",
+      "kk": "Т",
+      "en": "T"
+    },
+    {
+      "id": "word-letterS",
+      "ru": "С",
+      "kk": "С",
+      "en": "S"
+    },
+    {
+      "id": "word-letterP",
+      "ru": "П",
+      "kk": "П",
+      "en": "P"
+    },
+    {
+      "id": "word-letterR",
+      "ru": "Р",
+      "kk": "Р",
+      "en": "R"
+    },
+    {
+      "id": "word-letterN",
+      "ru": "Н",
+      "kk": "Н",
+      "en": "N"
+    },
+    {
+      "id": "word-letterL",
+      "ru": "Л",
+      "kk": "Л",
+      "en": "L"
+    },
+    {
+      "id": "word-letterB",
+      "ru": "Б",
+      "kk": "Б",
+      "en": "B"
+    },
+    {
+      "id": "word-letterD",
+      "ru": "Д",
+      "kk": "Д",
+      "en": "D"
+    },
+    {
+      "id": "word-letterE",
+      "ru": "Е",
+      "kk": "Е",
+      "en": "E"
+    },
+    {
+      "id": "word-letterG",
+      "ru": "Г",
+      "kk": "Г",
+      "en": "G"
+    },
+    {
+      "id": "word-letterI",
+      "ru": "И",
+      "kk": "І",
+      "en": "I"
+    },
+    {
+      "id": "word-letterU",
+      "ru": "У",
+      "kk": "Ұ",
+      "en": "U"
+    },
+    {
+      "id": "word-letterF",
+      "ru": "Ф",
+      "kk": "Ф",
+      "en": "F"
+    },
+    {
+      "id": "word-letterV",
+      "ru": "В",
+      "kk": "В",
+      "en": "V"
+    },
+    {
+      "id": "word-letterY",
+      "ru": "Ы",
+      "kk": "Ы",
+      "en": "Y"
+    },
+    {
+      "id": "word-letterZ",
+      "ru": "З",
+      "kk": "З",
+      "en": "Z"
+    },
+    {
+      "id": "word-letterYa",
+      "ru": "Я",
+      "kk": "Я",
+      "en": "Y"
+    },
+    {
+      "id": "word-cat",
+      "ru": "Кошка",
+      "kk": "Мысық",
+      "en": "Cat"
+    },
+    {
+      "id": "word-dog",
+      "ru": "Собака",
+      "kk": "Ит",
+      "en": "Dog"
+    },
+    {
+      "id": "word-apple",
+      "ru": "Яблоко",
+      "kk": "Алма",
+      "en": "Apple"
+    },
+    {
+      "id": "word-water",
+      "ru": "Вода",
+      "kk": "Су",
+      "en": "Water"
+    },
+    {
+      "id": "word-ball",
+      "ru": "Мяч",
+      "kk": "Доп",
+      "en": "Ball"
+    },
+    {
+      "id": "word-mom",
+      "ru": "Мама",
+      "kk": "Ана",
+      "en": "Mum"
+    },
+    {
+      "id": "word-dad",
+      "ru": "Папа",
+      "kk": "Әке",
+      "en": "Dad"
+    },
+    {
+      "id": "word-sleep",
+      "ru": "Спать",
+      "kk": "Ұйықтау",
+      "en": "Sleep"
+    },
+    {
+      "id": "word-eat",
+      "ru": "Есть",
+      "kk": "Жеу",
+      "en": "Eat"
+    },
+    {
+      "id": "word-drinkVerb",
+      "ru": "Пить",
+      "kk": "Ішу",
+      "en": "Drink"
+    },
+    {
+      "id": "word-more",
+      "ru": "Ещё",
+      "kk": "Тағы",
+      "en": "More"
+    },
+    {
+      "id": "word-please",
+      "ru": "Пожалуйста",
+      "kk": "Өтінемін",
+      "en": "Please"
+    },
+    {
+      "id": "word-yes",
+      "ru": "Да",
+      "kk": "Иә",
+      "en": "Yes"
+    },
+    {
+      "id": "word-no",
+      "ru": "Нет",
+      "kk": "Жоқ",
+      "en": "No"
+    },
+    {
+      "id": "word-to",
+      "ru": "Хочу",
+      "kk": "Қалаймын",
+      "en": "Want"
+    },
+    {
+      "id": "word-me",
+      "ru": "Меня",
+      "kk": "Мені",
+      "en": "Me"
+    },
+    {
+      "id": "word-outside",
+      "ru": "Гулять",
+      "kk": "Серуендеу",
+      "en": "Go out"
+    },
+    {
+      "id": "word-book",
+      "ru": "Книга",
+      "kk": "Кітап",
+      "en": "Book"
+    },
+    {
+      "id": "word-car",
+      "ru": "Машина",
+      "kk": "Көлік",
+      "en": "Car"
+    },
+    {
+      "id": "word-bird",
+      "ru": "Птица",
+      "kk": "Құс",
+      "en": "Bird"
+    },
+    {
+      "id": "word-sun",
+      "ru": "Солнце",
+      "kk": "Күн",
+      "en": "Sun"
+    },
+    {
+      "id": "word-milk",
+      "ru": "Молоко",
+      "kk": "Сүт",
+      "en": "Milk"
+    },
+    {
+      "id": "word-bread",
+      "ru": "Хлеб",
+      "kk": "Нан",
+      "en": "Bread"
+    },
+    {
+      "id": "word-bathroom",
+      "ru": "Ванная",
+      "kk": "Жуынатын бөлме",
+      "en": "Bathroom"
+    },
+    {
+      "id": "word-shirt",
+      "ru": "Футболка",
+      "kk": "Жейде",
+      "en": "Shirt"
+    },
+    {
+      "id": "word-bus",
+      "ru": "Автобус",
+      "kk": "Автобус",
+      "en": "Bus"
+    },
+    {
+      "id": "word-flower",
+      "ru": "Цветок",
+      "kk": "Гүл",
+      "en": "Flower"
+    },
+    {
+      "id": "word-tree",
+      "ru": "Дерево",
+      "kk": "Ағаш",
+      "en": "Tree"
+    },
+    {
+      "id": "word-playground",
+      "ru": "Площадка",
+      "kk": "Ойын алаңы",
+      "en": "Playground"
+    },
+    {
+      "id": "word-homeTitle",
+      "ru": "Маленькие шаги — большие открытия",
+      "kk": "Кішкентай қадамдар — үлкен жаңалықтар",
+      "en": "Little steps — big discoveries"
+    },
+    {
+      "id": "word-speakUnavailable",
+      "ru": "Озвучивание сейчас недоступно.",
+      "kk": "Дыбыстау қазір қолжетімсіз.",
+      "en": "Speech is unavailable right now."
+    },
+    {
+      "id": "word-body",
+      "ru": "Части тела",
+      "kk": "Дене мүшелері",
+      "en": "Body"
+    },
+    {
+      "id": "word-school",
+      "ru": "Школа",
+      "kk": "Мектеп",
+      "en": "School"
+    },
+    {
+      "id": "word-music",
+      "ru": "Музыка",
+      "kk": "Музыка",
+      "en": "Music"
+    },
+    {
+      "id": "word-cow",
+      "ru": "Корова",
+      "kk": "Сиыр",
+      "en": "Cow"
+    },
+    {
+      "id": "word-horse",
+      "ru": "Лошадь",
+      "kk": "Жылқы",
+      "en": "Horse"
+    },
+    {
+      "id": "word-fish",
+      "ru": "Рыба",
+      "kk": "Балық",
+      "en": "Fish"
+    },
+    {
+      "id": "word-rabbit",
+      "ru": "Кролик",
+      "kk": "Қоян",
+      "en": "Rabbit"
+    },
+    {
+      "id": "word-elephant",
+      "ru": "Слон",
+      "kk": "Піл",
+      "en": "Elephant"
+    },
+    {
+      "id": "word-lion",
+      "ru": "Лев",
+      "kk": "Арыстан",
+      "en": "Lion"
+    },
+    {
+      "id": "word-butterfly",
+      "ru": "Бабочка",
+      "kk": "Көбелек",
+      "en": "Butterfly"
+    },
+    {
+      "id": "word-banana",
+      "ru": "Банан",
+      "kk": "Банан",
+      "en": "Banana"
+    },
+    {
+      "id": "word-orange",
+      "ru": "Апельсин",
+      "kk": "Апельсин",
+      "en": "Orange"
+    },
+    {
+      "id": "word-carrot",
+      "ru": "Морковь",
+      "kk": "Сәбіз",
+      "en": "Carrot"
+    },
+    {
+      "id": "word-egg",
+      "ru": "Яйцо",
+      "kk": "Жұмыртқа",
+      "en": "Egg"
+    },
+    {
+      "id": "word-cheese",
+      "ru": "Сыр",
+      "kk": "Ірімшік",
+      "en": "Cheese"
+    },
+    {
+      "id": "word-rice",
+      "ru": "Рис",
+      "kk": "Күріш",
+      "en": "Rice"
+    },
+    {
+      "id": "word-potato",
+      "ru": "Картофель",
+      "kk": "Картоп",
+      "en": "Potato"
+    },
+    {
+      "id": "word-table",
+      "ru": "Стол",
+      "kk": "Үстел",
+      "en": "Table"
+    },
+    {
+      "id": "word-chair",
+      "ru": "Стул",
+      "kk": "Орындық",
+      "en": "Chair"
+    },
+    {
+      "id": "word-door",
+      "ru": "Дверь",
+      "kk": "Есік",
+      "en": "Door"
+    },
+    {
+      "id": "word-window",
+      "ru": "Окно",
+      "kk": "Терезе",
+      "en": "Window"
+    },
+    {
+      "id": "word-cup",
+      "ru": "Чашка",
+      "kk": "Кесе",
+      "en": "Cup"
+    },
+    {
+      "id": "word-spoon",
+      "ru": "Ложка",
+      "kk": "Қасық",
+      "en": "Spoon"
+    },
+    {
+      "id": "word-shoes",
+      "ru": "Обувь",
+      "kk": "Аяқ киім",
+      "en": "Shoes"
+    },
+    {
+      "id": "word-pants",
+      "ru": "Брюки",
+      "kk": "Шалбар",
+      "en": "Trousers"
+    },
+    {
+      "id": "word-hat",
+      "ru": "Шапка",
+      "kk": "Бас киім",
+      "en": "Hat"
+    },
+    {
+      "id": "word-coat",
+      "ru": "Куртка",
+      "kk": "Пальто",
+      "en": "Coat"
+    },
+    {
+      "id": "word-bicycle",
+      "ru": "Велосипед",
+      "kk": "Велосипед",
+      "en": "Bicycle"
+    },
+    {
+      "id": "word-train",
+      "ru": "Поезд",
+      "kk": "Пойыз",
+      "en": "Train"
+    },
+    {
+      "id": "word-plane",
+      "ru": "Самолёт",
+      "kk": "Ұшақ",
+      "en": "Plane"
+    },
+    {
+      "id": "word-boat",
+      "ru": "Лодка",
+      "kk": "Қайық",
+      "en": "Boat"
+    },
+    {
+      "id": "word-rain",
+      "ru": "Дождь",
+      "kk": "Жаңбыр",
+      "en": "Rain"
+    },
+    {
+      "id": "word-snow",
+      "ru": "Снег",
+      "kk": "Қар",
+      "en": "Snow"
+    },
+    {
+      "id": "word-cloud",
+      "ru": "Облако",
+      "kk": "Бұлт",
+      "en": "Cloud"
+    },
+    {
+      "id": "word-star",
+      "ru": "Звезда",
+      "kk": "Жұлдыз",
+      "en": "Star"
+    },
+    {
+      "id": "word-moon",
+      "ru": "Луна",
+      "kk": "Ай",
+      "en": "Moon"
+    },
+    {
+      "id": "word-head",
+      "ru": "Голова",
+      "kk": "Бас",
+      "en": "Head"
+    },
+    {
+      "id": "word-hand",
+      "ru": "Рука",
+      "kk": "Қол",
+      "en": "Hand"
+    },
+    {
+      "id": "word-eye",
+      "ru": "Глаз",
+      "kk": "Көз",
+      "en": "Eye"
+    },
+    {
+      "id": "word-ear",
+      "ru": "Ухо",
+      "kk": "Құлақ",
+      "en": "Ear"
+    },
+    {
+      "id": "word-nose",
+      "ru": "Нос",
+      "kk": "Мұрын",
+      "en": "Nose"
+    },
+    {
+      "id": "word-mouth",
+      "ru": "Рот",
+      "kk": "Ауыз",
+      "en": "Mouth"
+    },
+    {
+      "id": "word-foot",
+      "ru": "Стопа",
+      "kk": "Табан",
+      "en": "Foot"
+    },
+    {
+      "id": "word-pencil",
+      "ru": "Карандаш",
+      "kk": "Қарындаш",
+      "en": "Pencil"
+    },
+    {
+      "id": "word-scissors",
+      "ru": "Ножницы",
+      "kk": "Қайшы",
+      "en": "Scissors"
+    },
+    {
+      "id": "word-drum",
+      "ru": "Барабан",
+      "kk": "Барабан",
+      "en": "Drum"
+    },
+    {
+      "id": "word-guitar",
+      "ru": "Гитара",
+      "kk": "Гитара",
+      "en": "Guitar"
+    },
+    {
+      "id": "word-finished",
+      "ru": "Готово",
+      "kk": "Бітті",
+      "en": "Finished"
+    },
+    {
+      "id": "word-open",
+      "ru": "Открыть",
+      "kk": "Ашу",
+      "en": "Open"
+    },
+    {
+      "id": "word-close",
+      "ru": "Закрыть",
+      "kk": "Жабу",
+      "en": "Close"
+    },
+    {
+      "id": "word-go",
+      "ru": "Идти",
+      "kk": "Бар",
+      "en": "Go"
+    },
+    {
+      "id": "word-come",
+      "ru": "Иди сюда",
+      "kk": "Кел",
+      "en": "Come here"
+    },
+    {
+      "id": "word-look",
+      "ru": "Смотри",
+      "kk": "Қара",
+      "en": "Look"
+    },
+    {
+      "id": "word-wait",
+      "ru": "Подожди",
+      "kk": "Күт",
+      "en": "Wait"
+    },
+    {
+      "id": "word-together",
+      "ru": "Вместе",
+      "kk": "Бірге",
+      "en": "Together"
+    },
+    {
+      "id": "word-turn",
+      "ru": "Моя очередь",
+      "kk": "Менің кезегім",
+      "en": "My turn"
+    },
+    {
+      "id": "word-wash",
+      "ru": "Мыть",
+      "kk": "Жуу",
+      "en": "Wash"
+    },
+    {
+      "id": "word-hot",
+      "ru": "Горячо",
+      "kk": "Ыстық",
+      "en": "Hot"
+    },
+    {
+      "id": "word-cold",
+      "ru": "Холодно",
+      "kk": "Суық",
+      "en": "Cold"
+    },
+    {
+      "id": "word-break",
+      "ru": "Перерыв",
+      "kk": "Үзіліс",
+      "en": "Break"
+    },
+    {
+      "id": "word-num1",
+      "ru": "1",
+      "kk": "1",
+      "en": "1"
+    },
+    {
+      "id": "word-num2",
+      "ru": "2",
+      "kk": "2",
+      "en": "2"
+    },
+    {
+      "id": "word-num3",
+      "ru": "3",
+      "kk": "3",
+      "en": "3"
+    },
+    {
+      "id": "word-num4",
+      "ru": "4",
+      "kk": "4",
+      "en": "4"
+    },
+    {
+      "id": "word-num5",
+      "ru": "5",
+      "kk": "5",
+      "en": "5"
+    },
+    {
+      "id": "word-num6",
+      "ru": "6",
+      "kk": "6",
+      "en": "6"
+    },
+    {
+      "id": "word-num7",
+      "ru": "7",
+      "kk": "7",
+      "en": "7"
+    },
+    {
+      "id": "word-num8",
+      "ru": "8",
+      "kk": "8",
+      "en": "8"
+    },
+    {
+      "id": "word-num9",
+      "ru": "9",
+      "kk": "9",
+      "en": "9"
+    },
+    {
+      "id": "word-num10",
+      "ru": "10",
+      "kk": "10",
+      "en": "10"
+    },
+    {
+      "id": "word-four",
+      "ru": "Четыре",
+      "kk": "Төрт",
+      "en": "Four"
+    },
+    {
+      "id": "word-five",
+      "ru": "Пять",
+      "kk": "Бес",
+      "en": "Five"
+    },
+    {
+      "id": "word-six",
+      "ru": "Шесть",
+      "kk": "Алты",
+      "en": "Six"
+    },
+    {
+      "id": "word-seven",
+      "ru": "Семь",
+      "kk": "Жеті",
+      "en": "Seven"
+    },
+    {
+      "id": "word-eight",
+      "ru": "Восемь",
+      "kk": "Сегіз",
+      "en": "Eight"
+    },
+    {
+      "id": "word-nine",
+      "ru": "Девять",
+      "kk": "Тоғыз",
+      "en": "Nine"
+    },
+    {
+      "id": "word-ten",
+      "ru": "Десять",
+      "kk": "Он",
+      "en": "Ten"
     }
   ]
 }
