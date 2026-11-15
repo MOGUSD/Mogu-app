@@ -349,16 +349,31 @@ function geometricShapeVisual(key,size=88){
 }
 function geometricQuestionVisual(question){
  const q=String(question||"").toLowerCase();
+ // When a question names a real-world object, show that object — not the abstract shape it resembles.
+ const objects=[
+  {words:["часы","сағат","clock"],svg:'<circle cx="100" cy="91" r="57" fill="#d9e8f5" opacity=".65"/><circle cx="100" cy="85" r="52" fill="#fff" stroke="#527c9e" stroke-width="8"/><circle cx="100" cy="85" r="43" fill="#fff9e9" stroke="#d4a85b" stroke-width="3"/><g stroke="#527c9e" stroke-width="3" stroke-linecap="round"><path d="M100 49v7M100 114v7M64 85h7M129 85h7"/></g><path d="M100 85V57M100 85l23 15" stroke="#31516e" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="85" r="5" fill="#e58b56"/>'},
+  {words:["крыша","шатыр","roof"],svg:'<rect x="42" y="83" width="116" height="67" rx="5" fill="#f6c879" stroke="#bd8544" stroke-width="4"/><path d="M25 88 100 25 175 88Z" fill="#e97863" stroke="#b94f48" stroke-width="5" stroke-linejoin="round"/><path d="M48 83 100 39 152 83" fill="none" stroke="#ffb19b" stroke-width="5" stroke-linecap="round"/><rect x="87" y="108" width="26" height="42" rx="3" fill="#9bc5dc"/>'},
+  {words:["мяч","доп","ball"],svg:'<circle cx="100" cy="88" r="65" fill="#f3a84f" stroke="#d77b35" stroke-width="5"/><path d="M54 42Q88 63 80 112T57 145M143 36Q112 66 126 100T145 145M38 91Q77 71 100 88T162 87" fill="none" stroke="#fff4d8" stroke-width="9" stroke-linecap="round"/><path d="M53 40Q83 20 111 25" fill="none" stroke="#fff" stroke-width="8" opacity=".55" stroke-linecap="round"/>'},
+  {words:["окно","терезе","window"],svg:'<rect x="39" y="25" width="122" height="126" rx="8" fill="#a9d9ef" stroke="#9a6b48" stroke-width="12"/><path d="M100 30v116M45 88h110" stroke="#fff" stroke-width="10"/><path d="M49 35h45v47H49Z" fill="#e8f8ff" opacity=".7"/><path d="M111 99h39v44h-39Z" fill="#d5f0ff" opacity=".65"/>'},
+  {words:["дверь","есік","door"],svg:'<rect x="51" y="18" width="98" height="137" rx="8" fill="#bd8052" stroke="#875332" stroke-width="6"/><rect x="63" y="30" width="74" height="112" rx="4" fill="#d99b68" stroke="#f3c18b" stroke-width="4"/><circle cx="124" cy="91" r="5" fill="#f8df8c"/><path d="M70 39h58" stroke="#f5d0a5" stroke-width="4" stroke-linecap="round"/>'},
+  {words:["яйцо","жұмыртқа","egg"],svg:'<path d="M100 20C65 20 39 79 42 119c2 28 25 43 58 43s56-15 58-43C161 79 135 20 100 20Z" fill="#fff5dc" stroke="#d9c69e" stroke-width="5"/><path d="M71 57Q83 34 101 35" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round"/>'},
+  {words:["дорожный знак","жол белгісі","road sign"],svg:'<path d="M100 24 166 90 100 156 34 90Z" fill="#fff" stroke="#e65d55" stroke-width="13" stroke-linejoin="round"/><path d="M100 158v17" stroke="#8797a7" stroke-width="10" stroke-linecap="round"/><path d="M100 174v8" stroke="#8797a7" stroke-width="5" stroke-linecap="round"/>'},
+  {words:["книга","кітап","book"],svg:'<path d="M24 40Q62 26 99 48v111Q62 137 24 151Z" fill="#6fb5d2" stroke="#427e9b" stroke-width="5"/><path d="M176 40Q138 26 101 48v111q37-22 75-8Z" fill="#f3c66d" stroke="#c39443" stroke-width="5"/><path d="M100 48v111" stroke="#fff8e8" stroke-width="6"/><path d="M39 58q25-6 45 5M39 76q25-6 45 5M116 63q24-11 44-5M116 81q24-11 44-5" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>'},
+  {words:["домик","үйшік","house","дом"],svg:'<rect x="49" y="83" width="102" height="73" rx="5" fill="#f4c878" stroke="#bd8544" stroke-width="4"/><path d="M31 91 100 30 169 91Z" fill="#e97863" stroke="#b94f48" stroke-width="5" stroke-linejoin="round"/><rect x="88" y="111" width="25" height="45" rx="3" fill="#91c6df"/>'}
+ ];
+ const object=objects.find(item=>item.words.some(word=>q.includes(word)));
+ if(object)return '<div class="geometry-question-visual"><svg class="geometry-object-visual" viewBox="0 0 200 180" role="img" aria-label="Иллюстрация предмета">'+object.svg+'</svg></div>';
  const words=[
- ["круг","circle"],["шеңбер","circle"],["circle","circle"],["мяч","circle"],["доп","circle"],["ball","circle"],["часы","circle"],["сағат","circle"],["clock","circle"],
+ ["круг","circle"],["шеңбер","circle"],["circle","circle"],
  ["квадрат","square"],["шаршы","square"],["square","square"],
- ["треугольник","triangle"],["үшбұрыш","triangle"],["triangle","triangle"],["крыша","triangle"],["шатыр","triangle"],["roof","triangle"],["три стороны","triangle"],["үш қабырғасы","triangle"],["three sides","triangle"],
- ["прямоугольник","rectangle"],["тіктөртбұрыш","rectangle"],["rectangle","rectangle"],["окно","rectangle"],["терезе","rectangle"],["window","rectangle"],["дверь","rectangle"],["есік","rectangle"],["door","rectangle"],["книга","rectangle"],["кітап","rectangle"],["book","rectangle"],
- ["овал","oval"],["сопақ","oval"],["oval","oval"],["яйцо","oval"],["жұмыртқа","oval"],["egg","oval"],
- ["ромб","diamond"],["diamond","diamond"],["дорожный знак","diamond"],["жол белгісі","diamond"],
- ["звезд","starShape"],["жұлдыз","starShape"],["star","starShape"],["сердц","heartShape"],["жүрек","heartShape"],["heart","heartShape"],
- ["пятиугольник","pentagon"],["бесбұрыш","pentagon"],["five sides","pentagon"],["пятью сторонами","pentagon"],
- ["шестиугольник","hexagon"],["алтыбұрыш","hexagon"],["six sides","hexagon"],["шестью сторонами","hexagon"],
+ ["треугольник","triangle"],["үшбұрыш","triangle"],["triangle","triangle"],["три стороны","triangle"],["үш қабырғасы","triangle"],["three sides","triangle"],
+ ["прямоугольник","rectangle"],["тіктөртбұрыш","rectangle"],["rectangle","rectangle"],
+ ["овал","oval"],["сопақ","oval"],["oval","oval"],
+ ["ромб","diamond"],["diamond","diamond"],
+ ["звезд","starShape"],["жұлдыз","starShape"],["star","starShape"],
+ ["сердц","heartShape"],["жүрек","heartShape"],["heart","heartShape"],
+ ["пятиугольник","pentagon"],["бесбұрыш","pentagon"],["five sides","pentagon"],
+ ["шестиугольник","hexagon"],["алтыбұрыш","hexagon"],["six sides","hexagon"],
  ["четыре равные стороны","square"],["төрт қабырғасы бірдей","square"],["four equal sides","square"]
  ];
  const found=words.find(([word])=>q.includes(word));
