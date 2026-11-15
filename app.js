@@ -65,6 +65,17 @@ function head(title,sub){return '<div class="screen-top"><button class="back-but
 let activeMadinaAudio=null;
 let madinaSpeechRun=0;
 const MADINA_API_BASE="https://mogu-web-production.up.railway.app";
+let madinaAudioManifest={entries:{}};
+const madinaAudioManifestReady=fetch("./assets/audio/madina/manifest.json",{cache:"no-cache"})
+ .then(response=>response.ok?response.json():null)
+ .then(data=>{if(data&&data.voiceId==="33d2eff7a2f449b4b1a2e95d42ebbb33")madinaAudioManifest=data;})
+ .catch(()=>{});
+function normalizeMadinaText(value){return String(value??"").replace(/\\p{Extended_Pictographic}/gu,"").replace(/[\\uFE0E\\uFE0F\\u200D\\u{1F1E6}-\\u{1F1FF}]/gu,"").replace(/[\\\\\\/'"«»“”‘’„‟]/g,"").replace(/\\s+/g," ").replace(/\\s+([,.!?])/g,"$1").trim()}
+function findMadinaLibraryAudio(text,language){
+ const entries=Object.values(madinaAudioManifest.entries||{});
+ const entry=entries.find(item=>item.lang===language&&item.text===text);
+ return entry?new URL("./assets/audio/madina/"+entry.src.replace(/^\\.\\//,""),document.baseURI).href:null;
+}
 function cancelMadinaSpeech(){madinaSpeechRun++;if(activeMadinaAudio){const old=activeMadinaAudio;activeMadinaAudio=null;old.onended=null;old.onerror=null;try{const src=old.src;if(src&&src.startsWith("blob:"))URL.revokeObjectURL(src);old.pause();old.removeAttribute("src");old.load()}catch(_){}}if("speechSynthesis"in window)speechSynthesis.cancel();const el=document.querySelector(".madina-character");if(el)el.classList.remove("is-speaking")}
 function speakMadina(text,language=state.lang,onComplete=null,rateOverride=null){
  const run=++madinaSpeechRun;
@@ -77,14 +88,22 @@ function speakMadina(text,language=state.lang,onComplete=null,rateOverride=null)
  if("speechSynthesis"in window)speechSynthesis.cancel();
  const playCloud=async()=>{
   try{
-   const response=await fetch(MADINA_API_BASE+"/api/madina/speech",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:spokenText,language:language}),signal:AbortSignal.timeout(35000)});
-   if(!response.ok)throw new Error("TTS "+response.status);
-   const blob=await response.blob();
-   if(!blob.size||run!==madinaSpeechRun)throw new Error("Empty or cancelled audio");
-   const audio=new Audio(URL.createObjectURL(blob));
+   await madinaAudioManifestReady;
+   if(run!==madinaSpeechRun)return;
+   const libraryUrl=findMadinaLibraryAudio(spokenText,language);
+   let audio;
+   if(libraryUrl){
+    audio=new Audio(libraryUrl);
+   }else{
+    const response=await fetch(MADINA_API_BASE+"/api/madina/speech",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:spokenText,language:language}),signal:AbortSignal.timeout(35000)});
+    if(!response.ok)throw new Error("TTS "+response.status);
+    const blob=await response.blob();
+    if(!blob.size||run!==madinaSpeechRun)throw new Error("Empty or cancelled audio");
+    audio=new Audio(URL.createObjectURL(blob));
+   }
    activeMadinaAudio=audio;
    audio.volume=Math.max(0,Math.min(1,Number(audioPrefs.voiceVolume??.95)));
-   audio.onended=()=>{if(run!==madinaSpeechRun)return;activeMadinaAudio=null;URL.revokeObjectURL(audio.src);const el=document.querySelector(".madina-character");if(el)el.classList.remove("is-speaking");complete()};
+   audio.onended=()=>{if(run!==madinaSpeechRun)return;activeMadinaAudio=null;if(audio.src.startsWith("blob:"))URL.revokeObjectURL(audio.src);const el=document.querySelector(".madina-character");if(el)el.classList.remove("is-speaking");complete()};
    audio.onerror=()=>{if(run!==madinaSpeechRun)return;activeMadinaAudio=null;URL.revokeObjectURL(audio.src);const el=document.querySelector(".madina-character");if(el)el.classList.remove("is-speaking");toast(language==="kk"?"Мадинаның дауысын жүктеу мүмкін болмады. Интернетті тексер.":language==="en"?"Madina's voice could not be loaded. Check your connection.":"Не удалось загрузить детский голос Мадины. Проверь интернет.");complete()};
    const el=document.querySelector(".madina-character");if(el)el.classList.add("is-speaking");
    await audio.play();
