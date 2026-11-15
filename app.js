@@ -70,7 +70,6 @@ const madinaAudioManifestReady=fetch("./assets/audio/madina/manifest.json",{cach
  .then(response=>response.ok?response.json():null)
  .then(data=>{if(data&&data.voiceId==="33d2eff7a2f449b4b1a2e95d42ebbb33")madinaAudioManifest=data;})
  .catch(()=>{});
-function normalizeMadinaText(value){return String(value??"").replace(/\\p{Extended_Pictographic}/gu,"").replace(/[\\uFE0E\\uFE0F\\u200D\\u{1F1E6}-\\u{1F1FF}]/gu,"").replace(/[\\\\\\/'"«»“”‘’„‟]/g,"").replace(/\\s+/g," ").replace(/\\s+([,.!?])/g,"$1").trim()}
 function findMadinaLibraryAudio(text,language){
  const entries=Object.values(madinaAudioManifest.entries||{});
  const entry=entries.find(item=>item.lang===language&&item.text===text);
