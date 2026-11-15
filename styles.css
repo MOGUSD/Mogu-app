@@ -548,7 +548,7 @@ button:active{transform:translateY(3px) scale(.98);filter:saturate(1.12)}
 .lesson-option.colors-option:active{transform:translateY(2px)}
 .lesson-option.colors-option.correct{outline:5px solid #18b85a;outline-offset:-9px}
 .lesson-option.colors-option.try-again{outline:5px solid #ff9a36;outline-offset:-9px}
-@media(max-width:560px){.lesson-option.colors-option{min-height:132px;border-radius:21px;padding:9px 5px}.lesson-option.colors-option .color-answer-dot{width:66px;height:66px}}}
+@media(max-width:560px){.lesson-option.colors-option{min-height:132px;border-radius:21px;padding:9px 5px}.lesson-option.colors-option .color-answer-dot{width:66px;height:66px}}
 
 /* Life skills: step-by-step animated practice */
 .daily-learning{max-width:760px;margin:0 auto 34px;padding:clamp(16px,3vw,28px);border:3px solid #fff;border-radius:30px;background:linear-gradient(145deg,#fff9e8,#eaf8ff 58%,#f3eaff);box-shadow:0 8px 0 #d7c9e7,0 16px 32px #50396a12;text-align:center}
