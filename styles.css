@@ -1096,3 +1096,14 @@ body.mogu-splash-mode .welcome-screen.mogu-splash{
     height: 11% !important;
   }
 }
+
+
+/* User-approved Library splash artwork: true edge-to-edge portrait fit. */
+html,body{width:100%;height:100%;min-height:100%;margin:0}
+body.mogu-splash-mode{width:100%;height:100dvh;min-height:100dvh;padding:0!important;overflow:hidden!important;background:#0878ff}
+body.mogu-splash-mode .app-shell{width:100%!important;height:100dvh!important;min-height:100dvh!important;max-width:none!important;margin:0!important;padding:0!important}
+body.mogu-splash-mode #app-main{width:100%!important;height:100dvh!important;min-height:100dvh!important;margin:0!important;padding:0!important}
+body.mogu-splash-mode .welcome-screen.mogu-splash{position:relative!important;width:100%!important;height:100dvh!important;min-height:100dvh!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;background-color:#0878ff!important;background-image:url("https://d2jqrm6oza8nb6.cloudfront.net/datasets/f21e938a-6b8a-4844-89e4-2f5e3b4781e2.jpg?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMDRlNGMyNGE0NjQyODk4YiIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5NDg5NDQxMH0.tqsHAjTyOnFI8e4Rjtip9I4L-9CaNwqoTyvzvJ92MwQ")!important;background-size:100% 100%!important;background-position:center center!important;background-repeat:no-repeat!important}
+body.mogu-splash-mode .mogu-splash .splash-settings{left:2%!important;top:1%!important;width:17%!important;height:10%!important}
+body.mogu-splash-mode .mogu-splash .splash-play{left:36%!important;top:66%!important;width:28%!important;height:11%!important}
+@media(orientation:portrait){body.mogu-splash-mode .welcome-screen.mogu-splash{background-size:100% 100%!important;background-position:center center!important}}
