@@ -40,7 +40,7 @@ async function main(){
  const unique=[...new Map(all.map(x=>[x.key,x])).values()];
  const pending=unique.filter(x=>!manifest.entries[x.key]);
  let generated=0,skipped=unique.length-pending.length;
- const status={status:"running",voiceId:VOICE_ID,model:MODEL,total:unique.length,generated,skipped,remaining:pending.length,startedAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
+ let status={status:"running",voiceId:VOICE_ID,model:MODEL,total:unique.length,generated,skipped,remaining:pending.length,startedAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
  await putJson("audio/madina/status.json",status);
  try{
   for(let index=0;index<pending.length;index++){
