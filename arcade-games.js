@@ -72,7 +72,7 @@ function setupGame(){
  shell(G.find(x=>x.id===id),canvas);
 }
 function hint(id){return ({frog:"Проведи лягушку через дорогу к домику. Нажимай стрелки.",snake:"Собирай фрукты. Не касайся стен и собственного хвоста.",breakout:"Двигай платформу влево и вправо, отбивай мяч.",space:"Двигай корабль и нажимай ●, чтобы стрелять.",jumper:"Нажимай ⬆, чтобы прыгать на платформы.",fruit:"Лови яблоки корзинкой, избегай бомб.",racing:"Перестраивайся между полосами и объезжай машины."})[id]}
-function placeFood(){game.food={x:Math.floor(Math.random()*14)+1,y:Math.floor(Math.random()*12)+1}}
+function placeFood(){let p;do{p={x:Math.floor(Math.random()*14)+1,y:Math.floor(Math.random()*12)+1}}while(game.snake&&game.snake.some(s=>s.x===p.x&&s.y===p.y));game.food=p}
 function ctx(){const c=$q("#arcade-canvas");return c?c.getContext("2d"):null}
 function rect(c,x,y,w,h,color,r=12){c.fillStyle=color;c.beginPath();c.roundRect(x,y,w,h,r);c.fill()}
 function drawFrame(ts){
@@ -123,7 +123,7 @@ function drawBreakout(c,dt){
 function drawSpace(c,dt){
  c.fillStyle="#101b49";c.fillRect(0,0,800,900);c.font="30px sans-serif";for(let i=0;i<30;i++)c.fillText("✦",(i*137)%790,(i*193+game.tick*2)%880);
  game.spawn-=dt;if(game.spawn<=0){game.entities.push({x:Math.random()*740+20,y:50,speed:.8+l*.025});game.spawn=Math.max(24,72-l*1.2)}
- game.entities.forEach(e=>{e.y+=e.speed*dt*2;c.font="48px sans-serif";c.fillText("👾",e.x,e.y);if(e.y>800){e.y=999;game.lives--;if(game.lives<=0)loseLife(true)}});
+ game.entities.forEach(e=>{e.y+=e.speed*dt*2;c.font="48px sans-serif";if(e.y<=800)c.fillText("👾",e.x,e.y);if(e.y>800&&!e.passed){e.passed=true;game.lives--;if(game.lives<=0)loseLife(true)}});
  game.bullets=game.bullets||[];game.bullets.forEach(b=>b.y-=14*dt);game.bullets=game.bullets.filter(b=>b.y>0);
  game.entities=game.entities.filter(e=>{const hit=game.bullets.find(b=>Math.abs(b.x-e.x)<48&&Math.abs(b.y-e.y)<48);if(hit){game.score+=10;game.bullets.splice(game.bullets.indexOf(hit),1);return false}return e.y<950});
  game.bullets.forEach(b=>{c.font="32px sans-serif";c.fillText("✨",b.x,b.y)});
@@ -156,7 +156,7 @@ function drawRacing(c,dt){
  if(game.score>=game.target*5)completeLevel("Финиш! Ты справился с трассой!");
 }
 function completeLevel(msg){
- if(game.done||game.over)return;game.done=true;cancelAnimationFrame(raf);const next=Math.min(30,game.level+1);if(game.level<30)save(current,next);
+ if(game.done||game.over)return;game.done=true;cancelAnimationFrame(raf);const next=Math.min(30,game.level+1);if(game.level<30)save(current,next);localStorage.setItem("mogu-arcade-best-"+current,String(Math.max(best(current),game.score)));
  const finished=game.level>=30;
  const el=$q("#arcade-message");if(el)el.innerHTML='<div class="arcade-overlay"><div class="arcade-dialog"><div class="arcade-trophy">🏆</div><h2>'+(finished?"Все 30 уровней пройдены!": "Уровень "+game.level+" пройден!")+'</h2><p>'+msg+'</p><button class="arcade-main-btn" data-arcade-next="'+(finished?"hub":next)+'">'+(finished?"К играм":"Следующий уровень →")+'</button></div></div>';
 }
