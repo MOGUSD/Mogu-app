@@ -189,8 +189,7 @@ colors:[
 {question:{"ru":"Четыре минус два. Сколько осталось?","kk":"Төрттен екіні азайтсақ, қанша қалады?","en":"Four minus two. How many are left?"},options:[["num2","2"],["num3","3"],["num1","1"]],answer:"num2"},
 {question:{"ru":"Пять минус два. Сколько осталось?","kk":"Бестен екіні азайтсақ, қанша қалады?","en":"Five minus two. How many are left?"},options:[["num2","2"],["num3","3"],["num4","4"]],answer:"num3"},
 {question:{"ru":"Четыре плюс один. Сколько будет?","kk":"Төртке бірді қосқанда қанша болады?","en":"Four plus one. How many?"},options:[["num6","6"],["num4","4"],["num5","5"]],answer:"num5"},
-{question:{"ru":"Три плюс два. Сколько будет?","kk":"Үшке екіні қосқанда қанша болады?","en":"Three plus two. How many?"},options:[["num5","5"],["num4","4"],["num6","6"]],answer:"num5"},
-{question:{"ru":"Шесть минус один. Сколько осталось?","kk":"Алтыдан бірді азайтсақ, қанша қалады?","en":"Six minus one. How many are left?"},options:[["num5","5"],["num4","4"],["num6","6"]],answer:"num5"}
+{question:{"ru":"Три плюс два. Сколько будет?","kk":"Үшке екіні қосқанда қанша болады?","en":"Three plus two. How many?"},options:[["num5","5"],["num4","4"],["num6","6"]],answer:"num5"}
 ],
 reading:[
 {question:{ru:"Найди букву А",kk:"А әрпін тап",en:"Find the letter A"},options:[["a","🅰️"],["b","🅱️"],["v","🔤"]],answer:"a"},
