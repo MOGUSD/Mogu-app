@@ -66,11 +66,13 @@ function setupGame(){
  if(id==="frog"){game.player={x:4,y:9};game.entities=[];for(let y=1;y<=7;y+=2)for(let i=0;i<2+Math.floor(l/8);i++)game.entities.push({x:Math.random()*9,y,speed:(Math.random()<.5?-1:1)*(0.7+l*.055+Math.random()*.4),type:"car",w:1.1+Math.random()*.5})}
  if(id==="snake"){game.player={x:7,y:7,dir:"right"};game.snake=[{x:7,y:7},{x:6,y:7},{x:5,y:7}];game.started=false;game.moveClock=0;placeFood()}
  if(id==="breakout"){game.paddle=4;game.ball={x:4.5,y:7,dx:.08+l*.003,dy:-.12-l*.004};game.bricks=[];for(let y=0;y<Math.min(3+Math.ceil(l/5),6);y++)for(let x=0;x<8;x++)game.bricks.push({x:x+.08,y:y+.5,alive:true})}
- if(id==="space"){game.player={x:4,y:8};game.entities=[];game.bullets=[];game.spawn=0}
+ if(id==="space"){game.player={x:4,y:8};game.entities=[];game.bullets=[];game.wave=1;game.wavesTotal=game.level===1?1:game.level===2?2:Math.min(5,2+Math.floor((game.level-3)/2));game.hasBoss=game.level>=3&&game.level%3===0;game.spawnedInWave=0;game.spawn=0;game.stagePause=0;game.boss=null;game.bossSpawned=false;game.kills=0}
  if(id==="jumper"){game.player={x:4,y:650,vy:-8};game.platforms=[];for(let i=0;i<9;i++)game.platforms.push({x:Math.random()*7.2,y:720-i*100,w:1.2+Math.random()*.6});game.stars=0}
  if(id==="fruit"){game.player={x:4,y:8};game.entities=[];game.spawn=0}
  if(id==="racing"){game.player={x:1,y:8};game.entities=[];game.spawn=0}
- const canvas='<div class="arcade-stats"><span>Уровень: <b id="arcade-level">'+l+'/30</b></span><span>Очки: <b id="arcade-score">0</b></span><span>❤️ <b id="arcade-lives">3</b></span></div><canvas id="arcade-canvas" width="800" height="900" aria-label="Игровое поле"></canvas><p class="arcade-hint" id="arcade-hint">'+hint(id)+'</p><div id="arcade-message"></div>';
+ const spaceHud=id==="space"?'<span>Волна: <b id="arcade-wave">1/'+game.wavesTotal+'</b></span>':"";
+ const spaceFire=id==="space"?'<button class="space-fire-btn" data-game-action="fire">🔥 ОГОНЬ</button>':"";
+ const canvas='<div class="arcade-stats"><span>Уровень: <b id="arcade-level">'+l+'/30</b></span>'+spaceHud+'<span>Очки: <b id="arcade-score">0</b></span><span>❤️ <b id="arcade-lives">3</b></span></div><canvas id="arcade-canvas" width="800" height="900" aria-label="Игровое поле"></canvas>'+spaceFire+'<p class="arcade-hint" id="arcade-hint">'+hint(id)+'</p><div id="arcade-message"></div>';
  shell(G.find(x=>x.id===id),canvas);
 }
 function hint(id){return ({frog:"Проведи лягушку через дорогу к домику. Касайся поля или проводи пальцем в нужную сторону.",snake:"Собирай фрукты. Не касайся стен и собственного хвоста.",breakout:"Веди пальцем по полю — платформа будет двигаться за ним.",space:"Веди пальцем, чтобы управлять кораблём, и касайся поля, чтобы стрелять.",jumper:"Касайся поля для прыжка и веди пальцем, чтобы двигаться.",fruit:"Перемещай корзинку пальцем по полю.",racing:"Свайпай влево и вправо, чтобы менять полосу."})[id]}
@@ -93,7 +95,7 @@ function drawFrame(ts){
  if(id==="jumper")drawJumper(c,dt);
  if(id==="fruit")drawFruit(c,dt);
  if(id==="racing")drawRacing(c,dt);
- const sc=$q("#arcade-score"),lv=$q("#arcade-lives");if(sc)sc.textContent=game.score;if(lv)lv.textContent=game.lives;
+ const sc=$q("#arcade-score"),lv=$q("#arcade-lives");if(sc)sc.textContent=game.score;if(lv)lv.textContent=game.lives;const wh=$q("#arcade-wave");if(wh&&game.id==="space")wh.textContent=game.wave+"/"+game.wavesTotal;
  if(!game.done&&!game.over)raf=requestAnimationFrame(drawFrame);
 }
 function drawTrafficCar(c,e){
@@ -215,50 +217,49 @@ function drawBreakout(c,dt){
 }
 function drawSpace(c,dt){
  const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#100b45");bg.addColorStop(.5,"#292078");bg.addColorStop(1,"#075b9c");c.fillStyle=bg;c.fillRect(0,0,800,900);
- // Bright stars with a gentle twinkle
- for(let i=0;i<48;i++){const x=(i*137)%790+5,y=(i*193+game.tick*(1+i%3)*.35)%880+8;c.fillStyle=i%4===0?"#ffe99a":"#ffffffbb";c.beginPath();c.arc(x,y,i%5===0?3:1.8,0,Math.PI*2);c.fill()}
- // Keep a steady stream of large, clearly visible enemy ships on screen
- game.spawn-=dt;
- if(game.spawn<=0){
-  game.entities.push({x:Math.random()*650+75,y:75,speed:.48+game.level*.012,hp:1,phase:Math.random()*Math.PI*2,kind:Math.floor(Math.random()*3)});
-  game.spawn=Math.max(34,58-game.level*.55);
+ for(let i=0;i<58;i++){const x=(i*137)%790+5,y=(i*193+game.tick*(1+i%3)*.35)%880+8;c.fillStyle=i%4===0?"#ffe99a":"#ffffffbb";c.beginPath();c.arc(x,y,i%5===0?3:1.8,0,Math.PI*2);c.fill()}
+ // Every wave contains exactly ten regular enemy ships.
+ if(!game.boss&&!game.bossSpawned){
+  if(game.spawnedInWave<10){
+   game.spawn-=dt;
+   if(game.spawn<=0){game.entities.push({x:Math.random()*650+75,y:72,speed:.48+game.level*.012,hp:1,phase:Math.random()*Math.PI*2,kind:Math.floor(Math.random()*3)});game.spawnedInWave++;game.spawn=Math.max(35,54-game.level*.45)}
+  }else if(game.entities.length===0){
+   if(game.stagePause<=0){game.stagePause=65;const h=$q("#arcade-hint");if(h)h.textContent="Волна "+game.wave+" пройдена! Приготовься к следующей."}
+   else {game.stagePause-=dt;if(game.stagePause<=0){
+    if(game.wave<game.wavesTotal){game.wave++;game.spawnedInWave=0;game.spawn=0;const w=$q("#arcade-wave");if(w)w.textContent=game.wave+"/"+game.wavesTotal;const h=$q("#arcade-hint");if(h)h.textContent="Волна "+game.wave+"! Уничтожь 10 кораблей."}
+    else if(game.hasBoss){game.bossSpawned=true;game.boss={x:400,y:155,hp:24+game.level*3,maxHp:24+game.level*3,phase:0};const h=$q("#arcade-hint");if(h)h.textContent="БОСС! Уклоняйся и стреляй по большому кораблю!"}
+    else completeLevel("Все волны отражены! Ты защитил галактику.");
+   }}
+  }
  }
  game.entities.forEach(e=>{
   e.y+=e.speed*dt*1.25;e.x+=Math.sin(game.tick*.025+e.phase)*.28*dt;
-  const x=e.x,y=e.y;
-  c.save();c.translate(x,y);
-  const colors=["#ff668e","#ffb83f","#62e6d0"],col=colors[e.kind];
-  // Glowing alien saucer body, side fins and cockpit
-  c.shadowColor=col;c.shadowBlur=20;
-  c.fillStyle=col;c.beginPath();c.moveTo(-35,4);c.lineTo(-57,20);c.lineTo(-43,-7);c.lineTo(-28,-17);c.lineTo(0,-28);c.lineTo(28,-17);c.lineTo(43,-7);c.lineTo(57,20);c.lineTo(35,4);c.quadraticCurveTo(0,36,-35,4);c.fill();
-  c.shadowBlur=0;c.fillStyle="#eafaff";c.beginPath();c.ellipse(0,-9,20,13,0,Math.PI,Math.PI*2);c.fill();
-  c.fillStyle="#4d3d9e";c.beginPath();c.ellipse(0,-8,12,7,0,Math.PI,Math.PI*2);c.fill();
-  c.fillStyle="#fff2a6";for(let k=-1;k<=1;k++){c.beginPath();c.arc(k*23,9,4,0,Math.PI*2);c.fill()}
-  c.restore();
+  const x=e.x,y=e.y,colors=["#ff668e","#ffb83f","#62e6d0"],col=colors[e.kind];
+  c.save();c.translate(x,y);c.shadowColor=col;c.shadowBlur=20;c.fillStyle=col;c.beginPath();c.moveTo(-35,4);c.lineTo(-57,20);c.lineTo(-43,-7);c.lineTo(-28,-17);c.lineTo(0,-28);c.lineTo(28,-17);c.lineTo(43,-7);c.lineTo(57,20);c.lineTo(35,4);c.quadraticCurveTo(0,36,-35,4);c.fill();
+  c.shadowBlur=0;c.fillStyle="#eafaff";c.beginPath();c.ellipse(0,-9,20,13,0,Math.PI,Math.PI*2);c.fill();c.fillStyle="#4d3d9e";c.beginPath();c.ellipse(0,-8,12,7,0,Math.PI,Math.PI*2);c.fill();c.fillStyle="#fff2a6";for(let k=-1;k<=1;k++){c.beginPath();c.arc(k*23,9,4,0,Math.PI*2);c.fill()}c.restore();
   if(e.y>825&&!e.passed){e.passed=true;game.lives--;if(game.lives<=0)loseLife(true)}
  });
- // Player laser bolts
  game.bullets=game.bullets||[];
  game.bullets.forEach(b=>{b.y-=17*dt;c.save();c.shadowColor="#7df8ff";c.shadowBlur=16;rect(c,b.x-5,b.y-20,10,34,"#9effff",5);c.restore()});
  game.bullets=game.bullets.filter(b=>b.y>0);
- // Laser hits destroy an enemy immediately, with a clear score reward
  game.entities=game.entities.filter(e=>{
   const hit=game.bullets.find(b=>Math.abs(b.x-e.x)<58&&Math.abs(b.y-e.y)<42);
-  if(hit){game.bullets.splice(game.bullets.indexOf(hit),1);game.score+=10;return false}
+  if(hit){game.bullets.splice(game.bullets.indexOf(hit),1);game.score+=10;game.kills++;return false}
   return e.y<940;
  });
- // Draw a proper player spacecraft instead of an emoji
- const px=game.player.x*80+40,py=820;
- c.save();c.translate(px,py);
- c.shadowColor="#64efff";c.shadowBlur=24;
- c.fillStyle="#d8f7ff";c.beginPath();c.moveTo(0,-58);c.lineTo(34,25);c.lineTo(15,18);c.lineTo(0,30);c.lineTo(-15,18);c.lineTo(-34,25);c.closePath();c.fill();
- c.shadowBlur=0;
- c.fillStyle="#397be8";c.beginPath();c.moveTo(0,-43);c.lineTo(15,12);c.lineTo(0,5);c.lineTo(-15,12);c.closePath();c.fill();
- c.fillStyle="#8df7ff";c.beginPath();c.ellipse(0,-17,9,17,0,0,Math.PI*2);c.fill();
- c.fillStyle="#ffcf65";c.beginPath();c.moveTo(-12,22);c.lineTo(0,48+Math.sin(game.tick*.6)*7);c.lineTo(12,22);c.closePath();c.fill();
- c.fillStyle="#ff6c8b";c.beginPath();c.moveTo(-23,18);c.lineTo(-29,39);c.lineTo(-12,25);c.closePath();c.fill();c.beginPath();c.moveTo(23,18);c.lineTo(29,39);c.lineTo(12,25);c.closePath();c.fill();
- c.restore();
- if(game.score>=game.target*10)completeLevel("Волна пришельцев побеждена!");
+ if(game.boss){
+  const b=game.boss;b.phase+=dt*.035;b.x=400+Math.sin(b.phase)*245;
+  c.save();c.translate(b.x,b.y);c.shadowColor="#ff4e9c";c.shadowBlur=32;c.fillStyle="#a63be8";c.beginPath();c.moveTo(-112,8);c.lineTo(-150,48);c.lineTo(-95,34);c.lineTo(-65,64);c.lineTo(0,48);c.lineTo(65,64);c.lineTo(95,34);c.lineTo(150,48);c.lineTo(112,8);c.quadraticCurveTo(0,-78,-112,8);c.fill();
+  c.shadowBlur=0;c.fillStyle="#ff8fca";c.beginPath();c.ellipse(0,-13,57,31,0,Math.PI,Math.PI*2);c.fill();c.fillStyle="#442c91";c.beginPath();c.ellipse(0,-13,37,19,0,Math.PI,Math.PI*2);c.fill();c.fillStyle="#fff18b";for(let x=-75;x<=75;x+=50){c.beginPath();c.arc(x,27,8,0,Math.PI*2);c.fill()}c.restore();
+  const hit=game.bullets.findIndex(q=>Math.abs(q.x-b.x)<128&&Math.abs(q.y-b.y)<76);
+  if(hit>=0){game.bullets.splice(hit,1);b.hp--;game.score+=15}
+  rect(c,190,62,420,16,"#ffffff55",8);rect(c,190,62,420*Math.max(0,b.hp/b.maxHp),16,"#ff5c9e",8);
+  c.fillStyle="#fff";c.font="bold 22px sans-serif";c.textAlign="center";c.fillText("БОСС",400,48);c.textAlign="start";
+  if(b.hp<=0){game.boss=null;completeLevel("Босс повержен! Галактика спасена!")}
+ }
+ const px=game.player.x*80+40,py=820;c.save();c.translate(px,py);c.shadowColor="#64efff";c.shadowBlur=24;
+ c.fillStyle="#d8f7ff";c.beginPath();c.moveTo(0,-58);c.lineTo(34,25);c.lineTo(15,18);c.lineTo(0,30);c.lineTo(-15,18);c.lineTo(-34,25);c.closePath();c.fill();c.shadowBlur=0;
+ c.fillStyle="#397be8";c.beginPath();c.moveTo(0,-43);c.lineTo(15,12);c.lineTo(0,5);c.lineTo(-15,12);c.closePath();c.fill();c.fillStyle="#8df7ff";c.beginPath();c.ellipse(0,-17,9,17,0,0,Math.PI*2);c.fill();c.fillStyle="#ffcf65";c.beginPath();c.moveTo(-12,22);c.lineTo(0,48+Math.sin(game.tick*.6)*7);c.lineTo(12,22);c.closePath();c.fill();c.fillStyle="#ff6c8b";c.beginPath();c.moveTo(-23,18);c.lineTo(-29,39);c.lineTo(-12,25);c.closePath();c.fill();c.beginPath();c.moveTo(23,18);c.lineTo(29,39);c.lineTo(12,25);c.closePath();c.fill();c.restore();
 }
 function drawJumper(c,dt){
  const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#a9f4ff");bg.addColorStop(.55,"#b9d9ff");bg.addColorStop(1,"#d9baff");c.fillStyle=bg;c.fillRect(0,0,800,900);
