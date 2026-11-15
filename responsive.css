@@ -100,15 +100,15 @@ body.mogu-splash-mode .welcome-screen.mogu-splash {
   background-repeat: no-repeat, no-repeat;
 }
 body.mogu-splash-mode .mogu-splash .splash-settings {
-  left: calc((100cqw - min(100cqw, 42.421875cqh)) / 2 + min(100cqw, 42.421875cqh) * .015) !important;
+  left: calc((100cqw - min(100cqw, 42.421875cqh)) / 2 + min(1.5cqw, .6363cqh)) !important;
   top: 1cqh !important;
-  width: min(100cqw, 42.421875cqh) * .17 !important;
+  width: min(17cqw, 7.2117cqh) !important;
   height: 12cqh !important;
 }
 body.mogu-splash-mode .mogu-splash .splash-play {
-  left: calc((100cqw - min(100cqw, 42.421875cqh)) / 2 + min(100cqw, 42.421875cqh) * .36) !important;
+  left: calc((100cqw - min(100cqw, 42.421875cqh)) / 2 + min(36cqw, 15.2719cqh)) !important;
   top: 66cqh !important;
-  width: min(100cqw, 42.421875cqh) * .28 !important;
+  width: min(28cqw, 11.8781cqh) !important;
   height: 13cqh !important;
 }
 @supports not (width: 1cqw) {
