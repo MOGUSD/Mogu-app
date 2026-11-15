@@ -17,12 +17,14 @@ const progress=()=>{try{return JSON.parse(localStorage.getItem("mogu-arcade-prog
 const best=id=>{try{return Number(localStorage.getItem("mogu-arcade-best-"+id)||0)}catch(e){return 0}};
 const t=(s)=>s;
 function hub(){
+ document.body.classList.remove("arcade-playing");
  cancelAnimationFrame(raf);current=null;
  const p=progress();
  document.getElementById("app-main").innerHTML='<section class="arcade-hub"><div class="arcade-welcome"><div class="arcade-mascot">🎮</div><div><h2>Большая игровая площадка!</h2><p>Выбирай аркаду, набирай очки и открывай новые уровни. Играй в своём темпе!</p></div></div><div class="arcade-grid">'+G.map(g=>'<button class="arcade-card arcade-'+g.tone+'" data-arcade-start="'+g.id+'"><span class="arcade-icon">'+g.icon+'</span><strong>'+g.title+'</strong><small>'+g.desc+'</small><span class="arcade-progress">'+(g.id==="2048"?"♾️ Без уровней":"⭐ Открыт уровень "+(p[g.id]||1)+" из 30")+'</span><span class="arcade-play">Играть →</span></button>').join("")+'</div></section>';
  if(typeof nav==="function")nav("home");
 }
 function shell(g,inner){
+ document.body.classList.add("arcade-playing");
  document.getElementById("app-main").innerHTML='<section class="arcade-shell"><div class="arcade-top"><button class="soft-button" data-arcade-back>← Все игры</button><strong>'+g.icon+' '+g.title+'</strong><button class="arcade-restart" data-arcade-restart aria-label="Заново">↻</button></div>'+inner+'</section>';
  if(typeof nav==="function")nav("home");
 }
