@@ -69,12 +69,11 @@ function speakMadina(text,language=state.lang,onComplete=null,rateOverride=null)
  const run=++madinaSpeechRun;
  let completed=false;
  const complete=()=>{if(completed||run!==madinaSpeechRun)return;completed=true;if(typeof onComplete==="function")onComplete()};
- const cleanupAudio=()=>{if(activeMadinaAudio){const old=activeMadinaAudio;activeMadinaAudio=null;old.onended=null;old.onerror=null;try{old.pause();old.removeAttribute("src");old.load()}catch(_){}}};
- const spokenText=String(text??"").replace(/\\p{Extended_Pictographic}/gu,"").replace(/[\\uFE0E\\uFE0F\\u200D\\u{1F1E6}-\\u{1F1FF}]/gu,"").replace(/[\\\\/"'«»“”‘’„‟]/g,"").replace(/\\s+/g," ").replace(/\\s+([,.!?])/g,"$1").trim();
+ const cleanupAudio=()=>{if(activeMadinaAudio){const old=activeMadinaAudio;activeMadinaAudio=null;old.onended=null;old.onerror=null;try{const src=old.src;if(src&&src.startsWith("blob:"))URL.revokeObjectURL(src);old.pause();old.removeAttribute("src");old.load()}catch(_){}}};
+ const spokenText=String(text??"").replace(/\p{Extended_Pictographic}/gu,"").replace(/[\uFE0E\uFE0F\u200D\u{1F1E6}-\u{1F1FF}]/gu,"").replace(/[\\\/"'«»“”‘’„‟]/g,"").replace(/\s+/g," ").replace(/\s+([,.!?])/g,"$1").trim();
  if(!spokenText){complete();return false}
  cleanupAudio();
  if("speechSynthesis"in window)speechSynthesis.cancel();
- const locale=({ru:"ru",kk:"kk",en:"en"})[language]||"ru";
  const fallback=()=>{
   if(run!==madinaSpeechRun)return;
   cleanupAudio();
@@ -95,7 +94,7 @@ function speakMadina(text,language=state.lang,onComplete=null,rateOverride=null)
  };
  const playCloud=async()=>{
   try{
-   const response=await fetch(MADINA_API_BASE+"/api/madina/speech",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:spokenText,language:locale}),signal:AbortSignal.timeout(18000)});
+   const response=await fetch(MADINA_API_BASE+"/api/madina/speech",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:spokenText,language:language}),signal:AbortSignal.timeout(15000)});
    if(!response.ok)throw new Error("TTS "+response.status);
    const blob=await response.blob();
    if(!blob.size||run!==madinaSpeechRun)throw new Error("Empty or cancelled audio");
