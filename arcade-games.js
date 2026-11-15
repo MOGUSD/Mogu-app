@@ -281,7 +281,7 @@ function drawJumper(c,dt){
  p.vy+=.27*dt;p.y+=p.vy*dt;
  game.platforms.forEach(pl=>{
   const px=pl.x*100,pw=pl.w*100;
-  if(p.vy>0&&p.x*100+57>px&&p.x*100+13<px+pw&&p.y+58>=pl.y&&p.y+58<=pl.y+pl.h+Math.max(12,p.vy*dt+5)){
+  if(p.vy>0&&p.x*100+57>px&&p.x*100+13<px+pw&&p.y+58>=pl.y&&p.y+58<=pl.y+19+Math.max(12,p.vy*dt+5)){
    p.y=pl.y-58;p.vy=pl.type==="spring"?-15.2:-10.8-level*.055;
    game.score+=pl.type==="spring"?15:5;
    if(pl.type==="spring"){game.bonusClock=24}
