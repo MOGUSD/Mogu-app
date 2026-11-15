@@ -162,7 +162,9 @@ function drawSnake(c,dt){
   game.moveClock=0;
   game.snake.unshift({...game.snake[0]});const h=game.snake[0];
   if(game.player.dir==="left")h.x--;if(game.player.dir==="right")h.x++;if(game.player.dir==="up")h.y--;if(game.player.dir==="down")h.y++;
-  if(h.x<0||h.x>=cols||h.y<0||h.y>=rows||game.snake.slice(1).some(s=>s.x===h.x&&s.y===h.y)){
+  // The field wraps around: leaving one edge brings the snake back on the opposite edge.
+  h.x=(h.x+cols)%cols;h.y=(h.y+rows)%rows;
+  if(game.snake.slice(1).some(s=>s.x===h.x&&s.y===h.y)){
    game.snake=[{x:7,y:7},{x:6,y:7},{x:5,y:7}];game.player.dir="right";game.moveClock=0;loseLife();return;
   }
   if(h.x===game.food.x&&h.y===game.food.y){game.score+=game.food.value||1;placeFood()}else game.snake.pop();
