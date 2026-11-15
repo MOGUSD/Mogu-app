@@ -6,15 +6,15 @@ const crypto = require("node:crypto");
 
 const ROOT = __dirname;
 const PORT = Number(process.env.PORT || 8080);
-const API_KEY = process.env.FREEDOMSPEECH_API_KEY || "";
-const TTS_URL = "https://api.freedomspeech.kz/v1/audio/speech";
-const VOICES_URL = "https://freedomspeech.kz/api/voices";
+const FISH_API_KEY = process.env.FISH_AUDIO_API_KEY || "";
+const FISH_TTS_URL = "https://api.fish.audio/v1/tts";
+const FISH_MODEL = "s2.1-pro-free";
+const FISH_REFERENCE_ID = "33d2eff7a2f449b4b1a2e95d42ebbb33";
 const MAX_BODY = 12 * 1024;
 const MAX_CACHE_ENTRIES = 180;
 const MAX_CACHE_BYTES = 48 * 1024 * 1024;
 const cache = new Map();
 let cacheBytes = 0;
-let voicesCache = { at: 0, voices: [] };
 const rates = new Map();
 const MIME = {
   ".html":"text/html; charset=utf-8",".js":"text/javascript; charset=utf-8",
@@ -63,33 +63,6 @@ async function readJson(req) {
   try { return JSON.parse(raw || "{}"); }
   catch { throw Object.assign(new Error("Invalid JSON"), { status: 400 }); }
 }
-async function getVoices() {
-  if (Date.now() - voicesCache.at < 30 * 60 * 1000 && voicesCache.voices.length) return voicesCache.voices;
-  const response = await fetch(VOICES_URL, { signal: AbortSignal.timeout(8000) });
-  if (!response.ok) throw new Error("Voice catalog unavailable");
-  const data = await response.json();
-  const voices = Array.isArray(data) ? data : Array.isArray(data.voices) ? data.voices : [];
-  voicesCache = { at: Date.now(), voices };
-  return voices;
-}
-function languageVoice(language, voices) {
-  const suffix = language === "kk" ? ["_kz", "_kk"] : language === "ru" ? ["_ru"] : ["_en"];
-  const catalog = voices.filter(v => {
-    const id = String(v.id || "").toLowerCase();
-    const name = String(v.name || "").toLowerCase();
-    const scenario = /cartoon|tales|assistant/.test(id + " " + name);
-    const likelyFemale = /meiramgul|guldana|saltanat|gaukhar|aya|alua|anara|assel|altynai|woman/.test(id + " " + name) ||
-      String(v.gender || "").toLowerCase() === "female";
-    return scenario && likelyFemale && suffix.some(s => id.endsWith(s));
-  });
-  catalog.sort((a,b) => {
-    const rank = v => /cartoon/.test(String(v.id || "").toLowerCase()) ? 0 : /tales/.test(String(v.id || "").toLowerCase()) ? 1 : 2;
-    return rank(a) - rank(b);
-  });
-  if (catalog.length) return { id: catalog[0].id, emotion: undefined };
-  if (language === "ru" || language === "kk") return { id: "tomiris", emotion: "happy" };
-  return null;
-}
 function cachePut(key, audio) {
   if (audio.length > MAX_CACHE_BYTES) return;
   if (cache.has(key)) { cacheBytes -= cache.get(key).length; cache.delete(key); }
@@ -100,37 +73,50 @@ function cachePut(key, audio) {
   }
 }
 async function synthesize(text, language) {
-  let voices = [];
-  try { voices = await getVoices(); } catch { /* Built-in Tomiris remains available for Russian and Kazakh. */ }
-  const choice = languageVoice(language, voices);
-  if (!choice) throw Object.assign(new Error("No suitable English catalog voice is available"), { status: 422 });
-  const key = crypto.createHash("sha256").update(language + "\0" + choice.id + "\0" + text).digest("hex");
+  const key = crypto.createHash("sha256")
+    .update(FISH_REFERENCE_ID + "\\0" + language + "\\0" + text)
+    .digest("hex");
   if (cache.has(key)) {
-    const hit = cache.get(key); cache.delete(key); cache.set(key, hit);
-    return { audio: hit, voice: choice.id, cached: true };
+    const hit = cache.get(key);
+    cache.delete(key);
+    cache.set(key, hit);
+    return { audio: hit, voice: FISH_REFERENCE_ID, cached: true };
   }
-  if (!API_KEY) throw Object.assign(new Error("Speech service is not configured"), { status: 503 });
-  const payload = { input: text, voice: choice.id, language };
-  if (choice.emotion) payload.emotion = choice.emotion;
-  const response = await fetch(TTS_URL, {
+  if (!FISH_API_KEY) throw Object.assign(new Error("Fish Audio is not configured"), { status: 503 });
+  const response = await fetch(FISH_TTS_URL, {
     method: "POST",
-    headers: { "X-API-Key": API_KEY, "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-    signal: AbortSignal.timeout(28000)
+    headers: {
+      "Authorization": "Bearer " + FISH_API_KEY,
+      "Content-Type": "application/json",
+      "model": FISH_MODEL
+    },
+    body: JSON.stringify({
+      text,
+      reference_id: FISH_REFERENCE_ID,
+      format: "mp3"
+    }),
+    signal: AbortSignal.timeout(35000)
   });
   if (!response.ok) {
-    let reason = "Speech provider error";
-    try { const body = await response.json(); reason = String(body.error || body.message || reason).slice(0, 180); } catch {}
+    let reason = "Fish Audio provider error";
+    try {
+      const body = await response.json();
+      reason = String(body.message || body.error || body.detail || reason).slice(0, 180);
+    } catch {}
     const status = response.status === 401 || response.status === 403 ? 503 :
       response.status === 429 ? 429 : response.status >= 500 ? 503 : 502;
     throw Object.assign(new Error(reason), { status, providerStatus: response.status });
   }
   const type = response.headers.get("content-type") || "";
-  if (!type.includes("audio")) throw Object.assign(new Error("Speech provider returned an unexpected response"), { status: 502 });
+  if (!type.includes("audio")) {
+    throw Object.assign(new Error("Fish Audio returned a non-audio response"), { status: 502 });
+  }
   const audio = Buffer.from(await response.arrayBuffer());
-  if (audio.length < 44 || audio.length > 12 * 1024 * 1024) throw Object.assign(new Error("Invalid audio response"), { status: 502 });
+  if (audio.length < 128 || audio.length > 12 * 1024 * 1024) {
+    throw Object.assign(new Error("Invalid audio response"), { status: 502 });
+  }
   cachePut(key, audio);
-  return { audio, voice: choice.id, cached: false };
+  return { audio, voice: FISH_REFERENCE_ID, cached: false };
 }
 
 const server = http.createServer(async (req, res) => {
@@ -139,15 +125,15 @@ const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, "http://localhost");
   if (url.pathname.startsWith("/api/madina/")) {
     if (req.method === "GET" && url.pathname === "/api/madina/status") {
-      return json(res, 200, { service:"mogu-madina-tts", configured:Boolean(API_KEY), provider:"FreedomSpeech", cacheEntries:cache.size });
+      return json(res, 200, { service:"mogu-madina-tts", configured:Boolean(FISH_API_KEY), provider:"Fish Audio", model:FISH_MODEL, voiceId:FISH_REFERENCE_ID, cacheEntries:cache.size });
     }
     if (req.method === "GET" && url.pathname === "/api/madina/voices") {
-      try {
-        const voices = await getVoices();
-        return json(res, 200, voices.map(v => ({ id:v.id, name:v.name, type:v.type })).filter(v => v.id));
-      } catch {
-        return json(res, 503, { error:"Voice catalog is temporarily unavailable" });
-      }
+      return json(res, 200, [{
+        id: FISH_REFERENCE_ID,
+        name: "Fish Audio — выбранный голос МОГУ",
+        provider: "Fish Audio",
+        model: FISH_MODEL
+      }]);
     }
     if (req.method !== "POST" || url.pathname !== "/api/madina/speech") {
       return json(res, 404, { error:"Not found" });
@@ -162,7 +148,7 @@ const server = http.createServer(async (req, res) => {
       if (text.length > 2000) return json(res, 400, { error:"Text is too long" });
       const result = await synthesize(text, language);
       res.writeHead(200, {
-        "Content-Type":"audio/wav",
+        "Content-Type":"audio/mpeg",
         "Content-Length":result.audio.length,
         "Cache-Control":"private, max-age=3600",
         "X-Madina-Voice":result.voice,
@@ -196,12 +182,6 @@ const server = http.createServer(async (req, res) => {
   fs.createReadStream(filePath).on("error", () => { if (!res.headersSent) send(res, 500, "Read error", "text/plain; charset=utf-8"); else res.destroy(); }).pipe(res);
 });
 server.listen(PORT, "0.0.0.0", () => {
-  console.log("[mogu] web + Madina TTS server listening on " + PORT);
-  getVoices().then(voices => console.log("[madina-tts] voice catalog " + JSON.stringify(voices.map(v => ({ id:v.id, name:v.name, gender:v.gender, language:v.language }))))).catch(() => console.log("[madina-tts] voice catalog unavailable; built-in fallback will be used"));
-  synthesize("Привет! Меня зовут Мадина, давай поиграем!", "ru")
-    .then(result => console.log("[madina-tts] Russian test OK; voice=" + result.voice + "; audioBytes=" + result.audio.length))
-    .catch(error => console.error("[madina-tts] Russian test FAILED; status=" + (error.status || 0) + "; " + String(error.message || "unknown").slice(0, 140)));
-  synthesize("Сәлем! Менің атым Мадина, бірге ойнайық!", "kk")
-    .then(result => console.log("[madina-tts] Kazakh test OK; voice=" + result.voice + "; audioBytes=" + result.audio.length))
-    .catch(error => console.error("[madina-tts] Kazakh test FAILED; status=" + (error.status || 0) + "; " + String(error.message || "unknown").slice(0, 140)));
+  console.log("[mogu] web + Fish Audio TTS server listening on " + PORT);
+  console.log("[madina-tts] provider=Fish Audio; configured=" + Boolean(FISH_API_KEY) + "; model=" + FISH_MODEL + "; voice=" + FISH_REFERENCE_ID);
 });
