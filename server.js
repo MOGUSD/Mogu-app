@@ -76,8 +76,11 @@ function languageVoice(language, voices) {
   const suffix = language === "kk" ? ["_kz", "_kk"] : language === "ru" ? ["_ru"] : ["_en"];
   const catalog = voices.filter(v => {
     const id = String(v.id || "").toLowerCase();
-    const scenario = /cartoon|tales|assistant/.test(id + " " + String(v.name || "").toLowerCase());
-    return scenario && suffix.some(s => id.endsWith(s));
+    const name = String(v.name || "").toLowerCase();
+    const scenario = /cartoon|tales|assistant/.test(id + " " + name);
+    const likelyFemale = /meiramgul|guldana|saltanat|gaukhar|aya|alua|anara|assel|altynai|woman/.test(id + " " + name) ||
+      String(v.gender || "").toLowerCase() === "female";
+    return scenario && likelyFemale && suffix.some(s => id.endsWith(s));
   });
   catalog.sort((a,b) => {
     const rank = v => /cartoon/.test(String(v.id || "").toLowerCase()) ? 0 : /tales/.test(String(v.id || "").toLowerCase()) ? 1 : 2;
@@ -196,6 +199,9 @@ server.listen(PORT, "0.0.0.0", () => {
   console.log("[mogu] web + Madina TTS server listening on " + PORT);
   getVoices().then(voices => console.log("[madina-tts] voice catalog " + JSON.stringify(voices.map(v => ({ id:v.id, name:v.name, gender:v.gender, language:v.language }))))).catch(() => console.log("[madina-tts] voice catalog unavailable; built-in fallback will be used"));
   synthesize("Привет! Меня зовут Мадина, давай поиграем!", "ru")
-    .then(result => console.log("[madina-tts] provider test OK; voice=" + result.voice + "; audioBytes=" + result.audio.length))
-    .catch(error => console.error("[madina-tts] provider test FAILED; status=" + (error.status || 0) + "; " + String(error.message || "unknown").slice(0, 140)));
+    .then(result => console.log("[madina-tts] Russian test OK; voice=" + result.voice + "; audioBytes=" + result.audio.length))
+    .catch(error => console.error("[madina-tts] Russian test FAILED; status=" + (error.status || 0) + "; " + String(error.message || "unknown").slice(0, 140)));
+  synthesize("Сәлем! Менің атым Мадина, бірге ойнайық!", "kk")
+    .then(result => console.log("[madina-tts] Kazakh test OK; voice=" + result.voice + "; audioBytes=" + result.audio.length))
+    .catch(error => console.error("[madina-tts] Kazakh test FAILED; status=" + (error.status || 0) + "; " + String(error.message || "unknown").slice(0, 140)));
 });
