@@ -468,7 +468,7 @@ function renderDailyCategories(){
  const subtitle=l==="kk"?"Қай дағдыны үйренеміз?":l==="en"?"Choose a skill to practise":"Выбери, чему будем учиться";
  $("#app-main").innerHTML=head(t("learn"),l==="kk"?"Өмірлік дағдылар":l==="en"?"Life skills":"Навыки жизни")+'<div class="daily-category-intro"><img src="./assets/madina-guide.webp" alt="Мадина"><div><strong>'+subtitle+'</strong><p>'+(l==="kk"?"Әр дағдыны бірге, қадам-қадаммен үйренеміз.":l==="en"?"We will practise each skill one step at a time.":"Будем учиться каждому навыку по порядку, шаг за шагом.")+'</p></div></div><div class="daily-category-grid">'+dailySkills.map((skill,i)=>'<button class="daily-category-card" data-daily-category="'+i+'"><span class="daily-category-number">'+(i+1)+'</span><span class="daily-category-icon daily-category-art">'+dailyIllustration(i,0)+'</span><strong>'+skill.title[idx]+'</strong><span class="daily-category-arrow">›</span></button>').join("")+'</div>';
 }
-const dailyVideoSegments={0:[[0,0.6],[0.6,1.0],[1.0,2.0],[2.0,2.4],[2.4,2.6],[2.6,2.8]],3:[[2.8,3.2],[3.2,3.4],[3.4,4.8],[4.8,5.4],[5.4,5.6]]};
+const dailyVideoSegments={0:[[0,0.54],[0.54,0.9],[0.9,1.8],[1.8,2.34],[2.34,2.52],[2.52,2.875]],3:[[2.875,3.235],[3.235,3.415],[3.415,4.855],[4.855,5.395],[5.395,5.75]]};
 function playDailyStepAnimation(){const v=document.querySelector("[data-daily-video]");if(!v)return;const start=Number(v.dataset.start),end=Number(v.dataset.end);const play=()=>{v.currentTime=start;const p=v.play();if(p&&p.catch)p.catch(()=>{});};v.onloadedmetadata=play;v.ontimeupdate=()=>{if(v.currentTime>=end-0.025){v.pause();v.currentTime=Math.max(start,end-0.12);}};if(v.readyState>=1)play();}
 
 function renderDailyLesson(L){
