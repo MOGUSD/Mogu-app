@@ -31,16 +31,16 @@ async function s3Request(method, key, body = Buffer.alloc(0), contentType = "app
   const secret = process.env.MADINA_AUDIO_SECRET_ACCESS_KEY;
   const region = process.env.MADINA_AUDIO_REGION || "sin";
   const now = new Date();
-  const amzDate = now.toISOString().replace(/[:-]|\\.\\d{3}/g, "");
+  const amzDate = now.toISOString().replace(/[:-]|\.\d{3}/g, "");
   const date = amzDate.slice(0,8);
   const payloadHash = sha256(body);
-  const canonicalHeaders = "host:" + endpoint.host + "\\n" +
-    "x-amz-content-sha256:" + payloadHash + "\\n" +
-    "x-amz-date:" + amzDate + "\\n";
+  const canonicalHeaders = "host:" + endpoint.host + "\n" +
+    "x-amz-content-sha256:" + payloadHash + "\n" +
+    "x-amz-date:" + amzDate + "\n";
   const signedHeaders = "host;x-amz-content-sha256;x-amz-date";
-  const canonicalRequest = [method, endpoint.pathname, "", canonicalHeaders, signedHeaders, payloadHash].join("\\n");
+  const canonicalRequest = [method, endpoint.pathname, "", canonicalHeaders, signedHeaders, payloadHash].join("\n");
   const scope = date + "/" + region + "/s3/aws4_request";
-  const stringToSign = ["AWS4-HMAC-SHA256",amzDate,scope,sha256(canonicalRequest)].join("\\n");
+  const stringToSign = ["AWS4-HMAC-SHA256",amzDate,scope,sha256(canonicalRequest)].join("\n");
   const kDate = hmac("AWS4"+secret,date);
   const kRegion = hmac(kDate,region);
   const kService = hmac(kRegion,"s3");
