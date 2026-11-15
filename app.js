@@ -298,7 +298,7 @@ thinking:[
 {question:{ru:"Найди две одинаковые фигуры",kk:"Екі бірдей фигураны тап",en:"Find two matching shapes"},options:[["circle","⚪  ⚪"],["circle","⚪  🔺"],["square","🟦  ⚪"]],answer:"circle"},
 {question:{ru:"Какая фигура здесь лишняя: круг, круг, квадрат?",kk:"Мына қатарда қайсысы артық: шеңбер, шеңбер, шаршы?",en:"Which one is different: circle, circle, square?"},options:[["circle","⚪"],["square","🟦"],["triangle","🔺"]],answer:"square"},
 {question:{ru:"Выбери такую же фигуру, как образец: треугольник",kk:"Үлгімен бірдей фигураны таңда: үшбұрыш",en:"Choose the same shape as the sample: triangle"},options:[["square","🟦"],["triangle","🔺"],["circle","⚪"]],answer:"triangle"},
-{question:{ru:"Сколько сторон у треугольника?",kk:"Үшбұрыштың неше қабырғасы бар?",en:"How many sides does a triangle have?"},options:[["three","3️⃣"],["four","4️⃣"],["two","2️⃣"]],answer:"three"},
+{question:{ru:"Посмотри на треугольник. Сосчитай, сколько у него сторон.",kk:"Үшбұрышқа қара. Оның неше қабырғасы бар екенін сана.",en:"Look at the triangle. Count how many sides it has."},options:[["three","3️⃣"],["four","4️⃣"],["two","2️⃣"]],answer:"three"},
 {question:{ru:"Сколько сторон у квадрата?",kk:"Шаршының неше қабырғасы бар?",en:"How many sides does a square have?"},options:[["three","3️⃣"],["four","4️⃣"],["five","5️⃣"]],answer:"four"},
 {question:{ru:"Сколько углов у прямоугольника?",kk:"Тіктөртбұрыштың неше бұрышы бар?",en:"How many corners does a rectangle have?"},options:[["three","3️⃣"],["four","4️⃣"],["six","6️⃣"]],answer:"four"},
 {question:{ru:"Какая фигура имеет четыре равные стороны?",kk:"Қай фигураның төрт қабырғасы бірдей?",en:"Which shape has four equal sides?"},options:[["rectangle","▭"],["square","🟦"],["triangle","🔺"]],answer:"square"},
