@@ -192,4 +192,9 @@ const server = http.createServer(async (req, res) => {
   if (req.method === "HEAD") return res.end();
   fs.createReadStream(filePath).on("error", () => { if (!res.headersSent) send(res, 500, "Read error", "text/plain; charset=utf-8"); else res.destroy(); }).pipe(res);
 });
-server.listen(PORT, "0.0.0.0", () => console.log("[mogu] web + Madina TTS server listening on " + PORT));
+server.listen(PORT, "0.0.0.0", () => {
+  console.log("[mogu] web + Madina TTS server listening on " + PORT);
+  synthesize("Привет! Меня зовут Мадина, давай поиграем!", "ru")
+    .then(result => console.log("[madina-tts] provider test OK; voice=" + result.voice + "; audioBytes=" + result.audio.length))
+    .catch(error => console.error("[madina-tts] provider test FAILED; status=" + (error.status || 0) + "; " + String(error.message || "unknown").slice(0, 140)));
+});
