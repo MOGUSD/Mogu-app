@@ -277,5 +277,5 @@ body.arcade-playing #arcade-canvas {
 @keyframes arcade-gradient{from{background-position:0% 50%}to{background-position:100% 50%}}
 
 /* Dedicated thumb-friendly fire control for the space shooter */
-.space-fire-btn{display:block;width:min(78%,310px);min-height:62px;margin:12px auto 8px;border:3px solid #fff;border-radius:22px;background:linear-gradient(110deg,#ff5d75,#ff9b42);color:#fff;font-size:21px;font-weight:1000;letter-spacing:.08em;text-shadow:0 2px 3px #9c304d66;box-shadow:0 6px 0 #b83f61,0 10px 22px #ff648044;touch-action:manipulation;user-select:none}
+.space-fire-btn{display:block;width:min(78%,310px);min-height:62px;margin:12px auto 8px;border:3px solid #fff;border-radius:22px;background:linear-gradient(110deg,#ff5d75,#ff9b42);color:#fff;font-size:21px;font-weight:1000;letter-spacing:.08em;text-shadow:0 2px 3px #9c304d66;box-shadow:0 6px 0 #b83f61,0 10px 22px #ff648044;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;pointer-events:auto;position:relative;z-index:2}
 .space-fire-btn:active{transform:translateY(4px);box-shadow:0 2px 0 #b83f61,0 5px 12px #ff648044}
