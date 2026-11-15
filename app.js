@@ -325,7 +325,6 @@ language:[
 {question:{ru:"На чём ездят по дороге?",kk:"Жолда немен жүреді?",en:"What do we travel in on the road?"},options:[["car","🚗"],["flower","🌼"],["bread","🍞"]],answer:"car"},
 {question:{ru:"Что перевозит много пассажиров по городу?",kk:"Қалада көп жолаушыны немен тасиды?",en:"What carries many passengers around a city?"},options:[["bus","🚌"],["cat","🐱"],["cup","☕"]],answer:"bus"},
 {question:{ru:"Кто заботится о ребёнке вместе с папой?",kk:"Әкемен бірге балаға кім қамқор болады?",en:"Who cares for a child together with dad?"},options:[["mom","👩"],["bus","🚌"],["tree","🌳"]],answer:"mom"},
-{question:{ru:"Кто такой папа?",kk:"Әке деген кім?",en:"Who is dad?"},options:[["dad","👨"],["apple","🍎"],["bird","🐦"]],answer:"dad"},
 {question:{ru:"Что мы делаем, когда хотим отдохнуть ночью?",kk:"Түнде демалу үшін не істейміз?",en:"What do we do to rest at night?"},options:[["sleep","😴"],["eat","🍽️"],["runWord","🏃"]],answer:"sleep"},
 {question:{ru:"Что делаем, когда голодны?",kk:"Қарнымыз ашқанда не істейміз?",en:"What do we do when we are hungry?"},options:[["eat","🍽️"],["sleep","😴"],["drinkVerb","🥤"]],answer:"eat"},
 {question:{ru:"Что делаем, когда хотим пить?",kk:"Шөлдегенде не істейміз?",en:"What do we do when we are thirsty?"},options:[["drinkVerb","🥤"],["sleep","😴"],["playVerb","🧸"]],answer:"drinkVerb"},
