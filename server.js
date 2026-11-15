@@ -194,6 +194,7 @@ const server = http.createServer(async (req, res) => {
 });
 server.listen(PORT, "0.0.0.0", () => {
   console.log("[mogu] web + Madina TTS server listening on " + PORT);
+  getVoices().then(voices => console.log("[madina-tts] voice catalog " + JSON.stringify(voices.map(v => ({ id:v.id, name:v.name, gender:v.gender, language:v.language }))))).catch(() => console.log("[madina-tts] voice catalog unavailable; built-in fallback will be used"));
   synthesize("Привет! Меня зовут Мадина, давай поиграем!", "ru")
     .then(result => console.log("[madina-tts] provider test OK; voice=" + result.voice + "; audioBytes=" + result.audio.length))
     .catch(error => console.error("[madina-tts] provider test FAILED; status=" + (error.status || 0) + "; " + String(error.message || "unknown").slice(0, 140)));
