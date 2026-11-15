@@ -1080,3 +1080,18 @@ body.mogu-splash-mode .welcome-screen.mogu-splash{
     min-height:100dvh!important;
   }
 }
+
+
+/* Slightly widen the portrait splash artwork without moving the settings hotspot off-screen. */
+@media screen and (max-width: 680px) and (orientation: portrait) {
+  body.mogu-splash-mode .welcome-screen.mogu-splash {
+    background-size: 106% 100% !important;
+    background-position: center center !important;
+  }
+  .mogu-splash .splash-settings {
+    left: 1.5% !important;
+    top: 1.5% !important;
+    width: 17% !important;
+    height: 11% !important;
+  }
+}
