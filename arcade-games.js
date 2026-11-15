@@ -220,8 +220,8 @@ function drawSpace(c,dt){
  // Keep a steady stream of large, clearly visible enemy ships on screen
  game.spawn-=dt;
  if(game.spawn<=0){
-  game.entities.push({x:Math.random()*650+75,y:75,speed:.48+l*.012,hp:1,phase:Math.random()*Math.PI*2,kind:Math.floor(Math.random()*3)});
-  game.spawn=Math.max(34,58-l*.55);
+  game.entities.push({x:Math.random()*650+75,y:75,speed:.48+game.level*.012,hp:1,phase:Math.random()*Math.PI*2,kind:Math.floor(Math.random()*3)});
+  game.spawn=Math.max(34,58-game.level*.55);
  }
  game.entities.forEach(e=>{
   e.y+=e.speed*dt*1.25;e.x+=Math.sin(game.tick*.025+e.phase)*.28*dt;
