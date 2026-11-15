@@ -93,9 +93,44 @@ function drawFrame(ts){
  const sc=$q("#arcade-score"),lv=$q("#arcade-lives");if(sc)sc.textContent=game.score;if(lv)lv.textContent=game.lives;
  if(!game.done&&!game.over)raf=requestAnimationFrame(drawFrame);
 }
+function drawTrafficCar(c,e){
+ const x=e.x*80,y=e.y*100+12,w=Math.max(88,e.w*80),h=66;
+ const colors=["#ff5268","#ffb52e","#4778f5","#8c58df","#27b98b"];
+ const color=colors[Math.floor(e.y)%colors.length],right=e.speed>0;
+ c.save();c.translate(x+w/2,y+h/2);if(!right)c.scale(-1,1);c.translate(-w/2,-h/2);
+ // Wheels and tires
+ rect(c,10,5,w*.2,15,"#263244",6);rect(c,w*.72,5,w*.2,15,"#263244",6);
+ rect(c,10,h-20,w*.2,15,"#263244",6);rect(c,w*.72,h-20,w*.2,15,"#263244",6);
+ // Main body, hood and roof
+ rect(c,2,13,w-4,h-26,color,17);
+ rect(c,w*.18,3,w*.58,h-8,color,18);
+ // Windows
+ rect(c,w*.25,8,w*.48,22,"#bcecff",8);
+ rect(c,w*.48,9,5,20,"#ffffffa8",2);
+ // Windshield and rear window highlights
+ rect(c,w*.12,19,w*.13,17,"#e8f8ff",5);
+ // Bumpers and lights
+ rect(c,0,27,8,18,"#fff0a6",4);rect(c,w-8,27,8,18,"#ffeb9a",4);
+ rect(c,8,h-24,w-16,5,"#ffffff70",3);
+ // Decorative side stripe
+ rect(c,w*.24,h-17,w*.48,4,"#ffffff9c",2);
+ c.restore();
+}
 function drawFrog(c,dt){
- const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#b8f58b");bg.addColorStop(.5,"#72e0a0");bg.addColorStop(1,"#37c8b4");rect(c,0,0,800,900,bg,0);for(let y=100;y<800;y+=200)rect(c,0,y,800,100,"#59636c",0);
- for(const e of game.entities){e.x+=e.speed*dt*.018;if(e.x<-2)e.x=10;if(e.x>10)e.x=-2;rect(c,e.x*80,e.y*100,Math.max(75,e.w*80),62,["#ff806d","#ffc34f","#7b83ec"][Math.floor(e.y)%3],16);c.font="44px sans-serif";c.fillText("🚗",e.x*80+12,e.y*100+49)}
+ const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#b8f58b");bg.addColorStop(.5,"#72e0a0");bg.addColorStop(1,"#37c8b4");rect(c,0,0,800,900,bg,0);
+ // Four clear road lanes with shoulders, lane markings and grass verges
+ for(let y=100;y<=700;y+=200){
+  rect(c,0,y-7,800,114,"#319c69",0);
+  rect(c,0,y,800,100,"#465365",0);
+  rect(c,0,y+3,800,5,"#f7d879",0);rect(c,0,y+92,800,5,"#f7d879",0);
+  for(let x=18;x<800;x+=112)rect(c,x,y+47,58,6,"#ffffffb8",3);
+ }
+ // Small flowers and bushes on safe banks
+ c.font="24px sans-serif";for(let x=35;x<800;x+=150){c.fillText("🌼",x,91);c.fillText("🌿",x+55,891)}
+ for(const e of game.entities){
+  e.x+=e.speed*dt*.018;if(e.x<-2)e.x=10;if(e.x>10)e.x=-2;
+  drawTrafficCar(c,e);
+ }
  c.font="65px sans-serif";c.fillText("🏡",340,92);c.fillText("🐸",game.player.x*80+8,game.player.y*100+68);
  if(game.player.y===0){completeLevel("Лягушка добралась домой!");return}
  if(game.entities.some(e=>Math.abs(e.y-game.player.y)<.35&&game.player.x>=e.x-.2&&game.player.x<=e.x+e.w-.3)){loseLife();game.player={x:4,y:9}}
