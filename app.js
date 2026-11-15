@@ -95,9 +95,10 @@ function speakMadina(text,language=state.lang,onComplete=null,rateOverride=null)
  };
  const playCloud=async()=>{
   try{
-   const response=await fetch(MADINA_API_BASE+"/api/madina/speech",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:spokenText,language:language}),signal:AbortSignal.timeout(15000)});
-   if(!response.ok)throw new Error("TTS "+response.status);
-   const blob=await response.blob();
+   const blob=await Promise.race([
+    (async()=>{const response=await fetch(MADINA_API_BASE+"/api/madina/speech",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:spokenText,language:language}),signal:AbortSignal.timeout(15000)});if(!response.ok)throw new Error("TTS "+response.status);return await response.blob()})(),
+    new Promise((_,reject)=>setTimeout(()=>reject(new Error("TTS response exceeded 700ms; use instant device voice")),700))
+   ]);
    if(!blob.size||run!==madinaSpeechRun)throw new Error("Empty or cancelled audio");
    const audio=new Audio(URL.createObjectURL(blob));
    activeMadinaAudio=audio;
