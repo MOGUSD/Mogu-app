@@ -71,43 +71,30 @@ function speakMadina(text,language=state.lang,onComplete=null,rateOverride=null)
  let completed=false;
  const complete=()=>{if(completed||run!==madinaSpeechRun)return;completed=true;if(typeof onComplete==="function")onComplete()};
  const cleanupAudio=()=>{if(activeMadinaAudio){const old=activeMadinaAudio;activeMadinaAudio=null;old.onended=null;old.onerror=null;try{const src=old.src;if(src&&src.startsWith("blob:"))URL.revokeObjectURL(src);old.pause();old.removeAttribute("src");old.load()}catch(_){}}};
- const spokenText=String(text??"").replace(/\p{Extended_Pictographic}/gu,"").replace(/[\uFE0E\uFE0F\u200D\u{1F1E6}-\u{1F1FF}]/gu,"").replace(/[\\\/"'«»“”‘’„‟]/g,"").replace(/\s+/g," ").replace(/\s+([,.!?])/g,"$1").trim();
+ const spokenText=String(text??"").replace(/\\p{Extended_Pictographic}/gu,"").replace(/[\\uFE0E\\uFE0F\\u200D\\u{1F1E6}-\\u{1F1FF}]/gu,"").replace(/[\\\\\\/"'«»“”‘’„‟]/g,"").replace(/\\s+/g," ").replace(/\\s+([,.!?])/g,"$1").trim();
  if(!spokenText){complete();return false}
  cleanupAudio();
  if("speechSynthesis"in window)speechSynthesis.cancel();
- const fallback=()=>{
-  if(run!==madinaSpeechRun)return;
-  cleanupAudio();
-  if(!("speechSynthesis"in window)||!("SpeechSynthesisUtterance"in window)){complete();return}
-  const u=new SpeechSynthesisUtterance(spokenText);
-  u.lang=({ru:"ru-RU",kk:"kk-KZ",en:"en-US"})[language]||"ru-RU";
-  u.rate=rateOverride==null?Math.max(.65,Math.min(1.15,Number(state.settings.rate)||.82)):Math.max(.65,Math.min(1.15,Number(rateOverride)||.72));
-  u.pitch=1.28;
-  u.volume=Math.max(0,Math.min(1,Number(audioPrefs.voiceVolume??.95)));
-  const voices=speechSynthesis.getVoices();
-  const same=voices.filter(v=>v.lang&&v.lang.toLowerCase().startsWith(language));
-  const female=same.find(v=>/female|woman|girl|zira|irina|alena|milena|katya|samantha|aria|jenny|sonia/i.test(v.name));
-  u.voice=female||same[0]||voices.find(v=>/female|woman|girl|zira|irina|alena|samantha|aria|jenny/i.test(v.name))||null;
-  u.onstart=()=>{if(run!==madinaSpeechRun)return;if(state.screen==="welcome")state.welcomeAudioStarted=true;const el=document.querySelector(".madina-character");if(el)el.classList.add("is-speaking")};
-  u.onend=()=>{if(run!==madinaSpeechRun)return;const el=document.querySelector(".madina-character");if(el)el.classList.remove("is-speaking");complete()};
-  u.onerror=()=>{if(run!==madinaSpeechRun)return;const el=document.querySelector(".madina-character");if(el)el.classList.remove("is-speaking");complete()};
-  speechSynthesis.speak(u);
- };
  const playCloud=async()=>{
   try{
-   const blob=await Promise.race([
-    (async()=>{const response=await fetch(MADINA_API_BASE+"/api/madina/speech",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:spokenText,language:language}),signal:AbortSignal.timeout(15000)});if(!response.ok)throw new Error("TTS "+response.status);return await response.blob()})(),
-    new Promise((_,reject)=>setTimeout(()=>reject(new Error("TTS response exceeded 700ms; use instant device voice")),700))
-   ]);
+   const response=await fetch(MADINA_API_BASE+"/api/madina/speech",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:spokenText,language:language}),signal:AbortSignal.timeout(35000)});
+   if(!response.ok)throw new Error("TTS "+response.status);
+   const blob=await response.blob();
    if(!blob.size||run!==madinaSpeechRun)throw new Error("Empty or cancelled audio");
    const audio=new Audio(URL.createObjectURL(blob));
    activeMadinaAudio=audio;
    audio.volume=Math.max(0,Math.min(1,Number(audioPrefs.voiceVolume??.95)));
    audio.onended=()=>{if(run!==madinaSpeechRun)return;activeMadinaAudio=null;URL.revokeObjectURL(audio.src);const el=document.querySelector(".madina-character");if(el)el.classList.remove("is-speaking");complete()};
-   audio.onerror=()=>{if(run!==madinaSpeechRun)return;activeMadinaAudio=null;URL.revokeObjectURL(audio.src);fallback()};
+   audio.onerror=()=>{if(run!==madinaSpeechRun)return;activeMadinaAudio=null;URL.revokeObjectURL(audio.src);const el=document.querySelector(".madina-character");if(el)el.classList.remove("is-speaking");toast(language==="kk"?"Мадинаның дауысын жүктеу мүмкін болмады. Интернетті тексер.":language==="en"?"Madina's voice could not be loaded. Check your connection.":"Не удалось загрузить детский голос Мадины. Проверь интернет.");complete()};
    const el=document.querySelector(".madina-character");if(el)el.classList.add("is-speaking");
    await audio.play();
-  }catch(_){if(run===madinaSpeechRun)fallback()}
+  }catch(_){
+   if(run!==madinaSpeechRun)return;
+   cleanupAudio();
+   const el=document.querySelector(".madina-character");if(el)el.classList.remove("is-speaking");
+   toast(language==="kk"?"Мадинаның дауысын жүктеу мүмкін болмады. Интернетті тексер.":language==="en"?"Madina's voice could not be loaded. Check your connection.":"Не удалось загрузить детский голос Мадины. Проверь интернет.");
+   complete();
+  }
  };
  playCloud();
  return true;
