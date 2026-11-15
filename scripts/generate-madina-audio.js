@@ -2,7 +2,6 @@
 const fs=require("node:fs");
 const path=require("node:path");
 const crypto=require("node:crypto");
-const {S3Client,GetObjectCommand,PutObjectCommand}=require("@aws-sdk/client-s3");
 const ROOT=path.resolve(__dirname,"..");
 const INPUT=path.join(ROOT,"audio","phrases.json");
 const API="https://api.fish.audio/v1/tts";
@@ -10,12 +9,26 @@ const VOICE_ID="33d2eff7a2f449b4b1a2e95d42ebbb33";
 const MODEL=process.env.FISH_AUDIO_MODEL||"s2.1-pro-free";
 const API_KEY=process.env.FISH_AUDIO_API_KEY;
 const BUCKET=process.env.MADINA_AUDIO_BUCKET;
-const s3=new S3Client({region:process.env.MADINA_AUDIO_REGION||"sin",endpoint:process.env.MADINA_AUDIO_ENDPOINT,forcePathStyle:true,credentials:{accessKeyId:process.env.MADINA_AUDIO_ACCESS_KEY_ID,secretAccessKey:process.env.MADINA_AUDIO_SECRET_ACCESS_KEY}});
+function sha256(value){return crypto.createHash("sha256").update(value).digest("hex");}
+function hmac(key,value,encoding){return crypto.createHmac("sha256",key).update(value).digest(encoding);}
+function objectUrl(key){const u=new URL(process.env.MADINA_AUDIO_ENDPOINT);const prefix=u.pathname.replace(/\/$/,"");u.pathname=prefix+"/"+[BUCKET,...key.split("/")].map(x=>encodeURIComponent(x)).join("/");return u;}
+async function s3Request(method,key,body=Buffer.alloc(0),contentType="application/octet-stream",cacheControl=""){
+ const u=objectUrl(key),access=process.env.MADINA_AUDIO_ACCESS_KEY_ID,secret=process.env.MADINA_AUDIO_SECRET_ACCESS_KEY,region=process.env.MADINA_AUDIO_REGION||"sin";
+ const now=new Date(),amzDate=now.toISOString().replace(/[:-]|\\.\\d{3}/g,""),date=amzDate.slice(0,8),payloadHash=sha256(body);
+ const canonicalHeaders="host:"+u.host+"\\n"+"x-amz-content-sha256:"+payloadHash+"\\n"+"x-amz-date:"+amzDate+"\\n",signedHeaders="host;x-amz-content-sha256;x-amz-date";
+ const canonicalRequest=[method,u.pathname,"",canonicalHeaders,signedHeaders,payloadHash].join("\\n"),scope=date+"/"+region+"/s3/aws4_request";
+ const stringToSign=["AWS4-HMAC-SHA256",amzDate,scope,sha256(canonicalRequest)].join("\\n");
+ const signature=hmac(hmac(hmac(hmac("AWS4"+secret,date),region),"s3"),"aws4_request").toString("binary"),stringToSign,"hex");
+ const headers={"Authorization":"AWS4-HMAC-SHA256 Credential="+access+"/"+scope+", SignedHeaders="+signedHeaders+", Signature="+signature,"x-amz-date":amzDate,"x-amz-content-sha256":payloadHash,"Content-Type":contentType};
+ if(cacheControl)headers["Cache-Control"]=cacheControl;
+ return fetch(u,{method,body:method==="GET"?undefined:body,headers,signal:AbortSignal.timeout(60000)});
+}
+async function getJson(key,fallback){const r=await s3Request("GET",key);if(r.status===404)return fallback;if(!r.ok)throw new Error("Object storage GET HTTP "+r.status);return JSON.parse(await r.text());}
+async function putObject(key,body,type,cache){const r=await s3Request("PUT",key,body,type,cache);if(!r.ok)throw new Error("Object storage PUT HTTP "+r.status+" "+(await r.text()).slice(0,200));}
+async function putJson(key,value){await putObject(key,Buffer.from(JSON.stringify(value,null,2)+"\\n"),"application/json; charset=utf-8","no-cache");}
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const hash=value=>crypto.createHash("sha256").update(value).digest("hex").slice(0,24);
 function normalize(text){return String(text||"").replace(/\p{Extended_Pictographic}/gu,"").replace(/[\uFE0E\uFE0F\u200D\u{1F1E6}-\u{1F1FF}]/gu,"").replace(/[\\\/"'«»“”‘’„‟]/g,"").replace(/\s+/g," ").replace(/\s+([,.!?])/g,"$1").trim();}
-async function getJson(key,fallback){try{const r=await s3.send(new GetObjectCommand({Bucket:BUCKET,Key:key}));return JSON.parse(await r.Body.transformToString());}catch(e){if(e.name==="NoSuchKey"||e.$metadata?.httpStatusCode===404)return fallback;throw e;}}
-async function putJson(key,value){await s3.send(new PutObjectCommand({Bucket:BUCKET,Key:key,Body:JSON.stringify(value,null,2)+"\n",ContentType:"application/json; charset=utf-8"}));}
 async function main(){
  if(!API_KEY)throw new Error("FISH_AUDIO_API_KEY is missing");
  if(!BUCKET||!process.env.MADINA_AUDIO_ENDPOINT||!process.env.MADINA_AUDIO_ACCESS_KEY_ID||!process.env.MADINA_AUDIO_SECRET_ACCESS_KEY)throw new Error("MadinaAudio bucket credentials are missing");
@@ -41,7 +54,7 @@ async function main(){
    const bytes=Buffer.from(await response.arrayBuffer());
    if(bytes.length<128||(response.headers.get("content-type")||"").includes("json"))throw new Error("Invalid audio for "+item.id+"/"+item.lang);
    const objectKey="audio/madina/"+item.lang+"/"+item.key+".mp3";
-   await s3.send(new PutObjectCommand({Bucket:BUCKET,Key:objectKey,Body:bytes,ContentType:"audio/mpeg",CacheControl:"public, max-age=31536000, immutable"}));
+   await putObject(objectKey,bytes,"audio/mpeg","public, max-age=31536000, immutable");
    manifest.entries[item.key]={id:item.id,lang:item.lang,text:item.text,src:"./"+item.lang+"/"+item.key+".mp3",bytes:bytes.length};
    generated++;
    status={...status,generated,skipped,remaining:pending.length-generated,updatedAt:new Date().toISOString(),lastPhrase:item.id,lastLanguage:item.lang};
