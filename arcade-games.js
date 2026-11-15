@@ -66,7 +66,7 @@ function setupGame(){
  if(id==="frog"){game.player={x:4,y:9};game.entities=[];for(let y=1;y<=7;y+=2)for(let i=0;i<2+Math.floor(l/8);i++)game.entities.push({x:Math.random()*9,y,speed:(Math.random()<.5?-1:1)*(0.7+l*.055+Math.random()*.4),type:"car",w:1.1+Math.random()*.5})}
  if(id==="snake"){game.player={x:7,y:7,dir:"right"};game.snake=[{x:7,y:7},{x:6,y:7},{x:5,y:7}];game.started=false;game.moveClock=0;placeFood()}
  if(id==="breakout"){game.paddle=4;game.ball={x:4.5,y:7,dx:.08+l*.003,dy:-.12-l*.004};game.bricks=[];for(let y=0;y<Math.min(3+Math.ceil(l/5),6);y++)for(let x=0;x<8;x++)game.bricks.push({x:x+.08,y:y+.5,alive:true})}
- if(id==="space"){game.player={x:4,y:8};game.entities=[];game.bullets=[];game.wave=1;game.wavesTotal=game.level===1?1:game.level===2?2:Math.min(5,2+Math.floor((game.level-3)/2));game.hasBoss=game.level>=3&&game.level%3===0;game.spawnedInWave=0;game.spawn=0;game.stagePause=0;game.boss=null;game.bossSpawned=false;game.kills=0}
+ if(id==="space"){game.player={x:4,y:8};game.entities=[];game.bullets=[];game.wave=1;game.wavesTotal=game.level===1?1:game.level===2?2:Math.min(5,2+Math.floor((game.level-3)/2));game.hasBoss=game.level>=3&&game.level%3===0;game.spawnedInWave=0;game.spawn=0;game.stagePause=0;game.boss=null;game.bossSpawned=false;game.bossShots=[];game.kills=0}
  if(id==="jumper"){game.player={x:4,y:650,vy:-8};game.platforms=[];for(let i=0;i<9;i++)game.platforms.push({x:Math.random()*7.2,y:720-i*100,w:1.2+Math.random()*.6});game.stars=0}
  if(id==="fruit"){game.player={x:4,y:8};game.entities=[];game.spawn=0}
  if(id==="racing"){game.player={x:1,y:8};game.entities=[];game.spawn=0}
@@ -227,7 +227,7 @@ function drawSpace(c,dt){
    if(game.stagePause<=0){game.stagePause=65;const h=$q("#arcade-hint");if(h)h.textContent="Волна "+game.wave+" пройдена! Приготовься к следующей."}
    else {game.stagePause-=dt;if(game.stagePause<=0){
     if(game.wave<game.wavesTotal){game.wave++;game.spawnedInWave=0;game.spawn=0;const w=$q("#arcade-wave");if(w)w.textContent=game.wave+"/"+game.wavesTotal;const h=$q("#arcade-hint");if(h)h.textContent="Волна "+game.wave+"! Уничтожь 10 кораблей."}
-    else if(game.hasBoss){game.bossSpawned=true;game.boss={x:400,y:155,hp:24+game.level*3,maxHp:24+game.level*3,phase:0};const h=$q("#arcade-hint");if(h)h.textContent="БОСС! Уклоняйся и стреляй по большому кораблю!"}
+    else if(game.hasBoss){game.bossSpawned=true;game.boss={x:400,y:175,hp:10,maxHp:10,phase:0,shotClock:0};const h=$q("#arcade-hint");if(h)h.textContent="БОСС! Уклоняйся и стреляй по большому кораблю!"}
     else completeLevel("Все волны отражены! Ты защитил галактику.");
    }}
   }
@@ -249,9 +249,9 @@ function drawSpace(c,dt){
  });
  if(game.boss){
   const b=game.boss;b.phase+=dt*.035;b.x=400+Math.sin(b.phase)*245;
-  c.save();c.translate(b.x,b.y);c.shadowColor="#ff4e9c";c.shadowBlur=32;c.fillStyle="#a63be8";c.beginPath();c.moveTo(-112,8);c.lineTo(-150,48);c.lineTo(-95,34);c.lineTo(-65,64);c.lineTo(0,48);c.lineTo(65,64);c.lineTo(95,34);c.lineTo(150,48);c.lineTo(112,8);c.quadraticCurveTo(0,-78,-112,8);c.fill();
-  c.shadowBlur=0;c.fillStyle="#ff8fca";c.beginPath();c.ellipse(0,-13,57,31,0,Math.PI,Math.PI*2);c.fill();c.fillStyle="#442c91";c.beginPath();c.ellipse(0,-13,37,19,0,Math.PI,Math.PI*2);c.fill();c.fillStyle="#fff18b";for(let x=-75;x<=75;x+=50){c.beginPath();c.arc(x,27,8,0,Math.PI*2);c.fill()}c.restore();
-  const hit=game.bullets.findIndex(q=>Math.abs(q.x-b.x)<128&&Math.abs(q.y-b.y)<76);
+  c.save();c.translate(b.x,b.y);c.shadowColor="#ff4e9c";c.shadowBlur=42;c.fillStyle="#a63be8";c.beginPath();c.moveTo(-155,12);c.lineTo(-205,62);c.lineTo(-130,46);c.lineTo(-88,88);c.lineTo(0,68);c.lineTo(88,88);c.lineTo(130,46);c.lineTo(205,62);c.lineTo(155,12);c.quadraticCurveTo(0,-108,-155,12);c.fill();
+  c.shadowBlur=0;c.fillStyle="#ff8fca";c.beginPath();c.ellipse(0,-22,78,43,0,Math.PI,Math.PI*2);c.fill();c.fillStyle="#442c91";c.beginPath();c.ellipse(0,-20,52,27,0,Math.PI,Math.PI*2);c.fill();c.fillStyle="#fff18b";for(let x=-105;x<=105;x+=70){c.beginPath();c.arc(x,38,11,0,Math.PI*2);c.fill()}c.restore();
+  const hit=game.bullets.findIndex(q=>Math.abs(q.x-b.x)<170&&Math.abs(q.y-b.y)<100);
   if(hit>=0){game.bullets.splice(hit,1);b.hp--;game.score+=15}
   rect(c,190,62,420,16,"#ffffff55",8);rect(c,190,62,420*Math.max(0,b.hp/b.maxHp),16,"#ff5c9e",8);
   c.fillStyle="#fff";c.font="bold 22px sans-serif";c.textAlign="center";c.fillText("БОСС",400,48);c.textAlign="start";
@@ -325,10 +325,10 @@ let swipeOrigin=null;
 function canvasPoint(e,canvas){const r=canvas.getBoundingClientRect();return {x:Math.max(0,Math.min(800,(e.clientX-r.left)/r.width*800)),y:Math.max(0,Math.min(900,(e.clientY-r.top)/r.height*900))}}
 document.addEventListener("pointerdown",e=>{
  const board=e.target.closest(".board-2048"),canvas=e.target.closest("#arcade-canvas");
- if(board||canvas){swipeOrigin={x:e.clientX,y:e.clientY,target:board||canvas,point:canvas?canvasPoint(e,canvas):null};if(canvas&&canvas.setPointerCapture)try{canvas.setPointerCapture(e.pointerId)}catch(_){}}
+ if(board||canvas){swipeOrigin={x:e.clientX,y:e.clientY,target:board||canvas,point:canvas?canvasPoint(e,canvas):null};if(canvas){canvasPointerId=e.pointerId;if(canvas.setPointerCapture)try{canvas.setPointerCapture(e.pointerId)}catch(_){}}}
 },{passive:true});
 document.addEventListener("pointermove",e=>{
- if(!swipeOrigin||swipeOrigin.target!==$q("#arcade-canvas")||!game||game.done||game.over)return;
+ if(!swipeOrigin||e.pointerId!==canvasPointerId||swipeOrigin.target!==$q("#arcade-canvas")||!game||game.done||game.over)return;
  const p=canvasPoint(e,swipeOrigin.target);
  if(current==="breakout")game.paddle=Math.max(0,Math.min(6.5,p.x/100-.75));
  if(current==="fruit")game.player.x=Math.max(0,Math.min(7,p.x/100-.5));
@@ -337,7 +337,7 @@ document.addEventListener("pointermove",e=>{
 },{passive:true});
 function finishPointer(e){
  if(!swipeOrigin)return;
- const origin=swipeOrigin;swipeOrigin=null;
+ const origin=swipeOrigin;swipeOrigin=null;canvasPointerId=null;
  const dx=e.clientX-origin.x,dy=e.clientY-origin.y;
  if(origin.target.classList&&origin.target.classList.contains("board-2048")){
   if(Math.max(Math.abs(dx),Math.abs(dy))>=20){const dir=Math.abs(dx)>Math.abs(dy)?(dx<0?"left":"right"):(dy<0?"up":"down");move2048(dir)}
@@ -359,7 +359,7 @@ function finishPointer(e){
  }
 }
 document.addEventListener("pointerup",finishPointer,{passive:true});
-document.addEventListener("pointercancel",()=>{swipeOrigin=null},{passive:true});
+document.addEventListener("pointercancel",e=>{if(e.pointerId===firePointerId){firePointerId=null;if(fireHoldTimer){clearInterval(fireHoldTimer);fireHoldTimer=null}}if(e.pointerId===canvasPointerId){swipeOrigin=null;canvasPointerId=null}},{passive:true});
 window.addEventListener("resize",()=>{});
 window.renderGames=hub;
 })();
