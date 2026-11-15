@@ -15,25 +15,60 @@ const MAX_CACHE_ENTRIES = 180;
 const MAX_CACHE_BYTES = 48 * 1024 * 1024;
 const cache = new Map();
 const { spawn } = require("node:child_process");
-const { S3Client, GetObjectCommand, PutObjectCommand } = require("@aws-sdk/client-s3");
 const audioBucket = process.env.MADINA_AUDIO_BUCKET || "";
-const s3 = new S3Client({
-  region: process.env.MADINA_AUDIO_REGION || "sin",
-  endpoint: process.env.MADINA_AUDIO_ENDPOINT,
-  forcePathStyle: true,
-  credentials: {
-    accessKeyId: process.env.MADINA_AUDIO_ACCESS_KEY_ID || "",
-    secretAccessKey: process.env.MADINA_AUDIO_SECRET_ACCESS_KEY || ""
-  }
-});
+function sha256(value) { return crypto.createHash("sha256").update(value).digest("hex"); }
+function hmac(key, value, encoding) { return crypto.createHmac("sha256", key).update(value).digest(encoding); }
+function s3Url(key) {
+  const endpoint = new URL(process.env.MADINA_AUDIO_ENDPOINT);
+  const prefix = endpoint.pathname.replace(/\/$/, "");
+  const objectPath = [audioBucket, ...key.split("/")].map(part => encodeURIComponent(part)).join("/");
+  endpoint.pathname = prefix + "/" + objectPath;
+  return endpoint;
+}
+async function s3Request(method, key, body = Buffer.alloc(0), contentType = "application/octet-stream") {
+  const endpoint = s3Url(key);
+  const access = process.env.MADINA_AUDIO_ACCESS_KEY_ID;
+  const secret = process.env.MADINA_AUDIO_SECRET_ACCESS_KEY;
+  const region = process.env.MADINA_AUDIO_REGION || "sin";
+  const now = new Date();
+  const amzDate = now.toISOString().replace(/[:-]|\\.\\d{3}/g, "");
+  const date = amzDate.slice(0,8);
+  const payloadHash = sha256(body);
+  const canonicalHeaders = "host:" + endpoint.host + "\\n" +
+    "x-amz-content-sha256:" + payloadHash + "\\n" +
+    "x-amz-date:" + amzDate + "\\n";
+  const signedHeaders = "host;x-amz-content-sha256;x-amz-date";
+  const canonicalRequest = [method, endpoint.pathname, "", canonicalHeaders, signedHeaders, payloadHash].join("\\n");
+  const scope = date + "/" + region + "/s3/aws4_request";
+  const stringToSign = ["AWS4-HMAC-SHA256",amzDate,scope,sha256(canonicalRequest)].join("\\n");
+  const kDate = hmac("AWS4"+secret,date);
+  const kRegion = hmac(kDate,region);
+  const kService = hmac(kRegion,"s3");
+  const kSigning = hmac(kService,"aws4_request");
+  const signature = hmac(kSigning,stringToSign,"hex");
+  const response = await fetch(endpoint,{
+    method,body:method==="GET"?undefined:body,
+    headers:{
+      "Authorization":"AWS4-HMAC-SHA256 Credential="+access+"/"+scope+", SignedHeaders="+signedHeaders+", Signature="+signature,
+      "x-amz-date":amzDate,"x-amz-content-sha256":payloadHash,
+      "Content-Type":contentType
+    },
+    signal:AbortSignal.timeout(60000)
+  });
+  return response;
+}
+async function readAudioObject(key) {
+  const response=await s3Request("GET",key);
+  if(!response.ok)throw Object.assign(new Error("Object storage HTTP "+response.status),{status:response.status});
+  return response;
+}
 let audioGenerationChild = null;
 function audioStorageReady() {
   return Boolean(audioBucket && process.env.MADINA_AUDIO_ENDPOINT &&
     process.env.MADINA_AUDIO_ACCESS_KEY_ID && process.env.MADINA_AUDIO_SECRET_ACCESS_KEY);
 }
 async function readAudioObject(key) {
-  const result = await s3.send(new GetObjectCommand({Bucket:audioBucket,Key:key}));
-  return result;
+  return await s3Request("GET",key);
 }
 function adminAuthorized(url) {
   const expected = process.env.MADINA_GENERATION_TOKEN || "";
@@ -157,10 +192,10 @@ const server = http.createServer(async (req, res) => {
       if (!audioStorageReady()) return json(res,503,{error:"Audio library storage is not configured"});
       try {
         const object = await readAudioObject("audio/madina/manifest.json");
-        const body = await object.Body.transformToString();
+        const body = await object.text();
         return send(res,200,body,"application/json; charset=utf-8",{"Cache-Control":"no-cache"});
       } catch (error) {
-        if (error.name === "NoSuchKey" || error.$metadata?.httpStatusCode === 404)
+        if (error.status === 404)
           return json(res,200,{version:1,voiceId:FISH_REFERENCE_ID,entries:{}},{"Cache-Control":"no-cache"});
         console.error("[madina-library] manifest",String(error.message||error).slice(0,160));
         return json(res,503,{error:"Audio library temporarily unavailable"});
@@ -175,7 +210,7 @@ const server = http.createServer(async (req, res) => {
         const object = await readAudioObject("audio/madina/"+relative);
         res.writeHead(200,{"Content-Type":"audio/mpeg","Content-Length":object.ContentLength,
           "Cache-Control":"public, max-age=31536000, immutable","X-Content-Type-Options":"nosniff"});
-        return object.Body.pipe(res);
+        return require("node:stream").Readable.fromWeb(object.body).pipe(res);
       } catch (error) {
         if (error.name === "NoSuchKey" || error.$metadata?.httpStatusCode === 404)
           return send(res,404,"Audio not found","text/plain");
@@ -204,7 +239,7 @@ const server = http.createServer(async (req, res) => {
         const object=await readAudioObject("audio/madina/status.json");
         return send(res,200,await object.Body.transformToString(),"application/json; charset=utf-8",{"Cache-Control":"no-store"});
       } catch (error) {
-        if (error.name==="NoSuchKey" || error.$metadata?.httpStatusCode===404)
+        if (error.status===404)
           return json(res,200,{status:"not_started",generated:0,total:0});
         return json(res,503,{error:"Status unavailable"});
       }
