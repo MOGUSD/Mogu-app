@@ -94,14 +94,14 @@ function drawFrame(ts){
  if(!game.done&&!game.over)raf=requestAnimationFrame(drawFrame);
 }
 function drawFrog(c,dt){
- rect(c,0,0,800,900,"#bde8bd",0);for(let y=100;y<800;y+=200)rect(c,0,y,800,100,"#59636c",0);
+ const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#b8f58b");bg.addColorStop(.5,"#72e0a0");bg.addColorStop(1,"#37c8b4");rect(c,0,0,800,900,bg,0);for(let y=100;y<800;y+=200)rect(c,0,y,800,100,"#59636c",0);
  for(const e of game.entities){e.x+=e.speed*dt*.018;if(e.x<-2)e.x=10;if(e.x>10)e.x=-2;rect(c,e.x*80,e.y*100,Math.max(75,e.w*80),62,["#ff806d","#ffc34f","#7b83ec"][Math.floor(e.y)%3],16);c.font="44px sans-serif";c.fillText("🚗",e.x*80+12,e.y*100+49)}
  c.font="65px sans-serif";c.fillText("🏡",340,92);c.fillText("🐸",game.player.x*80+8,game.player.y*100+68);
  if(game.player.y===0){completeLevel("Лягушка добралась домой!");return}
  if(game.entities.some(e=>Math.abs(e.y-game.player.y)<.35&&game.player.x>=e.x-.2&&game.player.x<=e.x+e.w-.3)){loseLife();game.player={x:4,y:9}}
 }
 function drawSnake(c,dt){
- c.fillStyle="#f5f9dc";c.fillRect(0,0,800,900);const cell=50;
+ const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#fff5a8");bg.addColorStop(.5,"#c8ffb5");bg.addColorStop(1,"#8debd1");c.fillStyle=bg;c.fillRect(0,0,800,900);const cell=50;
  c.font="44px sans-serif";c.fillText("🍎",game.food.x*cell,game.food.y*cell+40);
  game.moveClock=(game.moveClock||0)+dt;
  if(game.moveClock>=Math.max(4,11-game.level*.22)){game.moveClock=0;game.snake.unshift({...game.snake[0]});const h=game.snake[0];if(game.player.dir==="left")h.x--;if(game.player.dir==="right")h.x++;if(game.player.dir==="up")h.y--;if(game.player.dir==="down")h.y++;
@@ -111,7 +111,7 @@ function drawSnake(c,dt){
  if(game.score>=(game.level*30+30))completeLevel("Змейка выросла! Уровень пройден.");
 }
 function drawBreakout(c,dt){
- c.fillStyle="#e8e6ff";c.fillRect(0,0,800,900);
+ const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#ffc4e1");bg.addColorStop(.5,"#c8b8ff");bg.addColorStop(1,"#9be8ff");c.fillStyle=bg;c.fillRect(0,0,800,900);
  game.bricks.forEach((b,i)=>{if(b.alive)rect(c,b.x*100,b.y*75,88,58,["#ff8b9e","#ffcb65","#70c8ef","#9c8be9"][i%4],12)});
  const p=game.paddle*100;rect(c,p,820,150,24,"#5944a2",12);
  const b=game.ball;b.x+=b.dx*dt*.55;b.y+=b.dy*dt*.55;if(b.x<.1||b.x>7.8)b.dx*=-1;if(b.y<.1)b.dy=Math.abs(b.dy);
@@ -123,7 +123,7 @@ function drawBreakout(c,dt){
  if(game.bricks.every(x=>!x.alive))completeLevel("Все кирпичики разбиты!");
 }
 function drawSpace(c,dt){
- c.fillStyle="#101b49";c.fillRect(0,0,800,900);c.font="30px sans-serif";for(let i=0;i<30;i++)c.fillText("✦",(i*137)%790,(i*193+game.tick*2)%880);
+ const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#17105c");bg.addColorStop(.55,"#33218d");bg.addColorStop(1,"#075b9c");c.fillStyle=bg;c.fillRect(0,0,800,900);c.font="30px sans-serif";for(let i=0;i<30;i++)c.fillText("✦",(i*137)%790,(i*193+game.tick*2)%880);
  game.spawn-=dt;if(game.spawn<=0){game.entities.push({x:Math.random()*740+20,y:50,speed:.8+l*.025});game.spawn=Math.max(24,72-l*1.2)}
  game.entities.forEach(e=>{e.y+=e.speed*dt*2;c.font="48px sans-serif";if(e.y<=800)c.fillText("👾",e.x,e.y);if(e.y>800&&!e.passed){e.passed=true;game.lives--;if(game.lives<=0)loseLife(true)}});
  game.bullets=game.bullets||[];game.bullets.forEach(b=>b.y-=14*dt);game.bullets=game.bullets.filter(b=>b.y>0);
@@ -133,7 +133,7 @@ function drawSpace(c,dt){
  if(game.score>=game.target*10)completeLevel("Волна пришельцев побеждена!");
 }
 function drawJumper(c,dt){
- c.fillStyle="#e8f8ff";c.fillRect(0,0,800,900);
+ const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#a9f4ff");bg.addColorStop(.55,"#b9d9ff");bg.addColorStop(1,"#d9baff");c.fillStyle=bg;c.fillRect(0,0,800,900);
  game.platforms.forEach(p=>{p.y+=dt*(.35+l*.025);if(p.y>920){p.y=-80;p.x=Math.random()*7.1}rect(c,p.x*100,p.y,Math.max(95,p.w*100),20,"#62bd7d",12)});
  const p=game.player;p.vy+=.25*dt;p.y+=p.vy*dt;if(p.y>820){loseLife();p.y=650;p.vy=-8}
  game.platforms.forEach(pl=>{if(p.vy>0&&p.x*100+30>pl.x*100&&p.x*100<pl.x*100+pl.w*100&&p.y+65>=pl.y&&p.y+65<=pl.y+30){p.vy=-9-l*.08;game.score+=5}});
@@ -141,14 +141,14 @@ function drawJumper(c,dt){
  if(game.score>=game.target*5)completeLevel("Отличный прыжок!");
 }
 function drawFruit(c,dt){
- c.fillStyle="#fff1d6";c.fillRect(0,0,800,900);game.spawn-=dt;if(game.spawn<=0){game.entities.push({x:Math.random()*740+20,y:-20,bomb:Math.random()<.18,speed:1.3+l*.035});game.spawn=Math.max(22,42-l*.55)}
+ const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#fff18a");bg.addColorStop(.5,"#ffc1a6");bg.addColorStop(1,"#ff9fce");c.fillStyle=bg;c.fillRect(0,0,800,900);game.spawn-=dt;if(game.spawn<=0){game.entities.push({x:Math.random()*740+20,y:-20,bomb:Math.random()<.18,speed:1.3+l*.035});game.spawn=Math.max(22,42-l*.55)}
  game.entities.forEach(e=>{e.y+=e.speed*dt*2;c.font="48px sans-serif";c.fillText(e.bomb?"💣":"🍎",e.x,e.y)});
  game.entities=game.entities.filter(e=>{if(e.y>790&&e.y<890&&Math.abs(e.x-(game.player.x*100+50))<85){if(e.bomb)game.lives--;else game.score+=10;return false}return e.y<940});
  rect(c,game.player.x*100,820,100,40,"#a76b43",18);c.font="46px sans-serif";c.fillText("🧺",game.player.x*100+20,820);
  if(game.lives<=0)loseLife(true);if(game.score>=game.target*10)completeLevel("Корзинка полна!");
 }
 function drawRacing(c,dt){
- c.fillStyle="#85c98a";c.fillRect(0,0,800,900);rect(c,110,0,580,900,"#555b65",0);
+ const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#9df06e");bg.addColorStop(.5,"#49d69a");bg.addColorStop(1,"#22b8b5");c.fillStyle=bg;c.fillRect(0,0,800,900);rect(c,110,0,580,900,"#39445f",0);
  c.setLineDash([35,30]);c.strokeStyle="#fff";c.lineWidth=7;c.beginPath();c.moveTo(303,0);c.lineTo(303,900);c.moveTo(496,0);c.lineTo(496,900);c.stroke();c.setLineDash([]);
  game.spawn-=dt;if(game.spawn<=0){game.entities.push({lane:Math.floor(Math.random()*3),y:-100,speed:1.8+l*.045});game.spawn=Math.max(24,48-l*.7)}
  game.entities.forEach(e=>{e.y+=e.speed*dt*2;rect(c,130+e.lane*193,e.y,95,130,"#f2a04c",18);c.font="55px sans-serif";c.fillText("🚙",145+e.lane*193,e.y+85)});
