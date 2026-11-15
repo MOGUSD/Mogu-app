@@ -1082,11 +1082,12 @@ body.mogu-splash-mode .welcome-screen.mogu-splash{
 }
 
 
-/* Shift the portrait splash artwork upward to remove the empty strip at the top. */
+/* Final portrait splash crop: remove the solid-blue band at the top. */
 @media screen and (max-width: 680px) and (orientation: portrait) {
   body.mogu-splash-mode .welcome-screen.mogu-splash {
-    background-size: 100% 120% !important;
+    background-size: 100% 108% !important;
     background-position: center bottom !important;
+    background-repeat: no-repeat !important;
   }
   .mogu-splash .splash-settings {
     left: 1.5% !important;
