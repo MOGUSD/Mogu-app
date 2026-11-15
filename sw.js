@@ -1,4 +1,4 @@
-const CACHE_NAME="mogu-browser-v32";
+const CACHE_NAME="mogu-browser-v33";
 const APP_SHELL=[
   "./","./index.html",
   "./styles.css?v=colors-30-cycle1",
