@@ -1517,6 +1517,228 @@
       "ru": "Десять",
       "kk": "Он",
       "en": "Ten"
+    },
+    {
+      "id": "geometry-01",
+      "ru": "Найди круг",
+      "kk": "Шеңберді тап",
+      "en": "Find the circle"
+    },
+    {
+      "id": "geometry-02",
+      "ru": "Найди квадрат",
+      "kk": "Шаршыны тап",
+      "en": "Find the square"
+    },
+    {
+      "id": "geometry-03",
+      "ru": "Найди треугольник",
+      "kk": "Үшбұрышты тап",
+      "en": "Find the triangle"
+    },
+    {
+      "id": "geometry-04",
+      "ru": "Найди прямоугольник",
+      "kk": "Тіктөртбұрышты тап",
+      "en": "Find the rectangle"
+    },
+    {
+      "id": "geometry-05",
+      "ru": "Найди овал",
+      "kk": "Сопақшаны тап",
+      "en": "Find the oval"
+    },
+    {
+      "id": "geometry-06",
+      "ru": "Найди ромб",
+      "kk": "Ромбты тап",
+      "en": "Find the diamond"
+    },
+    {
+      "id": "geometry-07",
+      "ru": "Найди звезду",
+      "kk": "Жұлдызды тап",
+      "en": "Find the star"
+    },
+    {
+      "id": "geometry-08",
+      "ru": "Найди сердце",
+      "kk": "Жүректі тап",
+      "en": "Find the heart"
+    },
+    {
+      "id": "geometry-09",
+      "ru": "На какую фигуру похож мяч?",
+      "kk": "Доп қай фигураға ұқсайды?",
+      "en": "Which shape is a ball like?"
+    },
+    {
+      "id": "geometry-10",
+      "ru": "На какую фигуру похоже окно?",
+      "kk": "Терезе қай фигураға ұқсайды?",
+      "en": "Which shape is a window like?"
+    },
+    {
+      "id": "geometry-11",
+      "ru": "На какую фигуру похожа крыша домика?",
+      "kk": "Үйдің шатыры қай фигураға ұқсайды?",
+      "en": "Which shape is a little house roof like?"
+    },
+    {
+      "id": "geometry-12",
+      "ru": "На какую фигуру похожа дверь?",
+      "kk": "Есік қай фигураға ұқсайды?",
+      "en": "Which shape is a door like?"
+    },
+    {
+      "id": "geometry-13",
+      "ru": "На какую фигуру похоже яйцо?",
+      "kk": "Жұмыртқа қай фигураға ұқсайды?",
+      "en": "Which shape is an egg like?"
+    },
+    {
+      "id": "geometry-14",
+      "ru": "Какая фигура похожа на дорожный знак «ромб»?",
+      "kk": "Қай фигура жол белгісіндегі ромбқа ұқсайды?",
+      "en": "Which shape looks like a diamond road sign?"
+    },
+    {
+      "id": "geometry-15",
+      "ru": "Найди две одинаковые фигуры",
+      "kk": "Екі бірдей фигураны тап",
+      "en": "Find two matching shapes"
+    },
+    {
+      "id": "geometry-16",
+      "ru": "Какая фигура здесь лишняя: круг, круг, квадрат?",
+      "kk": "Мына қатарда қайсысы артық: шеңбер, шеңбер, шаршы?",
+      "en": "Which one is different: circle, circle, square?"
+    },
+    {
+      "id": "geometry-17",
+      "ru": "Выбери такую же фигуру, как образец: треугольник",
+      "kk": "Үлгімен бірдей фигураны таңда: үшбұрыш",
+      "en": "Choose the same shape as the sample: triangle"
+    },
+    {
+      "id": "geometry-18",
+      "ru": "Сколько сторон у треугольника?",
+      "kk": "Үшбұрыштың неше қабырғасы бар?",
+      "en": "How many sides does a triangle have?"
+    },
+    {
+      "id": "geometry-19",
+      "ru": "Сколько сторон у квадрата?",
+      "kk": "Шаршының неше қабырғасы бар?",
+      "en": "How many sides does a square have?"
+    },
+    {
+      "id": "geometry-20",
+      "ru": "Сколько углов у прямоугольника?",
+      "kk": "Тіктөртбұрыштың неше бұрышы бар?",
+      "en": "How many corners does a rectangle have?"
+    },
+    {
+      "id": "geometry-21",
+      "ru": "Какая фигура имеет четыре равные стороны?",
+      "kk": "Қай фигураның төрт қабырғасы бірдей?",
+      "en": "Which shape has four equal sides?"
+    },
+    {
+      "id": "geometry-22",
+      "ru": "Продолжи узор: круг, квадрат, круг, ...",
+      "kk": "Өрнекті жалғастыр: шеңбер, шаршы, шеңбер, ...",
+      "en": "Continue the pattern: circle, square, circle, ..."
+    },
+    {
+      "id": "geometry-23",
+      "ru": "Продолжи узор: треугольник, круг, треугольник, ...",
+      "kk": "Өрнекті жалғастыр: үшбұрыш, шеңбер, үшбұрыш, ...",
+      "en": "Continue the pattern: triangle, circle, triangle, ..."
+    },
+    {
+      "id": "geometry-24",
+      "ru": "Какая фигура имеет три стороны?",
+      "kk": "Қай фигураның үш қабырғасы бар?",
+      "en": "Which shape has three sides?"
+    },
+    {
+      "id": "geometry-25",
+      "ru": "Какая фигура круглая и без углов?",
+      "kk": "Қай фигура домалақ және бұрышы жоқ?",
+      "en": "Which shape is round and has no corners?"
+    },
+    {
+      "id": "geometry-26",
+      "ru": "На какую фигуру похожи часы на стене?",
+      "kk": "Қабырға сағаты қай фигураға ұқсайды?",
+      "en": "Which shape is a wall clock often like?"
+    },
+    {
+      "id": "geometry-27",
+      "ru": "На какую фигуру похожа книга?",
+      "kk": "Кітап қай фигураға ұқсайды?",
+      "en": "Which shape is a book like?"
+    },
+    {
+      "id": "geometry-28",
+      "ru": "Найди фигуру с пятью сторонами",
+      "kk": "Бес қабырғасы бар фигураны тап",
+      "en": "Find the shape with five sides"
+    },
+    {
+      "id": "geometry-29",
+      "ru": "Найди фигуру с шестью сторонами",
+      "kk": "Алты қабырғасы бар фигураны тап",
+      "en": "Find the shape with six sides"
+    },
+    {
+      "id": "geometry-30",
+      "ru": "Какая фигура лучше всего подходит, чтобы сложить домик: квадрат и треугольник?",
+      "kk": "Үй құрастыруға қай фигуралар сәйкес: шаршы мен үшбұрыш?",
+      "en": "Which shapes can make a simple house: a square and a triangle?"
+    },
+    {
+      "id": "word-rectangle",
+      "ru": "Прямоугольник",
+      "kk": "Тіктөртбұрыш",
+      "en": "Rectangle"
+    },
+    {
+      "id": "word-oval",
+      "ru": "Овал",
+      "kk": "Сопақша",
+      "en": "Oval"
+    },
+    {
+      "id": "word-diamond",
+      "ru": "Ромб",
+      "kk": "Ромб",
+      "en": "Diamond"
+    },
+    {
+      "id": "word-starShape",
+      "ru": "Звезда",
+      "kk": "Жұлдыз",
+      "en": "Star"
+    },
+    {
+      "id": "word-heartShape",
+      "ru": "Сердце",
+      "kk": "Жүрек",
+      "en": "Heart"
+    },
+    {
+      "id": "word-pentagon",
+      "ru": "Пятиугольник",
+      "kk": "Бесбұрыш",
+      "en": "Pentagon"
+    },
+    {
+      "id": "word-hexagon",
+      "ru": "Шестиугольник",
+      "kk": "Алтыбұрыш",
+      "en": "Hexagon"
     }
   ]
 }
