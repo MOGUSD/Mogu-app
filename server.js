@@ -88,8 +88,7 @@ async function maybeStartAudioGenerator() {
     if (response.ok) {
       const status = await response.json();
       if (status.status === "completed") {
-        console.log("[madina-library] full library already generated; skipping");
-        return;
+        console.log("[madina-library] previous library complete; checking for newly added phrases");
       }
     } else if (response.status !== 404) {
       console.error("[madina-library] cannot read generation status; HTTP",response.status);
