@@ -296,7 +296,7 @@ thinking:[
 {question:{ru:"На какую фигуру похоже яйцо?",kk:"Жұмыртқа қай фигураға ұқсайды?",en:"Which shape is an egg like?"},options:[["oval","⬭"],["square","🟦"],["triangle","🔺"]],answer:"oval"},
 {question:{ru:"Какая фигура похожа на дорожный знак «ромб»?",kk:"Қай фигура жол белгісіндегі ромбқа ұқсайды?",en:"Which shape looks like a diamond road sign?"},options:[["circle","⚪"],["diamond","◆"],["rectangle","▭"]],answer:"diamond"},
 {question:{ru:"Найди две одинаковые фигуры",kk:"Екі бірдей фигураны тап",en:"Find two matching shapes"},options:[["circle","⚪  ⚪"],["circle","⚪  🔺"],["square","🟦  ⚪"]],answer:"circle"},
-{question:{ru:"Какая фигура здесь лишняя: круг, круг, квадрат?",kk:"Мына қатарда қайсысы артық: шеңбер, шеңбер, шаршы?",en:"Which one is different: circle, circle, square?"},options:[["circle","⚪"],["square","🟦"],["triangle","🔺"]],answer:"square"},
+{question:{ru:"Какая фигура лишняя?",kk:"Қай фигура артық?",en:"Which shape is different?"},options:[["circle","⚪"],["square","🟦"],["triangle","🔺"]],answer:"square"},
 {question:{ru:"Выбери такую же фигуру, как образец: треугольник",kk:"Үлгімен бірдей фигураны таңда: үшбұрыш",en:"Choose the same shape as the sample: triangle"},options:[["square","🟦"],["triangle","🔺"],["circle","⚪"]],answer:"triangle"},
 {question:{ru:"Посмотри на треугольник. Сосчитай, сколько у него сторон.",kk:"Үшбұрышқа қара. Оның неше қабырғасы бар екенін сана.",en:"Look at the triangle. Count how many sides it has."},options:[["three","3️⃣"],["four","4️⃣"],["two","2️⃣"]],answer:"three"},
 {question:{ru:"Сколько сторон у квадрата?",kk:"Шаршының неше қабырғасы бар?",en:"How many sides does a square have?"},options:[["three","3️⃣"],["four","4️⃣"],["five","5️⃣"]],answer:"four"},
@@ -349,6 +349,10 @@ function geometricShapeVisual(key,size=88){
 }
 function geometricQuestionVisual(question){
  const q=String(question||"").toLowerCase();
+ // Odd-one-out: show the complete sequence, not just the first shape named.
+ if(q.includes("лишняя")||q.includes("артық")||q.includes("different")){
+  return '<div class="geometry-question-visual" style="display:flex;align-items:center;justify-content:center;gap:clamp(18px,5vw,42px);padding:12px 8px">'+geometricShapeVisual("circle",82)+geometricShapeVisual("circle",82)+geometricShapeVisual("square",82)+'</div>';
+ }
  // When a question names a real-world object, show that object — not the abstract shape it resembles.
  const objects=[
   {words:["часы","сағат","clock"],svg:'<circle cx="100" cy="91" r="57" fill="#d9e8f5" opacity=".65"/><circle cx="100" cy="85" r="52" fill="#fff" stroke="#527c9e" stroke-width="8"/><circle cx="100" cy="85" r="43" fill="#fff9e9" stroke="#d4a85b" stroke-width="3"/><g stroke="#527c9e" stroke-width="3" stroke-linecap="round"><path d="M100 49v7M100 114v7M64 85h7M129 85h7"/></g><path d="M100 85V57M100 85l23 15" stroke="#31516e" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="85" r="5" fill="#e58b56"/>'},
