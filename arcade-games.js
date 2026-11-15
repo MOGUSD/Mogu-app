@@ -246,7 +246,7 @@ function loseLife(final=false){
 function act(dir){
  if(!game||current==="2048"||game.done||game.over)return;
  if(current==="frog"){if(dir==="left")game.player.x=Math.max(0,game.player.x-1);if(dir==="right")game.player.x=Math.min(9,game.player.x+1);if(dir==="up")game.player.y=Math.max(0,game.player.y-1);if(dir==="down")game.player.y=Math.min(9,game.player.y+1)}
- if(current==="snake"){if(["left","right","up","down"].includes(dir)){const opposite={left:"right",right:"left",up:"down"};if(!game.started){game.started=true;game.player.dir=dir;game.moveClock=0}else if(opposite[dir]!==game.player.dir)game.player.dir=dir}}
+ if(current==="snake"){if(["left","right","up","down"].includes(dir)){const opposite={left:"right",right:"left",up:"down",down:"up"};if(!game.started){game.started=true;game.player.dir=dir;game.moveClock=0}else if(opposite[dir]!==game.player.dir)game.player.dir=dir}}
  if(current==="breakout"){if(dir==="left")game.paddle=Math.max(0,game.paddle-.65);if(dir==="right")game.paddle=Math.min(6.5,game.paddle+.65)}
  if(current==="space"){if(dir==="left")game.player.x=Math.max(0,game.player.x-.6);if(dir==="right")game.player.x=Math.min(9,game.player.x+.6)}
  if(current==="jumper"){if(dir==="up"&&game.player.vy>0)game.player.vy=-10;if(dir==="left")game.player.x=Math.max(0,game.player.x-.35);if(dir==="right")game.player.x=Math.min(7.2,game.player.x+.35)}
