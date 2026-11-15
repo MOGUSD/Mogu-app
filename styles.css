@@ -830,3 +830,94 @@ body.mogu-splash-mode #app-main{width:100%;height:100%;min-height:100dvh;margin:
  .mogu-splash .splash-settings{left:3%;top:2%;width:13%;height:12%}
  .mogu-splash .splash-info{right:3%;top:2%;width:13%;height:12%}
 }
+
+
+/* MOGU — phone-first portrait layout (small touch screens) */
+@media screen and (max-width: 600px) and (orientation: portrait) {
+  html { width:100%; min-width:0; overflow-x:hidden; }
+  body {
+    width:100%; min-width:0; min-height:100svh;
+    padding: max(8px, env(safe-area-inset-top)) 10px calc(92px + env(safe-area-inset-bottom));
+    overflow-x:hidden; background-attachment:scroll;
+  }
+  .app-shell { width:100%; max-width:none; margin:0 auto; }
+  .topbar {
+    width:100%; gap:8px; padding:4px 0 12px;
+    align-items:center; flex-wrap:nowrap;
+  }
+  .brand { min-width:0; gap:6px; padding:4px 9px 4px 5px; border-radius:17px; }
+  .brand-mark { width:36px; height:36px; flex:0 0 36px; }
+  .brand-copy strong { font-size:20px; }
+  .brand-copy small { font-size:8px; margin-top:3px; }
+  .top-actions { min-width:0; gap:6px; margin-left:auto; }
+  .language-switch { gap:1px; padding:3px; }
+  .lang-button { min-width:32px; min-height:34px; padding:6px 7px; font-size:10px; }
+  .top-settings { min-width:36px; min-height:36px; padding:5px; }
+  #app-main { width:100%; min-width:0; }
+  .hub-heading {
+    margin:3px 0 14px; padding:18px 14px 13px;
+    border-radius:23px;
+  }
+  .hub-heading h1 { font-size:clamp(25px,8vw,34px); line-height:1.08; }
+  .hub-heading p { font-size:13px; line-height:1.4; }
+  .hub-grid, .home-grid {
+    width:100%; max-width:none; grid-template-columns:minmax(0,1fr);
+    gap:12px;
+  }
+  .hub-card {
+    width:100%; min-width:0; min-height:104px;
+    display:flex; flex-direction:row; align-items:center;
+    padding:12px 14px; gap:12px; border-radius:21px;
+  }
+  .hub-card-icon { width:64px; height:64px; flex:0 0 64px; }
+  .hub-card-copy { min-width:0; }
+  .hub-card-copy strong { font-size:clamp(18px,5.5vw,22px); line-height:1.1; }
+  .hub-card-copy small { font-size:12px; line-height:1.25; }
+  .screen-top { align-items:flex-start; flex-wrap:wrap; gap:9px; margin:2px 0 13px; }
+  .screen-title { min-width:0; font-size:clamp(22px,7vw,29px); }
+  .screen-subtitle { font-size:12px; line-height:1.4; }
+  .back-button, .soft-button { min-height:44px; padding:8px 12px; }
+  .panel { min-width:0; padding:12px; border-radius:20px; }
+  .urgent-row { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+  .urgent { min-height:62px; padding:8px 5px; font-size:13px; }
+  .pictogram-grid, .feel-grid, .world-grid, .daily-category-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px;
+  }
+  .pictogram { min-width:0; min-height:112px; padding:8px 5px; border-radius:18px; }
+  .pictogram .pic { font-size:34px; }
+  .pictogram strong { font-size:12px; line-height:1.2; }
+  .learn-layout { grid-template-columns:minmax(0,1fr); }
+  .lesson-options { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .lesson-option { min-width:0; min-height:112px; }
+  .learn-topic-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
+  .learn-topic { min-width:0; min-height:76px; padding:10px; gap:8px; }
+  .learn-topic strong { font-size:13px; }
+  .adventure-worlds { grid-template-columns:minmax(0,1fr); gap:10px; }
+  .adventure-world { min-height:145px; padding:14px; }
+  .adventure-options { grid-template-columns:minmax(0,1fr); gap:9px; }
+  .adventure-option { min-height:78px; flex-direction:row; justify-content:flex-start; text-align:left; }
+  .progress-grid, .adult-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
+  .stat-card, .setting-card { min-width:0; padding:12px; }
+  .daily-scene { height:clamp(205px,64vw,270px); }
+  .daily-step-video { min-height:205px; }
+  .bottom-nav {
+    left:8px; right:8px; bottom:max(7px,env(safe-area-inset-bottom));
+    transform:none; width:auto; max-width:none; gap:3px;
+    padding:6px; border-radius:20px;
+  }
+  .nav-item { min-width:0; min-height:48px; padding:3px 1px; }
+  .nav-item span { font-size:20px; }
+  .nav-item small { font-size:9px; }
+  .toast { bottom:calc(78px + env(safe-area-inset-bottom)); }
+  button, a { -webkit-tap-highlight-color:transparent; }
+  button { touch-action:manipulation; }
+}
+@media screen and (max-width: 360px) and (orientation: portrait) {
+  body { padding-left:8px; padding-right:8px; }
+  .brand-copy small { display:none; }
+  .lang-button { min-width:29px; padding-left:5px; padding-right:5px; }
+  .hub-card { min-height:96px; padding:10px; gap:9px; }
+  .hub-card-icon { width:56px; height:56px; flex-basis:56px; }
+  .hub-card-copy strong { font-size:18px; }
+  .pictogram-grid, .feel-grid, .world-grid { gap:7px; }
+}
