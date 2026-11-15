@@ -97,7 +97,8 @@ function cachePut(key, audio) {
   }
 }
 async function synthesize(text, language) {
-  const voices = await getVoices();
+  let voices = [];
+  try { voices = await getVoices(); } catch { /* Built-in Tomiris remains available for Russian and Kazakh. */ }
   const choice = languageVoice(language, voices);
   if (!choice) throw Object.assign(new Error("No suitable English catalog voice is available"), { status: 422 });
   const key = crypto.createHash("sha256").update(language + "\0" + choice.id + "\0" + text).digest("hex");
