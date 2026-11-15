@@ -1,0 +1,118 @@
+/* МОГУ responsive system: fluid layouts, safe areas and device-independent sizing. */
+:root {
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --page-gutter: clamp(10px, 3vw, 28px);
+  --card-gap: clamp(9px, 2.2vw, 16px);
+}
+html { min-height: 100%; width: 100%; }
+body { min-height: 100vh; min-height: 100dvh; }
+.app-shell { width: min(100%, 1120px); }
+#app-main { min-width: 0; }
+img, video, canvas, svg { max-width: 100%; }
+button, a { touch-action: manipulation; }
+
+/* Fluid spacing and typography scale continuously instead of targeting phone models. */
+.hero, .panel, .learn-main, .setting-card, .stat-card,
+.hub-heading, .daily-category-intro { min-width: 0; }
+.hero { gap: clamp(10px, 3vw, 24px); }
+.hero h1 { font-size: clamp(27px, 5vw, 54px); }
+.screen-title { font-size: clamp(22px, 4vw, 34px); }
+.route-copy strong, .hub-card-copy strong { overflow-wrap: anywhere; }
+.route-card, .hub-card, .pictogram, .world-card, .feel-card,
+.lesson-option, .adventure-world, .adventure-option { min-width: 0; }
+.route-card img, .hub-card img, .pictogram img, .world-card img,
+.feel-card img, .lesson-option img { max-width: 100%; height: auto; object-fit: contain; }
+
+/* Touch targets remain comfortable on compact screens. */
+@media (pointer: coarse) {
+  button, a { -webkit-tap-highlight-color: transparent; }
+  .back-button, .soft-button, .category-button,
+  .setting-control button { min-height: 44px; }
+}
+
+/* Phones: use the available viewport, including modern safe-area insets. */
+@media (max-width: 680px) {
+  body:not(.mogu-splash-mode) {
+    padding-top: max(8px, var(--safe-top));
+    padding-left: max(10px, var(--safe-left));
+    padding-right: max(10px, var(--safe-right));
+    padding-bottom: calc(100px + var(--safe-bottom));
+    min-height: 100svh;
+  }
+  .app-shell { width: 100%; max-width: none; }
+  .topbar { gap: 8px; }
+  .home-grid, .hub-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .route-card { min-height: clamp(138px, 39vw, 176px); }
+  .pictogram-grid, .feel-grid, .world-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(42%, 138px), 1fr));
+  }
+  .urgent-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .learn-layout { grid-template-columns: minmax(0, 1fr); }
+  .learn-topic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bottom-nav {
+    bottom: max(7px, var(--safe-bottom));
+    padding-bottom: max(6px, env(safe-area-inset-bottom));
+  }
+  .toast { bottom: calc(82px + var(--safe-bottom)); }
+}
+
+/* Very narrow phones: prevent horizontal overflow without shrinking controls excessively. */
+@media (max-width: 360px) {
+  .home-grid, .hub-grid { gap: 8px; }
+  .route-card { padding: 10px; }
+  .route-copy small { overflow-wrap: anywhere; }
+  .nav-item small { font-size: 9px; }
+}
+
+/* Tablets and compact landscape screens get denser grids, not phone-sized columns. */
+@media (min-width: 681px) and (max-width: 1024px) {
+  body:not(.mogu-splash-mode) { padding-left: 18px; padding-right: 18px; }
+  .home-grid, .hub-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pictogram-grid, .feel-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* Wide screens use the available space while retaining a readable content width. */
+@media (min-width: 1025px) {
+  .app-shell { width: min(100%, 1120px); }
+}
+
+/* Landscape phones: avoid tall phone layouts and keep navigation reachable. */
+@media (max-height: 520px) and (orientation: landscape) {
+  body:not(.mogu-splash-mode) { padding-bottom: calc(76px + var(--safe-bottom)); }
+  .bottom-nav { bottom: max(4px, var(--safe-bottom)); }
+  .nav-item { min-height: 42px; }
+  .hero { min-height: 150px; }
+}
+
+/* Splash: full-bleed background, with the complete original artwork on top.
+   The cover layer fills any side gaps; the contain layer keeps every pixel visible.
+   Container units position the transparent hit areas against the artwork, not the device. */
+body.mogu-splash-mode .welcome-screen.mogu-splash {
+  container-type: size;
+  background-image:
+    url("https://d2jqrm6oza8nb6.cloudfront.net/datasets/f21e938a-6b8a-4844-89e4-2f5e3b4781e2.jpg?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMDRlNGMyNGE0NjQyODk4YiIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5NDg5NDQxMH0.tqsHAjTyOnFI8e4Rjtip9I4L-9CaNwqoTyvzvJ92MwQ"),
+    url("https://d2jqrm6oza8nb6.cloudfront.net/datasets/f21e938a-6b8a-4844-89e4-2f5e3b4781e2.jpg?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMDRlNGMyNGE0NjQyODk4YiIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5NDg5NDQxMH0.tqsHAjTyOnFI8e4Rjtip9I4L-9CaNwqoTyvzvJ92MwQ");
+  background-size: contain, cover;
+  background-position: center center, center center;
+  background-repeat: no-repeat, no-repeat;
+}
+body.mogu-splash-mode .mogu-splash .splash-settings {
+  left: calc((100cqw - min(100cqw, 42.421875cqh)) / 2 + min(100cqw, 42.421875cqh) * .015) !important;
+  top: 1cqh !important;
+  width: min(100cqw, 42.421875cqh) * .17 !important;
+  height: 12cqh !important;
+}
+body.mogu-splash-mode .mogu-splash .splash-play {
+  left: calc((100cqw - min(100cqw, 42.421875cqh)) / 2 + min(100cqw, 42.421875cqh) * .36) !important;
+  top: 66cqh !important;
+  width: min(100cqw, 42.421875cqh) * .28 !important;
+  height: 13cqh !important;
+}
+@supports not (width: 1cqw) {
+  body.mogu-splash-mode .welcome-screen.mogu-splash {
+    background-size: contain, cover !important;
+  }
+}
