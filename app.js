@@ -166,7 +166,7 @@ colors:[
 {question:{"ru":"Сколько здесь звёзд? ⭐⭐⭐⭐","kk":"Мұнда неше жұлдыз бар? ⭐⭐⭐⭐","en":"How many stars are here? ⭐⭐⭐⭐"},options:[["num4","4"],["num3","3"],["num5","5"]],answer:"num4"},
 {question:{"ru":"Сколько здесь цветков? 🌸🌸🌸🌸🌸","kk":"Мұнда неше гүл бар? 🌸🌸🌸🌸🌸","en":"How many flowers are here? 🌸🌸🌸🌸🌸"},options:[["num5","5"],["num6","6"],["num4","4"]],answer:"num5"},
 {question:{"ru":"Сколько здесь рыбок? 🐟🐟🐟🐟🐟🐟","kk":"Мұнда неше балық бар? 🐟🐟🐟🐟🐟🐟","en":"How many fish are here? 🐟🐟🐟🐟🐟🐟"},options:[["num6","6"],["num5","5"],["num7","7"]],answer:"num6"},
-{question:{"ru":"Сколько здесь утят? 🐥🐥🐥🐥🐥🐥🐥","kk":"Мұнда неше үйрек балапаны бар? 🐥🐥🐥🐥🐥🐥🐥","en":"How many ducklings? 🐥🐥🐥🐥🐥🐥🐥"},options:[["num8","8"],["num6","6"],["num7","7"]],answer:"num7"},
+{question:{"ru":"Сколько здесь утят? 🐥🐥🐥🐥🐥🐥🐥","kk":"Мұнда неше үйрек балапаны бар? 🐥🐥🐥🐥🐥🐥🐥","en":"How many ducklings are here? 🐥🐥🐥🐥🐥🐥🐥"},options:[["num8","8"],["num6","6"],["num7","7"]],answer:"num7"},
 {question:{"ru":"Сколько здесь сердечек? ❤️❤️❤️❤️❤️❤️❤️❤️","kk":"Мұнда неше жүрек бар? ❤️❤️❤️❤️❤️❤️❤️❤️","en":"How many hearts are here? ❤️❤️❤️❤️❤️❤️❤️❤️"},options:[["num8","8"],["num7","7"],["num9","9"]],answer:"num8"},
 {question:{"ru":"Сколько здесь машин? 🚗🚗🚗🚗🚗🚗🚗🚗🚗","kk":"Мұнда неше көлік бар? 🚗🚗🚗🚗🚗🚗🚗🚗🚗","en":"How many cars are here? 🚗🚗🚗🚗🚗🚗🚗🚗🚗"},options:[["num10","10"],["num8","8"],["num9","9"]],answer:"num9"},
 {question:{"ru":"Сколько здесь мячей? ⚽⚽⚽⚽⚽⚽⚽⚽⚽⚽","kk":"Мұнда неше доп бар? ⚽⚽⚽⚽⚽⚽⚽⚽⚽⚽","en":"How many balls are here? ⚽⚽⚽⚽⚽⚽⚽⚽⚽⚽"},options:[["num9","9"],["num10","10"],["num8","8"]],answer:"num10"},
