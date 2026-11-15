@@ -1050,3 +1050,33 @@ body.mogu-splash-mode .welcome-screen.mogu-splash{
 @supports(height:100dvh){
  body.mogu-splash-mode,body.mogu-splash-mode .app-shell,body.mogu-splash-mode #app-main,body.mogu-splash-mode .welcome-screen.mogu-splash{height:100dvh!important}
 }
+
+
+/* iPhone edge-to-edge splash, including the standalone PWA viewport. */
+@media screen and (max-width: 680px) and (orientation: portrait) {
+  html:has(body.mogu-splash-mode),
+  body.mogu-splash-mode,
+  body.mogu-splash-mode .app-shell,
+  body.mogu-splash-mode #app-main,
+  body.mogu-splash-mode .welcome-screen.mogu-splash {
+    width:100vw!important;
+    max-width:none!important;
+    height:100vh!important;
+    height:100dvh!important;
+    min-height:100vh!important;
+    min-height:100dvh!important;
+    max-height:none!important;
+  }
+  body.mogu-splash-mode .welcome-screen.mogu-splash {
+    inset:0!important;
+    background-size:100% 100%!important;
+    background-position:center!important;
+  }
+}
+@media (display-mode: standalone) {
+  body.mogu-splash-mode { padding:0!important; }
+  body.mogu-splash-mode .welcome-screen.mogu-splash {
+    height:100dvh!important;
+    min-height:100dvh!important;
+  }
+}
