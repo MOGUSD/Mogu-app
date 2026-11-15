@@ -143,3 +143,73 @@ body.arcade-playing .arcade-dialog{max-height:90%;overflow:auto}
   body.arcade-playing #arcade-canvas{max-height:calc(100dvh - 115px)!important}
   body.arcade-playing .arcade-hint{margin-top:4px!important;padding:5px 8px!important}
 }
+
+
+/* Final iPhone fix: detach the active game from the app layout and pin it to the viewport. */
+html:has(body.arcade-playing),
+body.arcade-playing {
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+}
+body.arcade-playing .app-shell {
+  position:static!important;
+  width:100%!important;
+  height:0!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:visible!important;
+}
+body.arcade-playing #app-main {
+  position:static!important;
+  width:100%!important;
+  height:0!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:visible!important;
+}
+body.arcade-playing .arcade-shell {
+  position:fixed!important;
+  z-index:99999!important;
+  inset:0!important;
+  width:100vw!important;
+  width:100dvw!important;
+  height:100vh!important;
+  height:100dvh!important;
+  min-height:0!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:calc(env(safe-area-inset-top, 0px) + 8px) max(10px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 8px) max(10px, env(safe-area-inset-left, 0px))!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  flex-direction:column!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  border:0!important;
+  border-radius:0!important;
+}
+body.arcade-playing .arcade-top,
+body.arcade-playing .arcade-stats,
+body.arcade-playing .arcade-hint { flex:0 0 auto!important; }
+body.arcade-playing #arcade-canvas {
+  display:block!important;
+  flex:1 1 0!important;
+  width:auto!important;
+  height:auto!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:100%!important;
+  max-height:100%!important;
+  object-fit:contain!important;
+}
+@media(max-width:600px) {
+  body.arcade-playing .arcade-shell { gap:5px!important; }
+  body.arcade-playing .arcade-top { margin:0!important; }
+  body.arcade-playing .arcade-stats { margin:0!important; }
+  body.arcade-playing #arcade-canvas { align-self:center!important; }
+}
