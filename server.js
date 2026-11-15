@@ -14,6 +14,35 @@ const MAX_BODY = 12 * 1024;
 const MAX_CACHE_ENTRIES = 180;
 const MAX_CACHE_BYTES = 48 * 1024 * 1024;
 const cache = new Map();
+const { spawn } = require("node:child_process");
+const { S3Client, GetObjectCommand, PutObjectCommand } = require("@aws-sdk/client-s3");
+const audioBucket = process.env.MADINA_AUDIO_BUCKET || "";
+const s3 = new S3Client({
+  region: process.env.MADINA_AUDIO_REGION || "sin",
+  endpoint: process.env.MADINA_AUDIO_ENDPOINT,
+  forcePathStyle: true,
+  credentials: {
+    accessKeyId: process.env.MADINA_AUDIO_ACCESS_KEY_ID || "",
+    secretAccessKey: process.env.MADINA_AUDIO_SECRET_ACCESS_KEY || ""
+  }
+});
+let audioGenerationChild = null;
+function audioStorageReady() {
+  return Boolean(audioBucket && process.env.MADINA_AUDIO_ENDPOINT &&
+    process.env.MADINA_AUDIO_ACCESS_KEY_ID && process.env.MADINA_AUDIO_SECRET_ACCESS_KEY);
+}
+async function readAudioObject(key) {
+  const result = await s3.send(new GetObjectCommand({Bucket:audioBucket,Key:key}));
+  return result;
+}
+function adminAuthorized(url) {
+  const expected = process.env.MADINA_GENERATION_TOKEN || "";
+  const supplied = url.searchParams.get("token") || "";
+  if (!expected || !supplied) return false;
+  const a = Buffer.from(expected), b = Buffer.from(supplied);
+  return a.length === b.length && crypto.timingSafeEqual(a,b);
+}
+
 let cacheBytes = 0;
 const rates = new Map();
 const MIME = {
@@ -124,6 +153,63 @@ const server = http.createServer(async (req, res) => {
   if (req.method === "OPTIONS") return send(res, 204, "");
   const url = new URL(req.url, "http://localhost");
   if (url.pathname.startsWith("/api/madina/")) {
+    if (req.method === "GET" && url.pathname === "/api/madina/library/manifest.json") {
+      if (!audioStorageReady()) return json(res,503,{error:"Audio library storage is not configured"});
+      try {
+        const object = await readAudioObject("audio/madina/manifest.json");
+        const body = await object.Body.transformToString();
+        return send(res,200,body,"application/json; charset=utf-8",{"Cache-Control":"no-cache"});
+      } catch (error) {
+        if (error.name === "NoSuchKey" || error.$metadata?.httpStatusCode === 404)
+          return json(res,200,{version:1,voiceId:FISH_REFERENCE_ID,entries:{}},{"Cache-Control":"no-cache"});
+        console.error("[madina-library] manifest",String(error.message||error).slice(0,160));
+        return json(res,503,{error:"Audio library temporarily unavailable"});
+      }
+    }
+    if (req.method === "GET" && url.pathname.startsWith("/api/madina/library/")) {
+      if (!audioStorageReady()) return send(res,503,"Audio library storage is not configured","text/plain");
+      const relative = url.pathname.slice("/api/madina/library/".length);
+      if (!/^(ru|kk|en)\\/[a-f0-9]{24}\\.mp3$/.test(relative))
+        return send(res,400,"Invalid audio path","text/plain");
+      try {
+        const object = await readAudioObject("audio/madina/"+relative);
+        res.writeHead(200,{"Content-Type":"audio/mpeg","Content-Length":object.ContentLength,
+          "Cache-Control":"public, max-age=31536000, immutable","X-Content-Type-Options":"nosniff"});
+        return object.Body.pipe(res);
+      } catch (error) {
+        if (error.name === "NoSuchKey" || error.$metadata?.httpStatusCode === 404)
+          return send(res,404,"Audio not found","text/plain");
+        console.error("[madina-library] audio",String(error.message||error).slice(0,160));
+        return send(res,503,"Audio library temporarily unavailable","text/plain");
+      }
+    }
+    if (req.method === "GET" && url.pathname === "/api/madina/admin/generate") {
+      if (!adminAuthorized(url)) return json(res,404,{error:"Not found"});
+      if (!audioStorageReady()) return json(res,503,{error:"Audio storage is not configured"});
+      if (audioGenerationChild && audioGenerationChild.exitCode === null)
+        return json(res,202,{status:"already_running"});
+      audioGenerationChild = spawn(process.execPath,[path.join(ROOT,"scripts","generate-madina-audio.js")],{
+        cwd:ROOT,env:process.env,stdio:"inherit"
+      });
+      audioGenerationChild.on("exit",(code,signal)=>{
+        console.log("[madina-library] generator finished",JSON.stringify({code,signal}));
+        audioGenerationChild = null;
+      });
+      return json(res,202,{status:"started"});
+    }
+    if (req.method === "GET" && url.pathname === "/api/madina/admin/status") {
+      if (!adminAuthorized(url)) return json(res,404,{error:"Not found"});
+      if (!audioStorageReady()) return json(res,503,{error:"Audio storage is not configured"});
+      try {
+        const object=await readAudioObject("audio/madina/status.json");
+        return send(res,200,await object.Body.transformToString(),"application/json; charset=utf-8",{"Cache-Control":"no-store"});
+      } catch (error) {
+        if (error.name==="NoSuchKey" || error.$metadata?.httpStatusCode===404)
+          return json(res,200,{status:"not_started",generated:0,total:0});
+        return json(res,503,{error:"Status unavailable"});
+      }
+    }
+
     if (req.method === "GET" && url.pathname === "/api/madina/status") {
       return json(res, 200, { service:"mogu-madina-tts", configured:Boolean(FISH_API_KEY), provider:"Fish Audio", model:FISH_MODEL, voiceId:FISH_REFERENCE_ID, cacheEntries:cache.size });
     }
