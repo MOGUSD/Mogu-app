@@ -375,11 +375,72 @@ function drawJumper(c,dt){
 }
 function drawFruit(c,dt){
  const l=game.level;
- const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#fff18a");bg.addColorStop(.5,"#ffc1a6");bg.addColorStop(1,"#ff9fce");c.fillStyle=bg;c.fillRect(0,0,800,900);game.spawn-=dt;if(game.spawn<=0){game.entities.push({x:Math.random()*740+20,y:-20,bomb:Math.random()<.18,speed:1.3+l*.035});game.spawn=Math.max(22,42-l*.55)}
- game.entities.forEach(e=>{e.y+=e.speed*dt*2;c.font="48px sans-serif";c.fillText(e.bomb?"💣":"🍎",e.x,e.y)});
- game.entities=game.entities.filter(e=>{if(e.y>790&&e.y<890&&Math.abs(e.x-(game.player.x*100+50))<85){if(e.bomb)game.lives--;else game.score+=10;return false}return e.y<940});
- rect(c,game.player.x*100,820,100,40,"#a76b43",18);c.font="46px sans-serif";c.fillText("🧺",game.player.x*100+20,820);
- if(game.lives<=0)loseLife(true);if(game.score>=game.target*10)completeLevel("Корзинка полна!");
+ // Bright orchard sky with soft sunbeams and a grassy catch zone
+ const bg=c.createLinearGradient(0,0,800,900);
+ bg.addColorStop(0,"#fff6a6");bg.addColorStop(.48,"#ffd0b0");bg.addColorStop(1,"#ffacd0");
+ c.fillStyle=bg;c.fillRect(0,0,800,900);
+ c.save();c.globalAlpha=.18;c.fillStyle="#fff";
+ for(let i=0;i<7;i++){c.beginPath();c.moveTo(400,0);c.lineTo(i*145-40,900);c.lineTo(i*145+65,900);c.closePath();c.fill()}
+ c.restore();
+ // Decorative grass strip
+ const ground=c.createLinearGradient(0,770,0,900);ground.addColorStop(0,"#8ee77c");ground.addColorStop(1,"#3dbb83");
+ c.fillStyle=ground;c.fillRect(0,770,800,130);
+ c.fillStyle="#ffffff55";for(let x=15;x<800;x+=42){c.beginPath();c.arc(x,785+(x%4)*3,3,0,Math.PI*2);c.fill()}
+ // Spawn immediately, then keep a steady stream of fruit
+ game.spawn=(game.spawn??0)-dt;
+ if(game.spawn<=0){
+  const roll=Math.random();
+  game.entities.push({x:48+Math.random()*704,y:-45,bomb:roll<.17,speed:2.05+l*.12,spin:Math.random()*6.28,size:1});
+  game.spawn=Math.max(24,36-l*.35);
+ }
+ // Fruit and bombs: custom vector artwork, not emoji glyphs
+ game.entities.forEach(e=>{
+  e.y+=e.speed*dt*2.1;e.spin+=.035*dt;
+  c.save();c.translate(e.x,e.y);c.rotate(Math.sin(e.spin)*.12);
+  if(e.bomb){
+   c.shadowColor="#51334e";c.shadowBlur=13;
+   const g=c.createRadialGradient(-9,-12,3,0,0,28);g.addColorStop(0,"#596276");g.addColorStop(.55,"#252d43");g.addColorStop(1,"#101827");
+   c.fillStyle=g;c.beginPath();c.arc(0,0,25,0,Math.PI*2);c.fill();
+   c.shadowBlur=0;c.strokeStyle="#ffd16b";c.lineWidth=6;c.beginPath();c.moveTo(7,-21);c.quadraticCurveTo(12,-39,25,-34);c.stroke();
+   c.fillStyle="#fff0a6";c.beginPath();c.arc(26,-35,5,0,Math.PI*2);c.fill();
+   c.fillStyle="#fff";c.beginPath();c.arc(-8,-9,5,0,Math.PI*2);c.fill();
+  }else{
+   const colors=["#ff526b","#ff9b35","#a65be8","#ffcf38"];
+   const color=colors[Math.floor((e.x+e.y)%colors.length)];
+   c.shadowColor=color;c.shadowBlur=17;
+   const g=c.createRadialGradient(-10,-13,3,0,0,29);g.addColorStop(0,"#fff4c5");g.addColorStop(.35,color);g.addColorStop(1,"#c92e63");
+   c.fillStyle=g;c.beginPath();c.ellipse(0,2,23,27,0,0,Math.PI*2);c.fill();
+   c.shadowBlur=0;c.strokeStyle="#81502b";c.lineWidth=5;c.beginPath();c.moveTo(0,-22);c.lineTo(3,-34);c.stroke();
+   c.fillStyle="#43bd69";c.beginPath();c.ellipse(14,-29,12,6,-.5,0,Math.PI*2);c.fill();
+   c.fillStyle="#ffffffaa";c.beginPath();c.ellipse(-9,-9,6,10,-.45,0,Math.PI*2);c.fill();
+  }
+  c.restore();
+ });
+ // Catching logic: basket has a generous, visible opening
+ const center=50+game.player.x*100;
+ game.entities=game.entities.filter(e=>{
+  if(e.y>745&&e.y<850&&Math.abs(e.x-center)<82){
+   if(e.bomb)loseLife();else game.score+=10;
+   return false;
+  }
+  return e.y<960;
+ });
+ // Polished woven basket with curved handle, rim, body and colorful weave
+ c.save();c.translate(center,0);
+ c.lineCap="round";c.lineJoin="round";
+ c.strokeStyle="#9a552e";c.lineWidth=17;c.beginPath();c.moveTo(-55,823);c.quadraticCurveTo(-52,765,0,765);c.quadraticCurveTo(52,765,55,823);c.stroke();
+ c.strokeStyle="#f8c77b";c.lineWidth=8;c.beginPath();c.moveTo(-50,821);c.quadraticCurveTo(-47,775,0,775);c.quadraticCurveTo(47,775,50,821);c.stroke();
+ const basket=c.createLinearGradient(0,790,0,875);basket.addColorStop(0,"#f7c477");basket.addColorStop(.5,"#c77b3e");basket.addColorStop(1,"#8e4c2d");
+ c.fillStyle=basket;c.beginPath();c.moveTo(-76,805);c.quadraticCurveTo(-69,868,-52,879);c.quadraticCurveTo(0,895,52,879);c.quadraticCurveTo(69,868,76,805);c.closePath();c.fill();
+ c.save();c.beginPath();c.moveTo(-76,805);c.quadraticCurveTo(-69,868,-52,879);c.quadraticCurveTo(0,895,52,879);c.quadraticCurveTo(69,868,76,805);c.closePath();c.clip();
+ for(let y=815;y<890;y+=17){c.strokeStyle=y%2?"#ffe0a0":"#9c592f";c.lineWidth=7;c.beginPath();c.moveTo(-85,y);c.lineTo(85,y+5);c.stroke()}
+ for(let x=-62;x<=62;x+=19){c.strokeStyle="#f9d18b";c.lineWidth=6;c.beginPath();c.moveTo(x,800);c.lineTo(x+9,900);c.stroke()}
+ c.restore();
+ c.strokeStyle="#ffe0a0";c.lineWidth=12;c.beginPath();c.ellipse(0,808,75,17,0,0,Math.PI*2);c.stroke();
+ c.strokeStyle="#9a552e";c.lineWidth=5;c.beginPath();c.ellipse(0,808,75,17,0,0,Math.PI*2);c.stroke();
+ c.restore();
+ if(game.lives<=0)loseLife(true);
+ if(game.score>=game.target*10)completeLevel("Корзинка полна!");
 }
 function drawRacing(c,dt){
  const l=game.level;
