@@ -140,13 +140,26 @@ function drawFrog(c,dt){
 }
 function drawSnake(c,dt){
  const cell=50,cols=16,rows=18;
- const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#f8ffb7");bg.addColorStop(.48,"#caffb4");bg.addColorStop(1,"#83ead1");c.fillStyle=bg;c.fillRect(0,0,800,900);
+ const fieldPalettes=[
+  ["#f8ffb7","#caffb4","#83ead1"],
+  ["#c9f1ff","#a8d8ff","#8ca9f5"],
+  ["#ffe0ef","#ffc1d8","#f49ac2"],
+  ["#fff0b3","#ffd18a","#ffab82"],
+  ["#e5d5ff","#c8b8ff","#a99aef"],
+  ["#c9fff0","#91eadb","#65c9c9"],
+  ["#fff4c2","#e8f49b","#a9df87"],
+  ["#d8eaff","#b9d4ff","#a9b4f5"],
+  ["#ffd9c7","#ffbca8","#f58fa2"],
+  ["#d5fff8","#a7f0e7","#75d5d0"]
+ ];
+ const palette=fieldPalettes[(game.level-1)%fieldPalettes.length];
+ const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,palette[0]);bg.addColorStop(.48,palette[1]);bg.addColorStop(1,palette[2]);c.fillStyle=bg;c.fillRect(0,0,800,900);
  // Soft checkerboard makes every movement cell easy to read
  for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){
-  if((x+y)%2===0){c.fillStyle="#ffffff20";c.fillRect(x*cell,y*cell,cell,cell)}
+  if((x+y)%2===0){c.fillStyle="#ffffff2b";c.fillRect(x*cell,y*cell,cell,cell)}
  }
  // Rounded garden border
- c.strokeStyle="#ffffffb8";c.lineWidth=9;c.strokeRect(5,5,790,890);
+ c.strokeStyle="#ffffffd9";c.lineWidth=9;c.strokeRect(5,5,790,890);
  // Fruits: regular +1, golden +5, rainbow +10
  const fx=game.food.x*cell+25,fy=game.food.y*cell+25,bonus=game.food.value||1;
  c.save();c.shadowColor=bonus===10?"#9d48ff88":bonus===5?"#ffb52e88":"#d93d4b55";c.shadowBlur=bonus>1?18:10;
