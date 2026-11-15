@@ -75,7 +75,7 @@ function setupGame(){
  const canvas='<div class="arcade-stats"><span>Уровень: <b id="arcade-level">'+l+'/30</b></span>'+spaceHud+'<span>Очки: <b id="arcade-score">0</b></span><span>❤️ <b id="arcade-lives">3</b></span></div><canvas id="arcade-canvas" width="800" height="900" aria-label="Игровое поле"></canvas>'+spaceFire+'<p class="arcade-hint" id="arcade-hint">'+hint(id)+'</p><div id="arcade-message"></div>';
  shell(G.find(x=>x.id===id),canvas);
 }
-function hint(id){return ({frog:"Проведи лягушку через дорогу к домику. Касайся поля или проводи пальцем в нужную сторону.",snake:"Собирай фрукты. Не касайся стен и собственного хвоста.",breakout:"Веди пальцем по полю — платформа будет двигаться за ним.",space:"Веди пальцем, чтобы управлять кораблём, и касайся поля, чтобы стрелять.",jumper:"Касайся поля для прыжка и веди пальцем, чтобы двигаться.",fruit:"Перемещай корзинку пальцем по полю.",racing:"Свайпай влево и вправо, чтобы менять полосу."})[id]}
+function hint(id){return ({frog:"Проведи лягушку через дорогу к домику. Касайся поля или проводи пальцем в нужную сторону.",snake:"Собирай фрукты. Не касайся стен и собственного хвоста.",breakout:"Веди пальцем по полю — платформа будет двигаться за ним.",space:"Веди пальцем, чтобы двигать корабль, и нажимай кнопку ОГОНЬ. В каждой волне 10 врагов.",jumper:"Касайся поля для прыжка и веди пальцем, чтобы двигаться.",fruit:"Перемещай корзинку пальцем по полю.",racing:"Свайпай влево и вправо, чтобы менять полосу."})[id]}
 function placeFood(){
  let p;do{p={x:Math.floor(Math.random()*14)+1,y:Math.floor(Math.random()*12)+1}}while(game.snake&&game.snake.some(s=>s.x===p.x&&s.y===p.y));
  const roll=Math.random();game.food={...p,value:roll<.07?10:roll<.27?5:1};
