@@ -69,13 +69,13 @@ function setupGame(){
  if(id==="space"){game.player={x:4,y:8};game.entities=[];game.bullets=[];game.wave=1;game.wavesTotal=game.level===1?1:game.level===2?2:Math.min(5,2+Math.floor((game.level-3)/2));game.hasBoss=game.level>=3&&game.level%3===0;game.spawnedInWave=0;game.spawn=0;game.stagePause=0;game.boss=null;game.bossSpawned=false;game.bossShots=[];game.fireHeld=false;game.fireCooldown=0;game.kills=0}
  if(id==="jumper"){game.player={x:3.7,y:670,vy:-11,face:1};game.platforms=[];for(let i=0;i<9;i++){const r=Math.random();const type=i===0?"start":r<.13?"falling":r<.25?"spikes":r<.36?"timed":r<.48?"moving":"normal";game.platforms.push({x:i===0?3.1:Math.random()*7.0,y:760-i*112,w:1.25+Math.random()*.45,type,phase:Math.random()*6,triggered:false,fallSpeed:0})}game.stars=[];game.camera=0;game.maxHeight=0;game.bonusClock=0;game.targetMeters=game.level*250}
  if(id==="fruit"){game.player={x:4,y:8};game.entities=[];game.spawn=0;game.fruitsCaught=0;game.missed=0;game.fruitTarget=100+(l-1)*50}
- if(id==="racing"){game.player={x:1,y:8};game.entities=[];game.spawn=0}
+ if(id==="racing"){game.player={x:1,y:8};game.entities=[];game.spawn=0;game.passedCars=0;game.raceTarget=30+game.level*10}
  const spaceHud=id==="space"?'<span>Волна: <b id="arcade-wave">1/'+game.wavesTotal+'</b></span>':"";
  const spaceFire=id==="space"?'<button class="space-fire-btn" type="button">🔥 ОГОНЬ</button>':"";
- const fruitHud=id==="fruit"?'<span>Фрукты: <b id="arcade-fruit-count">0/'+game.fruitTarget+'</b></span><span>Пропущено: <b id="arcade-fruit-missed">0/5</b></span>':"";const canvas='<div class="arcade-stats"><span>Уровень: <b id="arcade-level">'+l+'/30</b></span>'+spaceHud+fruitHud+'<span>Очки: <b id="arcade-score">0</b></span><span>❤️ <b id="arcade-lives">3</b></span></div><canvas id="arcade-canvas" width="800" height="900" aria-label="Игровое поле"></canvas>'+spaceFire+'<p class="arcade-hint" id="arcade-hint">'+hint(id)+'</p><div id="arcade-message"></div>';
+ const fruitHud=id==="fruit"?'<span>Фрукты: <b id="arcade-fruit-count">0/'+game.fruitTarget+'</b></span><span>Пропущено: <b id="arcade-fruit-missed">0/5</b></span>':"";const raceHud=id==="racing"?'<span>Машины: <b id="arcade-race-count">0/'+game.raceTarget+'</b></span>':"";const canvas='<div class="arcade-stats"><span>Уровень: <b id="arcade-level">'+l+'/30</b></span>'+spaceHud+fruitHud+raceHud+'<span>Очки: <b id="arcade-score">0</b></span><span>❤️ <b id="arcade-lives">3</b></span></div><canvas id="arcade-canvas" width="800" height="900" aria-label="Игровое поле"></canvas>'+spaceFire+'<p class="arcade-hint" id="arcade-hint">'+hint(id)+'</p><div id="arcade-message"></div>';
  shell(G.find(x=>x.id===id),canvas);
 }
-function hint(id){return ({frog:"Проведи лягушку через дорогу к домику. Касайся поля или проводи пальцем в нужную сторону.",snake:"Собирай фрукты. Не касайся стен и собственного хвоста.",breakout:"Веди пальцем по полю — платформа будет двигаться за ним.",space:"Веди пальцем, чтобы двигать корабль, и нажимай кнопку ОГОНЬ. В каждой волне 10 врагов.",jumper:"Прыгай по платформам всё выше! Веди пальцем влево и вправо, касайся экрана для дополнительного прыжка. Собирай звёзды.",fruit:"Перемещай корзинку пальцем по полю.",racing:"Свайпай влево и вправо, чтобы менять полосу."})[id]}
+function hint(id){return ({frog:"Проведи лягушку через дорогу к домику. Касайся поля или проводи пальцем в нужную сторону.",snake:"Собирай фрукты. Не касайся стен и собственного хвоста.",breakout:"Веди пальцем по полю — платформа будет двигаться за ним.",space:"Веди пальцем, чтобы двигать корабль, и нажимай кнопку ОГОНЬ. В каждой волне 10 врагов.",jumper:"Прыгай по платформам всё выше! Веди пальцем влево и вправо, касайся экрана для дополнительного прыжка. Собирай звёзды.",fruit:"Перемещай корзинку пальцем по полю.",racing:"Свайпай влево и вправо, чтобы менять полосу. Обгони всех соперников и постарайся не столкнуться!"})[id]}
 function placeFood(){
  let p;do{p={x:Math.floor(Math.random()*14)+1,y:Math.floor(Math.random()*12)+1}}while(game.snake&&game.snake.some(s=>s.x===p.x&&s.y===p.y));
  const roll=Math.random();game.food={...p,value:roll<.07?10:roll<.27?5:1};
@@ -95,7 +95,7 @@ function drawFrame(ts){
  if(id==="jumper")drawJumper(c,dt);
  if(id==="fruit")drawFruit(c,dt);
  if(id==="racing")drawRacing(c,dt);
- const sc=$q("#arcade-score"),lv=$q("#arcade-lives");if(sc)sc.textContent=game.score;if(lv)lv.textContent=game.lives;const wh=$q("#arcade-wave");if(wh&&game.id==="space")wh.textContent=game.wave+"/"+game.wavesTotal;
+ const sc=$q("#arcade-score"),lv=$q("#arcade-lives");if(sc)sc.textContent=game.score;if(lv)lv.textContent=game.lives;const rc=$q("#arcade-race-count");if(rc&&game.id==="racing")rc.textContent=game.passedCars+"/"+game.raceTarget;const wh=$q("#arcade-wave");if(wh&&game.id==="space")wh.textContent=game.wave+"/"+game.wavesTotal;
  if(!game.done&&!game.over)raf=requestAnimationFrame(drawFrame);
 }
 function drawTrafficCar(c,e){
@@ -498,8 +498,8 @@ function drawRacing(c,dt){
  if(game.entities.some(e=>e.lane===game.player.x&&e.y>535&&e.y<825)){
   game.entities=game.entities.filter(e=>!(e.lane===game.player.x&&e.y>535&&e.y<825));loseLife();
  }
- game.entities=game.entities.filter(e=>{if(e.y>930){game.score+=5;return false}return true});
- if(game.score>=game.target*5)completeLevel("Финиш! Ты справился с трассой!");
+ game.entities=game.entities.filter(e=>{if(e.y>930){game.score+=5;game.passedCars++;return false}return true});
+ if(game.passedCars>=game.raceTarget)completeLevel("Финиш! Ты обогнал "+game.passedCars+" машин и прошёл трассу!");
 }
 function completeLevel(msg){
  if(game.done||game.over)return;game.done=true;cancelAnimationFrame(raf);const next=Math.min(30,game.level+1);if(game.level<30)save(current,next);localStorage.setItem("mogu-arcade-best-"+current,String(Math.max(best(current),game.score)));
