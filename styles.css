@@ -783,3 +783,21 @@ button:focus-visible,a:focus-visible{outline:4px solid #ffb900;outline-offset:4p
  .hub-card-copy small{font-size:12px}
 }
 @media(prefers-reduced-motion:reduce){.hub-card{transition:none}}
+
+/* Full-scene illustrated background — approved MOGU 3D cartoon world */
+body{
+  min-height:100vh;
+  background-image:linear-gradient(180deg,rgba(9,25,76,.06),rgba(9,25,76,.13)),url("https://d2jqrm6oza8nb6.cloudfront.net/datasets/4616d031-fa94-4f5c-8f02-167d92d43d81.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiZmZjZWJiOWI1NTAyZDlkMiIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5NDg2NDkyM30.rziS1fe3IPxnxXZiWzxvT_K15XTCq-OpChF9Oi6mEUE");
+  background-position:center center;
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+}
+.app-shell{background:transparent}
+.topbar,.bottom-nav{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.hub-heading,.panel,.daily-learning,.daily-category-intro,.welcome-screen{
+  backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);
+}
+@media(max-width:680px){
+ body{background-position:center center;background-attachment:scroll}
+}
