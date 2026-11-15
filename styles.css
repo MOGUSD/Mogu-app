@@ -1085,7 +1085,7 @@ body.mogu-splash-mode .welcome-screen.mogu-splash{
 /* Shift the portrait splash artwork upward to remove the empty strip at the top. */
 @media screen and (max-width: 680px) and (orientation: portrait) {
   body.mogu-splash-mode .welcome-screen.mogu-splash {
-    background-size: 100% 112% !important;
+    background-size: 100% 120% !important;
     background-position: center bottom !important;
   }
   .mogu-splash .splash-settings {
