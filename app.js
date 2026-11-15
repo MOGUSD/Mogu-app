@@ -19,6 +19,9 @@ Object.assign(words.en,{one:"One",two:"Two",three:"Three",four:"Four",five:"Five
 Object.assign(words.ru,{orangeColor:"Оранжевый",white:"Белый",black:"Чёрный",pink:"Розовый",purple:"Фиолетовый",brown:"Коричневый"});
 Object.assign(words.kk,{orangeColor:"Қызғылт сары",white:"Ақ",black:"Қара",pink:"Қызғылт",purple:"Күлгін",brown:"Қоңыр"});
 Object.assign(words.en,{orangeColor:"Orange",white:"White",black:"Black",pink:"Pink",purple:"Purple",brown:"Brown"});
+Object.assign(words.ru,{rectangle:"Прямоугольник",oval:"Овал",diamond:"Ромб",starShape:"Звезда",heartShape:"Сердце",pentagon:"Пятиугольник",hexagon:"Шестиугольник"});
+Object.assign(words.kk,{rectangle:"Тіктөртбұрыш",oval:"Сопақша",diamond:"Ромб",starShape:"Жұлдыз",heartShape:"Жүрек",pentagon:"Бесбұрыш",hexagon:"Алтыбұрыш"});
+Object.assign(words.en,{rectangle:"Rectangle",oval:"Oval",diamond:"Diamond",starShape:"Star",heartShape:"Heart",pentagon:"Pentagon",hexagon:"Hexagon"});
 
 const audioPrefs={music:true,effects:true,musicVolume:0.22,effectVolume:0.5,voiceVolume:0.95,...store.get("audio",{})};
 const backgroundMusic=new Audio("./assets/audio/bouncy-adventure.mp3");
@@ -279,7 +282,35 @@ reading:[
 ],
 thinking:[
 {question:{ru:"Найди круг",kk:"Шеңберді тап",en:"Find the circle"},options:[["circle","⚪"],["square","🟦"],["triangle","🔺"]],answer:"circle"},
-{question:{ru:"Что такое квадрат?",kk:"Шаршы деген не?",en:"Which one is a square?"},options:[["triangle","🔺"],["square","🟦"],["circle","⚪"]],answer:"square"}
+{question:{ru:"Найди квадрат",kk:"Шаршыны тап",en:"Find the square"},options:[["triangle","🔺"],["square","🟦"],["circle","⚪"]],answer:"square"},
+{question:{ru:"Найди треугольник",kk:"Үшбұрышты тап",en:"Find the triangle"},options:[["circle","⚪"],["triangle","🔺"],["square","🟦"]],answer:"triangle"},
+{question:{ru:"Найди прямоугольник",kk:"Тіктөртбұрышты тап",en:"Find the rectangle"},options:[["rectangle","▭"],["oval","⬭"],["diamond","◆"]],answer:"rectangle"},
+{question:{ru:"Найди овал",kk:"Сопақшаны тап",en:"Find the oval"},options:[["circle","⚪"],["oval","⬭"],["rectangle","▭"]],answer:"oval"},
+{question:{ru:"Найди ромб",kk:"Ромбты тап",en:"Find the diamond"},options:[["diamond","◆"],["square","🟦"],["triangle","🔺"]],answer:"diamond"},
+{question:{ru:"Найди звезду",kk:"Жұлдызды тап",en:"Find the star"},options:[["heartShape","❤️"],["starShape","⭐"],["circle","⚪"]],answer:"starShape"},
+{question:{ru:"Найди сердце",kk:"Жүректі тап",en:"Find the heart"},options:[["starShape","⭐"],["heartShape","❤️"],["diamond","◆"]],answer:"heartShape"},
+{question:{ru:"На какую фигуру похож мяч?",kk:"Доп қай фигураға ұқсайды?",en:"Which shape is a ball like?"},options:[["circle","⚪"],["square","🟦"],["triangle","🔺"]],answer:"circle"},
+{question:{ru:"На какую фигуру похоже окно?",kk:"Терезе қай фигураға ұқсайды?",en:"Which shape is a window like?"},options:[["triangle","🔺"],["rectangle","▭"],["oval","⬭"]],answer:"rectangle"},
+{question:{ru:"На какую фигуру похожа крыша домика?",kk:"Үйдің шатыры қай фигураға ұқсайды?",en:"Which shape is a little house roof like?"},options:[["triangle","🔺"],["circle","⚪"],["oval","⬭"]],answer:"triangle"},
+{question:{ru:"На какую фигуру похожа дверь?",kk:"Есік қай фигураға ұқсайды?",en:"Which shape is a door like?"},options:[["diamond","◆"],["rectangle","▭"],["circle","⚪"]],answer:"rectangle"},
+{question:{ru:"На какую фигуру похоже яйцо?",kk:"Жұмыртқа қай фигураға ұқсайды?",en:"Which shape is an egg like?"},options:[["oval","⬭"],["square","🟦"],["triangle","🔺"]],answer:"oval"},
+{question:{ru:"Какая фигура похожа на дорожный знак «ромб»?",kk:"Қай фигура жол белгісіндегі ромбқа ұқсайды?",en:"Which shape looks like a diamond road sign?"},options:[["circle","⚪"],["diamond","◆"],["rectangle","▭"]],answer:"diamond"},
+{question:{ru:"Найди две одинаковые фигуры",kk:"Екі бірдей фигураны тап",en:"Find two matching shapes"},options:[["circle","⚪  ⚪"],["circle","⚪  🔺"],["square","🟦  ⚪"]],answer:"circle"},
+{question:{ru:"Какая фигура здесь лишняя: круг, круг, квадрат?",kk:"Мына қатарда қайсысы артық: шеңбер, шеңбер, шаршы?",en:"Which one is different: circle, circle, square?"},options:[["circle","⚪"],["square","🟦"],["triangle","🔺"]],answer:"square"},
+{question:{ru:"Выбери такую же фигуру, как образец: треугольник",kk:"Үлгімен бірдей фигураны таңда: үшбұрыш",en:"Choose the same shape as the sample: triangle"},options:[["square","🟦"],["triangle","🔺"],["circle","⚪"]],answer:"triangle"},
+{question:{ru:"Сколько сторон у треугольника?",kk:"Үшбұрыштың неше қабырғасы бар?",en:"How many sides does a triangle have?"},options:[["three","3️⃣"],["four","4️⃣"],["two","2️⃣"]],answer:"three"},
+{question:{ru:"Сколько сторон у квадрата?",kk:"Шаршының неше қабырғасы бар?",en:"How many sides does a square have?"},options:[["three","3️⃣"],["four","4️⃣"],["five","5️⃣"]],answer:"four"},
+{question:{ru:"Сколько углов у прямоугольника?",kk:"Тіктөртбұрыштың неше бұрышы бар?",en:"How many corners does a rectangle have?"},options:[["three","3️⃣"],["four","4️⃣"],["six","6️⃣"]],answer:"four"},
+{question:{ru:"Какая фигура имеет четыре равные стороны?",kk:"Қай фигураның төрт қабырғасы бірдей?",en:"Which shape has four equal sides?"},options:[["rectangle","▭"],["square","🟦"],["triangle","🔺"]],answer:"square"},
+{question:{ru:"Продолжи узор: круг, квадрат, круг, ...",kk:"Өрнекті жалғастыр: шеңбер, шаршы, шеңбер, ...",en:"Continue the pattern: circle, square, circle, ..."},options:[["triangle","🔺"],["square","🟦"],["circle","⚪"]],answer:"square"},
+{question:{ru:"Продолжи узор: треугольник, круг, треугольник, ...",kk:"Өрнекті жалғастыр: үшбұрыш, шеңбер, үшбұрыш, ...",en:"Continue the pattern: triangle, circle, triangle, ..."},options:[["circle","⚪"],["square","🟦"],["triangle","🔺"]],answer:"circle"},
+{question:{ru:"Какая фигура имеет три стороны?",kk:"Қай фигураның үш қабырғасы бар?",en:"Which shape has three sides?"},options:[["circle","⚪"],["triangle","🔺"],["rectangle","▭"]],answer:"triangle"},
+{question:{ru:"Какая фигура круглая и без углов?",kk:"Қай фигура домалақ және бұрышы жоқ?",en:"Which shape is round and has no corners?"},options:[["square","🟦"],["circle","⚪"],["diamond","◆"]],answer:"circle"},
+{question:{ru:"На какую фигуру похожи часы на стене?",kk:"Қабырға сағаты қай фигураға ұқсайды?",en:"Which shape is a wall clock often like?"},options:[["circle","⚪"],["triangle","🔺"],["rectangle","▭"]],answer:"circle"},
+{question:{ru:"На какую фигуру похожа книга?",kk:"Кітап қай фигураға ұқсайды?",en:"Which shape is a book like?"},options:[["oval","⬭"],["rectangle","▭"],["starShape","⭐"]],answer:"rectangle"},
+{question:{ru:"Найди фигуру с пятью сторонами",kk:"Бес қабырғасы бар фигураны тап",en:"Find the shape with five sides"},options:[["hexagon","⬡"],["pentagon","⬟"],["triangle","🔺"]],answer:"pentagon"},
+{question:{ru:"Найди фигуру с шестью сторонами",kk:"Алты қабырғасы бар фигураны тап",en:"Find the shape with six sides"},options:[["pentagon","⬟"],["hexagon","⬡"],["square","🟦"]],answer:"hexagon"},
+{question:{ru:"Какая фигура лучше всего подходит, чтобы сложить домик: квадрат и треугольник?",kk:"Үй құрастыруға қай фигуралар сәйкес: шаршы мен үшбұрыш?",en:"Which shapes can make a simple house: a square and a triangle?"},options:[["square","🟦 + 🔺"],["circle","⚪ + ⚪"],["oval","⬭ + ◆"]],answer:"square"}
 ],
 language:[
 {question:{ru:"Кто говорит «мяу»?",kk:"Кім «мияу» дейді?",en:"Who says “meow”?"},options:[["cat","🐱"],["dog","🐶"],["cow","🐮"]],answer:"cat"},
@@ -294,13 +325,13 @@ let activeLesson="colors";
 function renderLearn(){
  state.screen="learn";
  const l=state.lang,idx=l==="kk"?1:l==="en"?2:0;
- const topics=[["colors","🎨",["Цвета","Түстер","Colours"]],["math","🔢",["Учимся считать","Санауды үйренеміз","Learning to count"]],["reading","🔤",["Учимся читать","Оқуды үйренеміз","Learning to read"]],["thinking","🧩",["Логика и формы","Логика және пішіндер","Logic and shapes"]],["language","🗣️",["Слова и речь","Сөздер мен сөйлеу","Words and language"]],["daily","🌱",["Навыки жизни","Өмірлік дағдылар","Life skills"]]];
+ const topics=[["colors","🎨",["Цвета","Түстер","Colours"]],["math","🔢",["Учимся считать","Санауды үйренеміз","Learning to count"]],["reading","🔤",["Учимся читать","Оқуды үйренеміз","Learning to read"]],["thinking","🔷",["Геометрические фигуры","Геометриялық фигуралар","Geometric shapes"]],["language","🗣️",["Слова и речь","Сөздер мен сөйлеу","Words and language"]],["daily","🌱",["Навыки жизни","Өмірлік дағдылар","Life skills"]]];
  const L=state.lessonMode&&state.lesson&&state.lesson.topic===activeLesson?state.lesson:null;
  if(!L){
   $("#app-main").innerHTML=head(t("learn"),t("learnDesc"))+'<div class="learn-madina"><img src="./assets/madina-guide.webp" alt="Мадина"><div><strong>'+(l==="kk"?"Мадина саған көмектеседі!":l==="en"?"Madina is here to help!":"Мадина поможет тебе!")+'</strong><p>'+(l==="kk"?"Бүгін нені үйренеміз?":l==="en"?"What shall we discover today?":"Что сегодня будем изучать?")+'</p></div></div><div class="learn-topic-grid">'+topics.map(x=>'<button class="learn-topic" data-lesson="'+x[0]+'"><span>'+x[1]+'</span><strong>'+x[2][idx]+'</strong></button>').join("")+'</div>';
   nav("home");return;
  }
- const question=L.question[l]||L.question.ru;const colorProgress=(L.topic==="colors"||L.topic==="math"||L.topic==="reading")&&L.colorPosition?(l==="kk"?"Тапсырма ":l==="en"?"Question ":"Задание ")+L.colorPosition+" / "+L.colorTotal:"";
+ const question=L.question[l]||L.question.ru;const colorProgress=(L.topic==="colors"||L.topic==="math"||L.topic==="reading"||L.topic==="thinking")&&L.colorPosition?(l==="kk"?"Тапсырма ":l==="en"?"Question ":"Задание ")+L.colorPosition+" / "+L.colorTotal:"";
  $("#app-main").innerHTML=head(t("learn"),question)+'<section class="learn-layout"><section class="learn-main"><div class="lesson-kicker">'+topics.find(x=>x[0]===activeLesson)[2][idx]+(colorProgress?' · '+colorProgress:"")+'</div><h2 class="lesson-question">'+question+'</h2><div class="lesson-options">'+L.options.map(x=>'<button class="lesson-option '+((activeLesson==="math"||activeLesson==="reading")?"math-answer ":"")+(L.lastAnswer===x[0]?(L.lastCorrect?"correct":"try-again"):"")+'" data-answer="'+x[0]+'" aria-pressed="'+(L.lastAnswer===x[0])+'"><span>'+(activeLesson==="reading"?t(x[0]):(activeLesson==="colors"&&x[0]==="pink"?'<i class="lesson-color-dot lesson-color-dot-pink" aria-label="Розовый круг"></i>':x[1]))+'</span>'+((activeLesson==="math"||activeLesson==="reading")?"":'<strong>'+t(x[0])+'</strong>')+'</button>').join("")+'</div><p class="lesson-feedback" aria-live="polite">'+(L.feedback||"")+'</p><button class="soft-button" data-action="repeat">🔊 '+t("again")+'</button> <button class="soft-button" data-action="newlesson">'+t("next")+' →</button> <button class="soft-button" data-action="learn-back">← '+(l==="kk"?"Тақырыптар":l==="en"?"Topics":"К темам")+'</button></section><aside class="lesson-side"><div class="panel lesson-madina"><img src="./assets/madina-guide.webp" alt="Мадина"><p>'+t("youCan")+'</p></div><div class="panel lesson-tools">'+topics.map(x=>'<button class="category-button '+(activeLesson===x[0]?"active":"")+'" data-lesson="'+x[0]+'">'+x[2][idx]+'</button>').join("")+'</div></aside></section>';
  nav("home");
 }
@@ -313,6 +344,9 @@ let lastMathQuestionIndex=-1;
 let readingLessonDeck=[];
 let readingLessonPosition=0;
 let lastReadingQuestionIndex=-1;
+let thinkingLessonDeck=[];
+let thinkingLessonPosition=0;
+let lastThinkingQuestionIndex=-1;
 function shuffleLessonDeck(deck){for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]]}return deck}
 let lessonSpeechRun=0;
 function lessonPromptText(){if(!state.lesson)return "";const l=state.lang,question=state.lesson.question[l]||state.lesson.question.ru;const choices=state.lesson.options.map(x=>t(x[0])).join(", ");const prefix=l==="kk"?"Жауап нұсқалары: ":l==="en"?"Answer choices: ":"Варианты ответа: ";return question+". "+prefix+choices+"."}
@@ -337,13 +371,13 @@ function speakLessonPrompt(){
 function newLesson(){
  const set=lessonSets[activeLesson]||lessonSets.colors;
  let item,colorPosition=null,colorTotal=null;
- if(activeLesson==="colors"||activeLesson==="math"||activeLesson==="reading"){
-  const isMath=activeLesson==="math",isReading=activeLesson==="reading";
-  let deck=isMath?mathLessonDeck:isReading?readingLessonDeck:colorLessonDeck;
-  const lastIndex=isMath?lastMathQuestionIndex:isReading?lastReadingQuestionIndex:lastColorQuestionIndex;
+ if(activeLesson==="colors"||activeLesson==="math"||activeLesson==="reading"||activeLesson==="thinking"){
+  const isMath=activeLesson==="math",isReading=activeLesson==="reading",isThinking=activeLesson==="thinking";
+  let deck=isMath?mathLessonDeck:isReading?readingLessonDeck:isThinking?thinkingLessonDeck:colorLessonDeck;
+  const lastIndex=isMath?lastMathQuestionIndex:isReading?lastReadingQuestionIndex:isThinking?lastThinkingQuestionIndex:lastColorQuestionIndex;
   if(!deck.length){
    deck=shuffleLessonDeck(Array.from({length:set.length},(_,i)=>i));
-   if(isMath){mathLessonDeck=deck;mathLessonPosition=0}else if(isReading){readingLessonDeck=deck;readingLessonPosition=0}else{colorLessonDeck=deck;colorLessonPosition=0}
+   if(isMath){mathLessonDeck=deck;mathLessonPosition=0}else if(isReading){readingLessonDeck=deck;readingLessonPosition=0}else if(isThinking){thinkingLessonDeck=deck;thinkingLessonPosition=0}else{colorLessonDeck=deck;colorLessonPosition=0}
    if(set.length>1&&deck[deck.length-1]===lastIndex){
     const swapIndex=Math.floor(Math.random()*(deck.length-1));
     [deck[swapIndex],deck[deck.length-1]]=[deck[deck.length-1],deck[swapIndex]];
@@ -353,6 +387,7 @@ function newLesson(){
   item=set[questionIndex];
   if(isMath){lastMathQuestionIndex=questionIndex;colorPosition=++mathLessonPosition}
   else if(isReading){lastReadingQuestionIndex=questionIndex;colorPosition=++readingLessonPosition}
+  else if(isThinking){lastThinkingQuestionIndex=questionIndex;colorPosition=++thinkingLessonPosition}
   else{lastColorQuestionIndex=questionIndex;colorPosition=++colorLessonPosition}
   colorTotal=set.length;
  }else item=set[Math.floor(Math.random()*set.length)];
