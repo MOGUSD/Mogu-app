@@ -28,11 +28,11 @@ function shell(g,inner){
  document.getElementById("app-main").innerHTML='<section class="arcade-shell"><div class="arcade-top"><button class="soft-button" data-arcade-back>← Все игры</button><strong>'+g.icon+' '+g.title+'</strong><button class="arcade-restart" data-arcade-restart aria-label="Заново">↻</button></div>'+inner+'</section>';
  if(typeof nav==="function")nav("home");
 }
-function start(id){
+function start(id,forcedLevel){
  const g=G.find(x=>x.id===id);if(!g)return;
- current=id;
+ cancelAnimationFrame(raf);last=0;current=id;
  if(id==="2048"){init2048();return}
- const p=progress(),level=Math.min(30,p[id]||1);
+ const p=progress(),level=Math.min(30,Math.max(1,Number(forcedLevel)||p[id]||1));
  game={id,level,score:0,lives:3,done:false,over:false,entities:[],tick:0,elapsed:0,player:{x:0,y:0},target:Math.min(6+level,24),world:0};
  setupGame();drawFrame(0);
 }
@@ -64,7 +64,7 @@ function render2048(){
 function setupGame(){
  const id=current,l=game.level;
  if(id==="frog"){game.player={x:4,y:9};game.entities=[];for(let y=1;y<=7;y+=2)for(let i=0;i<2+Math.floor(l/8);i++)game.entities.push({x:Math.random()*9,y,speed:(Math.random()<.5?-1:1)*(0.7+l*.055+Math.random()*.4),type:"car",w:1.1+Math.random()*.5})}
- if(id==="snake"){game.player={x:7,y:7,dir:"right"};game.snake=[{x:7,y:7},{x:6,y:7},{x:5,y:7}];placeFood()}
+ if(id==="snake"){game.player={x:7,y:7,dir:"right"};game.snake=[{x:7,y:7},{x:6,y:7},{x:5,y:7}];game.started=false;game.moveClock=0;placeFood()}
  if(id==="breakout"){game.paddle=4;game.ball={x:4.5,y:7,dx:.08+l*.003,dy:-.12-l*.004};game.bricks=[];for(let y=0;y<Math.min(3+Math.ceil(l/5),6);y++)for(let x=0;x<8;x++)game.bricks.push({x:x+.08,y:y+.5,alive:true})}
  if(id==="space"){game.player={x:4,y:8};game.entities=[];game.bullets=[];game.spawn=0}
  if(id==="jumper"){game.player={x:4,y:650,vy:-8};game.platforms=[];for(let i=0;i<9;i++)game.platforms.push({x:Math.random()*7.2,y:720-i*100,w:1.2+Math.random()*.6});game.stars=0}
@@ -74,7 +74,10 @@ function setupGame(){
  shell(G.find(x=>x.id===id),canvas);
 }
 function hint(id){return ({frog:"Проведи лягушку через дорогу к домику. Касайся поля или проводи пальцем в нужную сторону.",snake:"Собирай фрукты. Не касайся стен и собственного хвоста.",breakout:"Веди пальцем по полю — платформа будет двигаться за ним.",space:"Веди пальцем, чтобы управлять кораблём, и касайся поля, чтобы стрелять.",jumper:"Касайся поля для прыжка и веди пальцем, чтобы двигаться.",fruit:"Перемещай корзинку пальцем по полю.",racing:"Свайпай влево и вправо, чтобы менять полосу."})[id]}
-function placeFood(){let p;do{p={x:Math.floor(Math.random()*14)+1,y:Math.floor(Math.random()*12)+1}}while(game.snake&&game.snake.some(s=>s.x===p.x&&s.y===p.y));game.food=p}
+function placeFood(){
+ let p;do{p={x:Math.floor(Math.random()*14)+1,y:Math.floor(Math.random()*12)+1}}while(game.snake&&game.snake.some(s=>s.x===p.x&&s.y===p.y));
+ const roll=Math.random();game.food={...p,value:roll<.07?10:roll<.27?5:1};
+}
 function ctx(){const c=$q("#arcade-canvas");return c?c.getContext("2d"):null}
 function rect(c,x,y,w,h,color,r=12){c.fillStyle=color;c.beginPath();c.roundRect(x,y,w,h,r);c.fill()}
 function drawFrame(ts){
@@ -144,22 +147,25 @@ function drawSnake(c,dt){
  }
  // Rounded garden border
  c.strokeStyle="#ffffffb8";c.lineWidth=9;c.strokeRect(5,5,790,890);
- // Smooth fruit with a leaf and shine
- const fx=game.food.x*cell+25,fy=game.food.y*cell+25;
- c.save();c.shadowColor="#d93d4b55";c.shadowBlur=10;c.fillStyle="#ff536c";c.beginPath();c.arc(fx,fy+3,16,0,Math.PI*2);c.fill();
- c.fillStyle="#42b86b";c.beginPath();c.ellipse(fx+8,fy-15,9,5,-.55,0,Math.PI*2);c.fill();
+ // Fruits: regular +1, golden +5, rainbow +10
+ const fx=game.food.x*cell+25,fy=game.food.y*cell+25,bonus=game.food.value||1;
+ c.save();c.shadowColor=bonus===10?"#9d48ff88":bonus===5?"#ffb52e88":"#d93d4b55";c.shadowBlur=bonus>1?18:10;
+ const fruitColor=bonus===10?"#a45cff":bonus===5?"#ffad32":"#ff536c";
+ c.fillStyle=fruitColor;c.beginPath();c.arc(fx,fy+3,16,0,Math.PI*2);c.fill();
+ c.fillStyle=bonus===10?"#ffe66d":"#42b86b";c.beginPath();c.ellipse(fx+8,fy-15,9,5,-.55,0,Math.PI*2);c.fill();
  c.strokeStyle="#80533b";c.lineWidth=3;c.beginPath();c.moveTo(fx,fy-12);c.lineTo(fx+2,fy-19);c.stroke();
  c.fillStyle="#ffffffa8";c.beginPath();c.arc(fx-6,fy-3,4,0,Math.PI*2);c.fill();c.restore();
- // Advance one grid cell at a time; speed rises gently with each level
- game.moveClock=(game.moveClock||0)+dt;
- if(game.moveClock>=Math.max(4.5,10.5-game.level*.2)){
+ if(bonus>1){c.save();c.font="bold 19px sans-serif";c.textAlign="center";c.lineWidth=4;c.strokeStyle="#ffffff";c.strokeText("+"+bonus,fx,fy-25);c.fillStyle=bonus===10?"#7c36c9":"#bd6a00";c.fillText("+"+bonus,fx,fy-25);c.restore()}
+ // Wait for the first tap or swipe before the snake starts moving
+ if(game.started)game.moveClock=(game.moveClock||0)+dt;
+ if(game.started&&game.moveClock>=Math.max(4.5,10.5-game.level*.2)){
   game.moveClock=0;
   game.snake.unshift({...game.snake[0]});const h=game.snake[0];
   if(game.player.dir==="left")h.x--;if(game.player.dir==="right")h.x++;if(game.player.dir==="up")h.y--;if(game.player.dir==="down")h.y++;
   if(h.x<0||h.x>=cols||h.y<0||h.y>=rows||game.snake.slice(1).some(s=>s.x===h.x&&s.y===h.y)){
    game.snake=[{x:7,y:7},{x:6,y:7},{x:5,y:7}];game.player.dir="right";game.moveClock=0;loseLife();return;
   }
-  if(h.x===game.food.x&&h.y===game.food.y){game.score+=10;placeFood()}else game.snake.pop();
+  if(h.x===game.food.x&&h.y===game.food.y){game.score+=game.food.value||1;placeFood()}else game.snake.pop();
  }
  // Draw tail first so the head sits cleanly on top
  game.snake.slice().reverse().forEach((s,ri)=>{
@@ -177,7 +183,8 @@ function drawSnake(c,dt){
  else if(dir==="up")eyes=[[hx-8,hy-8],[hx+8,hy-8]];
  else eyes=[[hx-8,hy+8],[hx+8,hy+8]];
  eyes.forEach(([x,y])=>{c.fillStyle="#fff";c.beginPath();c.arc(x,y,5,0,Math.PI*2);c.fill();c.fillStyle="#174d38";c.beginPath();c.arc(x+(dir==="left"?-1:dir==="right"?1:0),y+(dir==="up"?-1:dir==="down"?1:0),2.5,0,Math.PI*2);c.fill()});
- if(game.score>=(game.level*30+30))completeLevel("Змейка выросла! Уровень пройден.");
+ if(!game.started){c.save();c.fillStyle="#174d38cc";c.font="bold 38px sans-serif";c.textAlign="center";c.fillText("Коснись экрана, чтобы начать",400,470);c.font="25px sans-serif";c.fillText("Проведи пальцем в нужную сторону",400,515);c.restore()}
+ if(game.score>=(game.level*10+10))completeLevel("Змейка выросла! Уровень пройден.");
 }
 function drawBreakout(c,dt){
  const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#ffc4e1");bg.addColorStop(.5,"#c8b8ff");bg.addColorStop(1,"#9be8ff");c.fillStyle=bg;c.fillRect(0,0,800,900);
@@ -239,7 +246,7 @@ function loseLife(final=false){
 function act(dir){
  if(!game||current==="2048"||game.done||game.over)return;
  if(current==="frog"){if(dir==="left")game.player.x=Math.max(0,game.player.x-1);if(dir==="right")game.player.x=Math.min(9,game.player.x+1);if(dir==="up")game.player.y=Math.max(0,game.player.y-1);if(dir==="down")game.player.y=Math.min(9,game.player.y+1)}
- if(current==="snake"){if(["left","right","up","down"].includes(dir)){const opposite={left:"right",right:"left",up:"down",down:"up"};if(opposite[dir]!==game.player.dir)game.player.dir=dir}}
+ if(current==="snake"){if(["left","right","up","down"].includes(dir)){const opposite={left:"right",right:"left",up:"down"};if(!game.started){game.started=true;game.player.dir=dir;game.moveClock=0}else if(opposite[dir]!==game.player.dir)game.player.dir=dir}}
  if(current==="breakout"){if(dir==="left")game.paddle=Math.max(0,game.paddle-.65);if(dir==="right")game.paddle=Math.min(6.5,game.paddle+.65)}
  if(current==="space"){if(dir==="left")game.player.x=Math.max(0,game.player.x-.6);if(dir==="right")game.player.x=Math.min(9,game.player.x+.6)}
  if(current==="jumper"){if(dir==="up"&&game.player.vy>0)game.player.vy=-10;if(dir==="left")game.player.x=Math.max(0,game.player.x-.35);if(dir==="right")game.player.x=Math.min(7.2,game.player.x+.35)}
@@ -252,7 +259,7 @@ document.addEventListener("click",e=>{
  if(b.dataset.arcadeStart){e.preventDefault();e.stopImmediatePropagation();start(b.dataset.arcadeStart);return}
  if(b.hasAttribute("data-arcade-back")){e.preventDefault();e.stopImmediatePropagation();hub();return}
  if(b.hasAttribute("data-arcade-restart")){e.preventDefault();e.stopImmediatePropagation();start(current);return}
- if(b.dataset.arcadeNext){e.preventDefault();e.stopImmediatePropagation();if(b.dataset.arcadeNext==="hub")hub();else start(current);return}
+ if(b.dataset.arcadeNext){e.preventDefault();e.stopImmediatePropagation();if(b.dataset.arcadeNext==="hub")hub();else start(current,Number(b.dataset.arcadeNext));return}
  if(b.dataset.gameDir){e.preventDefault();e.stopImmediatePropagation();act(b.dataset.gameDir);return}
  if(b.dataset.gameAction){e.preventDefault();e.stopImmediatePropagation();action(b.dataset.gameAction);return}
  if(b.dataset["2048Dir"]){e.preventDefault();e.stopImmediatePropagation();move2048(b.dataset["2048Dir"]);return}
