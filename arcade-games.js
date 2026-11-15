@@ -136,13 +136,47 @@ function drawFrog(c,dt){
  if(game.entities.some(e=>Math.abs(e.y-game.player.y)<.35&&game.player.x>=e.x-.2&&game.player.x<=e.x+e.w-.3)){loseLife();game.player={x:4,y:9}}
 }
 function drawSnake(c,dt){
- const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#fff5a8");bg.addColorStop(.5,"#c8ffb5");bg.addColorStop(1,"#8debd1");c.fillStyle=bg;c.fillRect(0,0,800,900);const cell=50;
- c.font="44px sans-serif";c.fillText("🍎",game.food.x*cell,game.food.y*cell+40);
+ const cell=50,cols=16,rows=18;
+ const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#f8ffb7");bg.addColorStop(.48,"#caffb4");bg.addColorStop(1,"#83ead1");c.fillStyle=bg;c.fillRect(0,0,800,900);
+ // Soft checkerboard makes every movement cell easy to read
+ for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){
+  if((x+y)%2===0){c.fillStyle="#ffffff20";c.fillRect(x*cell,y*cell,cell,cell)}
+ }
+ // Rounded garden border
+ c.strokeStyle="#ffffffb8";c.lineWidth=9;c.strokeRect(5,5,790,890);
+ // Smooth fruit with a leaf and shine
+ const fx=game.food.x*cell+25,fy=game.food.y*cell+25;
+ c.save();c.shadowColor="#d93d4b55";c.shadowBlur=10;c.fillStyle="#ff536c";c.beginPath();c.arc(fx,fy+3,16,0,Math.PI*2);c.fill();
+ c.fillStyle="#42b86b";c.beginPath();c.ellipse(fx+8,fy-15,9,5,-.55,0,Math.PI*2);c.fill();
+ c.strokeStyle="#80533b";c.lineWidth=3;c.beginPath();c.moveTo(fx,fy-12);c.lineTo(fx+2,fy-19);c.stroke();
+ c.fillStyle="#ffffffa8";c.beginPath();c.arc(fx-6,fy-3,4,0,Math.PI*2);c.fill();c.restore();
+ // Advance one grid cell at a time; speed rises gently with each level
  game.moveClock=(game.moveClock||0)+dt;
- if(game.moveClock>=Math.max(4,11-game.level*.22)){game.moveClock=0;game.snake.unshift({...game.snake[0]});const h=game.snake[0];if(game.player.dir==="left")h.x--;if(game.player.dir==="right")h.x++;if(game.player.dir==="up")h.y--;if(game.player.dir==="down")h.y++;
- if(h.x<0||h.x>=16||h.y<0||h.y>=18||game.snake.slice(1).some(s=>s.x===h.x&&s.y===h.y)){game.snake=[{x:7,y:7},{x:6,y:7},{x:5,y:7}];game.player.dir="right";loseLife();return}
- if(h.x===game.food.x&&h.y===game.food.y){game.score+=10;placeFood()}else game.snake.pop();}
- game.snake.forEach((s,i)=>rect(c,s.x*cell+3,s.y*cell+3,44,44,i?"#62b96e":"#25894a",12));
+ if(game.moveClock>=Math.max(4.5,10.5-game.level*.2)){
+  game.moveClock=0;
+  game.snake.unshift({...game.snake[0]});const h=game.snake[0];
+  if(game.player.dir==="left")h.x--;if(game.player.dir==="right")h.x++;if(game.player.dir==="up")h.y--;if(game.player.dir==="down")h.y++;
+  if(h.x<0||h.x>=cols||h.y<0||h.y>=rows||game.snake.slice(1).some(s=>s.x===h.x&&s.y===h.y)){
+   game.snake=[{x:7,y:7},{x:6,y:7},{x:5,y:7}];game.player.dir="right";game.moveClock=0;loseLife();return;
+  }
+  if(h.x===game.food.x&&h.y===game.food.y){game.score+=10;placeFood()}else game.snake.pop();
+ }
+ // Draw tail first so the head sits cleanly on top
+ game.snake.slice().reverse().forEach((s,ri)=>{
+  const i=game.snake.length-1-ri,x=s.x*cell+4,y=s.y*cell+4,size=42;
+  const grad=c.createLinearGradient(x,y,x+size,y+size);grad.addColorStop(0,i===0?"#36c96c":"#7de36d");grad.addColorStop(1,i===0?"#119b58":"#38b978");
+  c.save();c.shadowColor="#237c4b35";c.shadowBlur=5;c.shadowOffsetY=3;
+  rect(c,x,y,size,size,grad, i===0?15:13);c.restore();
+  if(i>0){c.fillStyle="#ffffff55";c.beginPath();c.arc(x+12,y+10,4,0,Math.PI*2);c.fill()}
+ });
+ // Directional eyes and a tiny smile on the head
+ const head=game.snake[0],hx=head.x*cell+25,hy=head.y*cell+25,dir=game.player.dir;
+ let eyes;
+ if(dir==="right")eyes=[[hx+8,hy-8],[hx+8,hy+8]];
+ else if(dir==="left")eyes=[[hx-8,hy-8],[hx-8,hy+8]];
+ else if(dir==="up")eyes=[[hx-8,hy-8],[hx+8,hy-8]];
+ else eyes=[[hx-8,hy+8],[hx+8,hy+8]];
+ eyes.forEach(([x,y])=>{c.fillStyle="#fff";c.beginPath();c.arc(x,y,5,0,Math.PI*2);c.fill();c.fillStyle="#174d38";c.beginPath();c.arc(x+(dir==="left"?-1:dir==="right"?1:0),y+(dir==="up"?-1:dir==="down"?1:0),2.5,0,Math.PI*2);c.fill()});
  if(game.score>=(game.level*30+30))completeLevel("Змейка выросла! Уровень пройден.");
 }
 function drawBreakout(c,dt){
