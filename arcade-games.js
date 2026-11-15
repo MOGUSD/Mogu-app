@@ -56,7 +56,7 @@ function move2048(dir){
 function canMove(d){const old=game.board.slice();const vertical=d==="up"||d==="down",reverse=d==="right"||d==="down";for(let n=0;n<4;n++){let line=[];for(let k=0;k<4;k++)line.push(vertical?old[k*4+n]:old[n*4+k]);if(reverse)line.reverse();const r=slideLine(line).a;if(reverse)r.reverse();for(let k=0;k<4;k++)if((vertical?old[k*4+n]:old[n*4+k])!==r[k])return true}return false}
 function render2048(){
  const vals=game.board.map(v=>'<div class="tile tile-'+(v||0)+'">'+(v||"")+'</div>').join("");
- shell(G[0],'<div class="arcade-stats"><span>Очки: <b>'+game.score+'</b></span><span>Рекорд: <b>'+Math.max(best("2048"),game.score)+'</b></span></div><div class="board-2048">'+vals+'</div><div class="arcade-arrowpad"><button data-2048-dir="up">↑</button><div><button data-2048-dir="left">←</button><button data-2048-dir="down">↓</button><button data-2048-dir="right">→</button></div></div><p class="arcade-hint">'+(game.over?"Игра окончена — ходов больше нет. Твой результат: "+game.score:"Соединяй одинаковые числа. Используй стрелки или кнопки.")+'</p>'+(game.over?'<button class="arcade-main-btn" data-arcade-restart>Играть снова</button>':''));
+ shell(G[0],'<div class="arcade-stats"><span>Очки: <b>'+game.score+'</b></span><span>Рекорд: <b>'+Math.max(best("2048"),game.score)+'</b></span></div><div class="board-2048">'+vals+'</div><p class="arcade-hint">'+(game.over?"Игра окончена — ходов больше нет. Твой результат: "+game.score:"Соединяй одинаковые числа. Управляй игрой свайпами по полю.")+'</p>'+(game.over?'<button class="arcade-main-btn" data-arcade-restart>Играть снова</button>':''));
  if(game.over){localStorage.setItem("mogu-arcade-best-2048",String(Math.max(best("2048"),game.score)))}
 }
 function setupGame(){
@@ -68,10 +68,10 @@ function setupGame(){
  if(id==="jumper"){game.player={x:4,y:650,vy:-8};game.platforms=[];for(let i=0;i<9;i++)game.platforms.push({x:Math.random()*7.2,y:720-i*100,w:1.2+Math.random()*.6});game.stars=0}
  if(id==="fruit"){game.player={x:4,y:8};game.entities=[];game.spawn=0}
  if(id==="racing"){game.player={x:1,y:8};game.entities=[];game.spawn=0}
- const pad=(dirs)=>'<div class="arcade-controls '+(dirs.length===4?"arcade-dpad":"")+'>'+dirs.map(d=>d==="fire"?'<button data-game-action="fire" aria-label="Стрелять">✦</button>':d==="jump"?'<button data-game-action="jump" aria-label="Прыжок">⬆</button>':'<button data-game-dir="'+d+'" aria-label="'+({left:"Влево",right:"Вправо",up:"Вверх",down:"Вниз"}[d])+'">'+({left:"←",right:"→",up:"↑",down:"↓"}[d])+'</button>').join("")+'</div>';const controls=id==="frog"||id==="snake"?pad(["left","up","down","right"]):id==="breakout"||id==="fruit"||id==="racing"?pad(["left","right"]):id==="space"?pad(["left","fire","right"]):pad(["left","jump","right"]);const canvas='<div class="arcade-stats"><span>Уровень: <b id="arcade-level">'+l+'/30</b></span><span>Очки: <b id="arcade-score">0</b></span><span>❤️ <b id="arcade-lives">3</b></span></div><canvas id="arcade-canvas" width="800" height="900" aria-label="Игровое поле"></canvas>'+controls+'<p class="arcade-hint" id="arcade-hint">'+hint(id)+'</p><div id="arcade-message"></div>';
+ const canvas='<div class="arcade-stats"><span>Уровень: <b id="arcade-level">'+l+'/30</b></span><span>Очки: <b id="arcade-score">0</b></span><span>❤️ <b id="arcade-lives">3</b></span></div><canvas id="arcade-canvas" width="800" height="900" aria-label="Игровое поле"></canvas><p class="arcade-hint" id="arcade-hint">'+hint(id)+'</p><div id="arcade-message"></div>';
  shell(G.find(x=>x.id===id),canvas);
 }
-function hint(id){return ({frog:"Проведи лягушку через дорогу к домику. Нажимай стрелки.",snake:"Собирай фрукты. Не касайся стен и собственного хвоста.",breakout:"Двигай платформу влево и вправо, отбивай мяч.",space:"Двигай корабль и нажимай ●, чтобы стрелять.",jumper:"Нажимай ⬆, чтобы прыгать на платформы.",fruit:"Лови яблоки корзинкой, избегай бомб.",racing:"Перестраивайся между полосами и объезжай машины."})[id]}
+function hint(id){return ({frog:"Проведи лягушку через дорогу к домику. Касайся поля или проводи пальцем в нужную сторону.",snake:"Собирай фрукты. Не касайся стен и собственного хвоста.",breakout:"Веди пальцем по полю — платформа будет двигаться за ним.",space:"Веди пальцем, чтобы управлять кораблём, и касайся поля, чтобы стрелять.",jumper:"Касайся поля для прыжка и веди пальцем, чтобы двигаться.",fruit:"Перемещай корзинку пальцем по полю.",racing:"Свайпай влево и вправо, чтобы менять полосу."})[id]}
 function placeFood(){let p;do{p={x:Math.floor(Math.random()*14)+1,y:Math.floor(Math.random()*12)+1}}while(game.snake&&game.snake.some(s=>s.x===p.x&&s.y===p.y));game.food=p}
 function ctx(){const c=$q("#arcade-canvas");return c?c.getContext("2d"):null}
 function rect(c,x,y,w,h,color,r=12){c.fillStyle=color;c.beginPath();c.roundRect(x,y,w,h,r);c.fill()}
@@ -191,8 +191,44 @@ document.addEventListener("keydown",e=>{
  if(map[e.key]){if(current){e.preventDefault();if(current==="2048")move2048(map[e.key]);else if(map[e.key]==="fire")action("fire");else act(map[e.key])}}
 });
 let swipeOrigin=null;
-document.addEventListener("pointerdown",e=>{if(e.target.closest(".board-2048,#arcade-canvas"))swipeOrigin={x:e.clientX,y:e.clientY,target:e.target.closest(".board-2048,#arcade-canvas")};},{passive:true});
-document.addEventListener("pointerup",e=>{if(!swipeOrigin)return;const dx=e.clientX-swipeOrigin.x,dy=e.clientY-swipeOrigin.y;swipeOrigin=null;if(Math.max(Math.abs(dx),Math.abs(dy))<24)return;const dir=Math.abs(dx)>Math.abs(dy)?(dx<0?"left":"right"):(dy<0?"up":"down");if(current==="2048")move2048(dir);else if(current==="snake"||current==="frog"||current==="jumper")act(dir);},{passive:true});
+function canvasPoint(e,canvas){const r=canvas.getBoundingClientRect();return {x:Math.max(0,Math.min(800,(e.clientX-r.left)/r.width*800)),y:Math.max(0,Math.min(900,(e.clientY-r.top)/r.height*900))}}
+document.addEventListener("pointerdown",e=>{
+ const board=e.target.closest(".board-2048"),canvas=e.target.closest("#arcade-canvas");
+ if(board||canvas){swipeOrigin={x:e.clientX,y:e.clientY,target:board||canvas,point:canvas?canvasPoint(e,canvas):null};if(canvas&&canvas.setPointerCapture)try{canvas.setPointerCapture(e.pointerId)}catch(_){}}
+},{passive:true});
+document.addEventListener("pointermove",e=>{
+ if(!swipeOrigin||swipeOrigin.target!==$q("#arcade-canvas")||!game||game.done||game.over)return;
+ const p=canvasPoint(e,swipeOrigin.target);
+ if(current==="breakout")game.paddle=Math.max(0,Math.min(6.5,p.x/100-.75));
+ if(current==="fruit")game.player.x=Math.max(0,Math.min(7,p.x/100-.5));
+ if(current==="space")game.player.x=Math.max(0,Math.min(9,p.x/80-.5));
+ if(current==="jumper")game.player.x=Math.max(0,Math.min(7.2,p.x/100-.35));
+},{passive:true});
+function finishPointer(e){
+ if(!swipeOrigin)return;
+ const origin=swipeOrigin;swipeOrigin=null;
+ const dx=e.clientX-origin.x,dy=e.clientY-origin.y;
+ if(origin.target.classList&&origin.target.classList.contains("board-2048")){
+  if(Math.max(Math.abs(dx),Math.abs(dy))>=20){const dir=Math.abs(dx)>Math.abs(dy)?(dx<0?"left":"right"):(dy<0?"up":"down");move2048(dir)}
+  return;
+ }
+ if(!game||game.done||game.over)return;
+ if(Math.max(Math.abs(dx),Math.abs(dy))>=22){
+  const dir=Math.abs(dx)>Math.abs(dy)?(dx<0?"left":"right"):(dy<0?"up":"down");
+  if(current==="frog"||current==="snake")act(dir);
+  else if(current==="jumper"&&dir==="up")action("jump");
+  else if(current==="racing"){if(dir==="left"||dir==="right")act(dir)}
+ }else{
+  const p=origin.point;
+  if(current==="space")action("fire");
+  else if(current==="jumper")action("jump");
+  else if(current==="frog"&&p){const px=game.player.x*80+40,py=game.player.y*100+50;const ddx=p.x-px,ddy=p.y-py;act(Math.abs(ddx)>Math.abs(ddy)?(ddx<0?"left":"right"):(ddy<0?"up":"down"))}
+  else if(current==="snake"&&p){const h=game.snake[0],ddx=p.x-(h.x*50+25),ddy=p.y-(h.y*50+25);act(Math.abs(ddx)>Math.abs(ddy)?(ddx<0?"left":"right"):(ddy<0?"up":"down"))}
+  else if(current==="racing"&&p)game.player.x=Math.max(0,Math.min(2,Math.floor(p.x/800*3)));
+ }
+}
+document.addEventListener("pointerup",finishPointer,{passive:true});
+document.addEventListener("pointercancel",()=>{swipeOrigin=null},{passive:true});
 window.addEventListener("resize",()=>{});
 window.renderGames=hub;
 })();
