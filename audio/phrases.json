@@ -1739,6 +1739,12 @@
       "ru": "Шестиугольник",
       "kk": "Алтыбұрыш",
       "en": "Hexagon"
+    },
+    {
+      "id": "geometry-odd-one-out",
+      "ru": "Какая фигура лишняя?",
+      "kk": "Қай фигура артық?",
+      "en": "Which shape is different?"
     }
   ]
 }
