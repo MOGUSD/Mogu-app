@@ -67,7 +67,7 @@ function setupGame(){
  if(id==="snake"){game.player={x:7,y:7,dir:"right"};game.snake=[{x:7,y:7},{x:6,y:7},{x:5,y:7}];game.started=false;game.moveClock=0;placeFood()}
  if(id==="breakout"){game.paddle=4;game.ball={x:4.5,y:7,dx:.08+l*.003,dy:-.12-l*.004};game.bricks=[];for(let y=0;y<Math.min(3+Math.ceil(l/5),6);y++)for(let x=0;x<8;x++)game.bricks.push({x:x+.08,y:y+.5,alive:true})}
  if(id==="space"){game.player={x:4,y:8};game.entities=[];game.bullets=[];game.wave=1;game.wavesTotal=game.level===1?1:game.level===2?2:Math.min(5,2+Math.floor((game.level-3)/2));game.hasBoss=game.level>=3&&game.level%3===0;game.spawnedInWave=0;game.spawn=0;game.stagePause=0;game.boss=null;game.bossSpawned=false;game.bossShots=[];game.fireHeld=false;game.fireCooldown=0;game.kills=0}
- if(id==="jumper"){game.player={x:3.7,y:670,vy:-11,face:1};game.platforms=[];for(let i=0;i<9;i++)game.platforms.push({x:i===0?3.1:Math.random()*7.0,y:760-i*112,w:1.25+Math.random()*.45,type:i===0?"start":(i%5===3?"spring":i%4===2?"moving":"normal"),phase:Math.random()*6});game.stars=[];game.camera=0;game.maxHeight=0;game.bonusClock=0}
+ if(id==="jumper"){game.player={x:3.7,y:670,vy:-11,face:1};game.platforms=[];for(let i=0;i<9;i++){const r=Math.random();const type=i===0?"start":r<.13?"falling":r<.25?"spikes":r<.36?"timed":r<.48?"moving":"normal";game.platforms.push({x:i===0?3.1:Math.random()*7.0,y:760-i*112,w:1.25+Math.random()*.45,type,phase:Math.random()*6,triggered:false,fallSpeed:0})}game.stars=[];game.camera=0;game.maxHeight=0;game.bonusClock=0;game.targetMeters=game.level*250}
  if(id==="fruit"){game.player={x:4,y:8};game.entities=[];game.spawn=0}
  if(id==="racing"){game.player={x:1,y:8};game.entities=[];game.spawn=0}
  const spaceHud=id==="space"?'<span>Волна: <b id="arcade-wave">1/'+game.wavesTotal+'</b></span>':"";
@@ -264,72 +264,98 @@ function drawSpace(c,dt){
  c.fillStyle="#397be8";c.beginPath();c.moveTo(0,-43);c.lineTo(15,12);c.lineTo(0,5);c.lineTo(-15,12);c.closePath();c.fill();c.fillStyle="#8df7ff";c.beginPath();c.ellipse(0,-17,9,17,0,0,Math.PI*2);c.fill();c.fillStyle="#ffcf65";c.beginPath();c.moveTo(-12,22);c.lineTo(0,48+Math.sin(game.tick*.6)*7);c.lineTo(12,22);c.closePath();c.fill();c.fillStyle="#ff6c8b";c.beginPath();c.moveTo(-23,18);c.lineTo(-29,39);c.lineTo(-12,25);c.closePath();c.fill();c.beginPath();c.moveTo(23,18);c.lineTo(29,39);c.lineTo(12,25);c.closePath();c.fill();c.restore();
 }
 function drawJumper(c,dt){
- const level=game.level;
+ const level=game.level,target=game.targetMeters||level*250;
  const bg=c.createLinearGradient(0,0,0,900);
  bg.addColorStop(0,"#70dcff");bg.addColorStop(.52,"#a7e9ff");bg.addColorStop(1,"#e4d8ff");
  c.fillStyle=bg;c.fillRect(0,0,800,900);
- // distant hills and drifting clouds
+ // Clouds and distant scenery
  c.fillStyle="#ffffff55";
- for(let i=0;i<5;i++){const x=((i*193-game.elapsed*0.22)%1000+1000)%1000-100;c.beginPath();c.ellipse(x,145+(i%3)*95,62,19,0,0,Math.PI*2);c.ellipse(x+35,137+(i%3)*95,38,25,0,0,Math.PI*2);c.fill()}
+ for(let i=0;i<5;i++){const x=((i*193-game.elapsed*.22)%1000+1000)%1000-100;c.beginPath();c.ellipse(x,145+(i%3)*95,62,19,0,0,Math.PI*2);c.ellipse(x+35,137+(i%3)*95,38,25,0,0,Math.PI*2);c.fill()}
  c.fillStyle="#ffffff24";for(let x=35;x<800;x+=100){c.beginPath();c.arc(x,((x*7+game.elapsed*1.4)%980),3+(x%4),0,Math.PI*2);c.fill()}
  const p=game.player;
- // Move special platforms gently
+ // Timed traps pulse on/off. Falling platforms keep accelerating once triggered.
  game.platforms.forEach(pl=>{
-  if(pl.type==="moving"){pl.x+=Math.sin(game.elapsed*.035+pl.phase)*.012*dt;pl.x=Math.max(.05,Math.min(7.45,pl.x))}
+  if(pl.type==="moving"&&!pl.triggered){pl.x+=Math.sin(game.elapsed*.035+pl.phase)*.012*dt;pl.x=Math.max(.05,Math.min(7.45,pl.x))}
+  if(pl.type==="falling"&&pl.triggered){pl.fallSpeed=Math.min(9,(pl.fallSpeed||0)+.32*dt);pl.y+=pl.fallSpeed*dt}
  });
- // Gravity and automatic bounce on landing
- p.vy+=.27*dt;p.y+=p.vy*dt;
- game.platforms.forEach(pl=>{
-  const px=pl.x*100,pw=pl.w*100;
-  if(p.vy>0&&p.x*100+57>px&&p.x*100+13<px+pw&&p.y+58>=pl.y&&p.y+58<=pl.y+19+Math.max(12,p.vy*dt+5)){
-   p.y=pl.y-58;p.vy=pl.type==="spring"?-15.2:-10.8-level*.055;
-   game.score+=pl.type==="spring"?15:5;
-   if(pl.type==="spring"){game.bonusClock=24}
-  }
- });
- // Camera follows the jumper upward; platforms scroll down
+ const gravity=.27;
+ const oldBottom=p.y+58;
+ p.vy+=gravity*dt;p.y+=p.vy*dt;
+ let landed=null;
+ if(p.vy>0){
+  game.platforms.forEach(pl=>{
+   if(pl.triggered&&pl.type==="falling")return;
+   const px=pl.x*100,pw=pl.w*100;
+   const crossed=oldBottom<=pl.y+5&&p.y+58>=pl.y;
+   const overlaps=p.x*100+57>px&&p.x*100+13<px+pw;
+   if(crossed&&overlaps&&(!landed||pl.y<landed.y))landed=pl;
+  });
+ }
+ if(landed){
+  if(landed.type==="spikes"){loseLife(true);return}
+  const timedActive=landed.type==="timed"&&((game.elapsed+landed.phase*20)%150)<92;
+  if(timedActive){loseLife(true);return}
+  p.y=landed.y-58;p.vy=landed.type==="spring"?-15.2:-10.8-level*.055;
+  game.score+=landed.type==="spring"?15:5;
+  if(landed.type==="falling"){landed.triggered=true;landed.fallSpeed=1.5}
+ }
+ // Camera tracks the highest point reached; world scrolls down as the hero climbs.
  if(p.y<350){
   const shift=350-p.y;p.y=350;game.camera+=shift;game.score+=Math.floor(shift*.035);
   game.platforms.forEach(pl=>pl.y+=shift);
   game.stars.forEach(st=>st.y+=shift);
  }
- // recycle platforms above the screen, with reachable spacing
+ // Recycle platforms above the screen and create varied, readable hazards.
  game.platforms.forEach(pl=>{
-  if(pl.y>930){
+  if(pl.y>940){
    const top=Math.min(...game.platforms.map(q=>q.y));
-   pl.y=top-(100+Math.random()*34);
-   pl.x=Math.random()*7.05;pl.w=1.15+Math.random()*.5;
-   const r=Math.random();pl.type=r<.13?"spring":r<.34?"moving":"normal";pl.phase=Math.random()*6;
+   pl.y=top-(105+Math.random()*34);pl.x=Math.random()*7.05;pl.w=1.15+Math.random()*.5;
+   const r=Math.random();
+   pl.type=r<.14?"falling":r<.28?"spikes":r<.42?"timed":r<.55?"moving":"normal";
+   pl.phase=Math.random()*6;pl.triggered=false;pl.fallSpeed=0;
   }
  });
- // stars appear between platforms and can be collected
- game.bonusClock-=dt;
+ // Collectible stars
  if(game.stars.length<3&&Math.random()<.018*dt){const pl=game.platforms[Math.floor(Math.random()*game.platforms.length)];game.stars.push({x:Math.max(25,Math.min(755,pl.x*100+pl.w*50)),y:pl.y-52,r:13})}
  game.stars=game.stars.filter(st=>{
-  const dx=p.x*100+35-st.x,dy=p.y+30-st.y;
-  if(Math.hypot(dx,dy)<48){game.score+=25;return false}return st.y<960
+  if(Math.hypot(p.x*100+35-st.x,p.y+30-st.y)<48){game.score+=25;return false}return st.y<960
  });
- // Platforms: glossy grass, moving blue, springy gold
+ // Trap contact check: active spike strips are dangerous even when the hero brushes past.
+ for(const pl of game.platforms){
+  if(pl.type!=="spikes"&&pl.type!=="timed")continue;
+  const active=pl.type==="spikes"||((game.elapsed+pl.phase*20)%150)<92;
+  if(active&&p.x*100+52>pl.x*100+5&&p.x*100+18<(pl.x+pl.w)*100-5&&p.y+53>pl.y-28&&p.y+8<pl.y+8){loseLife(true);return}
+ }
+ // Platforms with distinct visual language.
  game.platforms.forEach(pl=>{
   const x=pl.x*100,y=pl.y,w=pl.w*100;
-  const color=pl.type==="spring"?"#ffb83e":pl.type==="moving"?"#35b9e8":"#42c982";
+  if(pl.type==="falling"&&pl.triggered){c.save();c.translate(0,Math.sin(game.elapsed*.8)*2);c.restore()}
+  const color=pl.type==="spring"?"#ffb83e":pl.type==="moving"?"#35b9e8":pl.type==="falling"?"#d99a62":pl.type==="spikes"?"#8792a8":pl.type==="timed"?"#9b7be8":"#42c982";
   rect(c,x,y+8,w,18,"#287f9a55",9);rect(c,x,y,w,19,color,10);
   rect(c,x+8,y+2,w-16,5,"#ffffff9a",3);
-  if(pl.type==="spring"){
-   rect(c,x+w*.38,y-9,w*.24,10,"#fff0a0",5);
-   for(let k=0;k<3;k++)rect(c,x+w*.43+k*8,y-18,4,10,"#ff8d36",2);
-  }else if(pl.type==="moving"){
-   for(let k=0;k<3;k++){c.fillStyle="#ffffffb8";c.beginPath();c.arc(x+w*.35+k*17,y+10,3,0,Math.PI*2);c.fill()}
+  if(pl.type==="falling"){
+   c.strokeStyle="#8b573b";c.lineWidth=4;c.beginPath();c.moveTo(x+w*.28,y+7);c.lineTo(x+w*.42,y+16);c.lineTo(x+w*.52,y+6);c.lineTo(x+w*.7,y+16);c.stroke();
+   if(pl.triggered){c.fillStyle="#fff";c.font="bold 17px system-ui";c.fillText("↓",x+w/2-5,y-9)}
   }
+  if(pl.type==="spikes"||pl.type==="timed"){
+   const active=pl.type==="spikes"||((game.elapsed+pl.phase*20)%150)<92;
+   if(active){
+    c.fillStyle=pl.type==="spikes"?"#f04d63":"#7a4de0";
+    for(let sx=x+8;sx<x+w-7;sx+=22){c.beginPath();c.moveTo(sx,y+2);c.lineTo(sx+10,y-25);c.lineTo(sx+20,y+2);c.closePath();c.fill()}
+   }else if(pl.type==="timed"){
+    c.fillStyle="#ffffffcc";c.font="bold 15px system-ui";c.fillText("…",x+w/2-5,y-6)
+   }
+  }
+  if(pl.type==="moving"){for(let k=0;k<3;k++){c.fillStyle="#ffffffb8";c.beginPath();c.arc(x+w*.35+k*17,y+10,3,0,Math.PI*2);c.fill()}}
+  if(pl.type==="spring"){rect(c,x+w*.38,y-9,w*.24,10,"#fff0a0",5);for(let k=0;k<3;k++)rect(c,x+w*.43+k*8,y-18,4,10,"#ff8d36",2)}
  });
- // Star artwork
+ // Stars
  game.stars.forEach(st=>{
-  c.save();c.translate(st.x,st.y);c.rotate(game.elapsed*.025);
-  c.fillStyle="#fff16a";c.strokeStyle="#ffb52e";c.lineWidth=4;c.beginPath();
+  c.save();c.translate(st.x,st.y);c.rotate(game.elapsed*.025);c.fillStyle="#fff16a";c.strokeStyle="#ffb52e";c.lineWidth=4;c.beginPath();
   for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?8:17;c.lineTo(Math.cos(a)*r,Math.sin(a)*r)}
   c.closePath();c.fill();c.stroke();c.restore();
  });
- // Draw the hero as a little blue creature, not an emoji
+ // Little jumper character
  const x=p.x*100+35,y=p.y+29;
  c.save();c.translate(x,y);c.rotate(Math.max(-.18,Math.min(.18,p.vy*.012)));
  c.fillStyle="#315b9d55";c.beginPath();c.ellipse(0,32,29,8,0,0,Math.PI*2);c.fill();
@@ -338,14 +364,14 @@ function drawJumper(c,dt){
  c.fillStyle="#fff";c.beginPath();c.arc(-9,-7,7,0,Math.PI*2);c.arc(9,-7,7,0,Math.PI*2);c.fill();
  c.fillStyle="#34466d";c.beginPath();c.arc(-7,-6,3.2,0,Math.PI*2);c.arc(11,-6,3.2,0,Math.PI*2);c.fill();
  c.strokeStyle="#a94d49";c.lineWidth=3;c.beginPath();c.arc(0,5,8,.15,Math.PI-.15);c.stroke();
- c.strokeStyle="#ff8a65";c.lineWidth=6;c.lineCap="round";
- c.beginPath();c.moveTo(-14,21);c.lineTo(-23,29);c.moveTo(14,21);c.lineTo(23,29);c.stroke();
- c.restore();
- // Height / score marker
- rect(c,18,18,142,42,"#ffffffcc",16);
- c.fillStyle="#49658c";c.font="bold 21px system-ui";c.fillText("↑ "+Math.floor(game.camera/10)+" м",34,46);
- if(p.y>875){loseLife();if(!game.over&&!game.done){p.y=690;p.vy=-10.8;game.platforms.push({x:Math.max(0,Math.min(7.2,p.x-.6)),y:790,w:1.6,type:"normal",phase:0})}}
- if(game.score>=game.target*5)completeLevel("Ты забрался на высоту "+Math.floor(game.camera/10)+" метров!");
+ c.strokeStyle="#ff8a65";c.lineWidth=6;c.lineCap="round";c.beginPath();c.moveTo(-14,21);c.lineTo(-23,29);c.moveTo(14,21);c.lineTo(23,29);c.stroke();c.restore();
+ // Height bar and round target
+ const meters=Math.floor(game.camera/10),progress=Math.min(1,meters/target);
+ rect(c,18,18,225,48,"#ffffffdd",16);
+ c.fillStyle="#49658c";c.font="bold 20px system-ui";c.fillText("↑ "+meters+" / "+target+" м",32,49);
+ rect(c,260,31,500,17,"#ffffff99",9);rect(c,260,31,500*progress,17,"#ffb84d",9);
+ if(p.y>890){loseLife(true);return}
+ if(meters>=target){completeLevel("Цель достигнута — "+target+" метров!")}
 }
 function drawFruit(c,dt){
  const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#fff18a");bg.addColorStop(.5,"#ffc1a6");bg.addColorStop(1,"#ff9fce");c.fillStyle=bg;c.fillRect(0,0,800,900);game.spawn-=dt;if(game.spawn<=0){game.entities.push({x:Math.random()*740+20,y:-20,bomb:Math.random()<.18,speed:1.3+l*.035});game.spawn=Math.max(22,42-l*.55)}
