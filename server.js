@@ -237,7 +237,7 @@ const server = http.createServer(async (req, res) => {
         return send(res,400,"Invalid audio path","text/plain");
       try {
         const object = await readAudioObject("audio/madina/"+relative);
-        res.writeHead(200,{"Content-Type":"audio/mpeg","Content-Length":object.ContentLength,
+        res.writeHead(200,{"Content-Type":"audio/mpeg",
           "Cache-Control":"public, max-age=31536000, immutable","X-Content-Type-Options":"nosniff"});
         return require("node:stream").Readable.fromWeb(object.body).pipe(res);
       } catch (error) {
