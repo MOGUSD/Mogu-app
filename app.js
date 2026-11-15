@@ -322,6 +322,41 @@ daily:[
 ]
 };
 let activeLesson="colors";
+function geometricShapeVisual(key,size=88){
+ const shapes={
+ circle:["#58C5EA","#2189C4",'<circle cx="50" cy="50" r="37"/>'],
+ square:["#FFC05A","#E58B26",'<rect x="15" y="15" width="70" height="70" rx="11"/>'],
+ triangle:["#FF8792","#D94F68",'<path d="M50 12 91 84H9Z"/>'],
+ rectangle:["#A392F2","#7058CE",'<rect x="8" y="27" width="84" height="46" rx="10"/>'],
+ oval:["#72D5AE","#2D9D77",'<ellipse cx="50" cy="50" rx="42" ry="29"/>'],
+ diamond:["#E6A1D8","#B96CB0",'<path d="M50 7 91 50 50 93 9 50Z"/>'],
+ starShape:["#FFD35B","#D89B20",'<path d="m50 6 12 29 31 2-24 20 8 31-27-17-27 17 8-31L7 37l31-2Z"/>'],
+ heartShape:["#FF829E","#D94E73",'<path d="M50 88 15 55C-5 32 22 5 43 25l7 7 7-7C78 5 105 32 85 55Z"/>'],
+ pentagon:["#F2A65A","#CE7630",'<path d="m50 7 42 31-16 49H24L8 38Z"/>'],
+ hexagon:["#69B8D9","#3187AD",'<path d="m27 10 46 0 23 40-23 40H27L4 50Z"/>']
+ };
+ const item=shapes[key];
+ if(!item){const n={two:2,three:3,four:4,five:5,six:6}[key];return n?'<span class="shape-number">'+n+'</span>':'';}
+ const id="geo-"+key;
+ return '<svg class="geometry-shape" viewBox="0 0 100 100" width="'+size+'" height="'+size+'" role="img" aria-label="'+key+'"><defs><linearGradient id="'+id+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+item[0]+'"/><stop offset="1" stop-color="'+item[1]+'"/></linearGradient><filter id="'+id+'-shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#49345f" flood-opacity=".2"/></filter></defs><g fill="url(#'+id+')" stroke="#fff" stroke-width="3" stroke-linejoin="round" filter="url(#'+id+'-shadow)">'+item[2]+'</g><path d="M22 27 Q50 10 74 26" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="5" stroke-linecap="round"/></svg>';
+}
+function geometricQuestionVisual(question){
+ const q=String(question||"").toLowerCase();
+ const words=[
+ ["круг","circle"],["шеңбер","circle"],["circle","circle"],["мяч","circle"],["доп","circle"],["ball","circle"],["часы","circle"],["сағат","circle"],["clock","circle"],
+ ["квадрат","square"],["шаршы","square"],["square","square"],
+ ["треугольник","triangle"],["үшбұрыш","triangle"],["triangle","triangle"],["крыша","triangle"],["шатыр","triangle"],["roof","triangle"],["три стороны","triangle"],["үш қабырғасы","triangle"],["three sides","triangle"],
+ ["прямоугольник","rectangle"],["тіктөртбұрыш","rectangle"],["rectangle","rectangle"],["окно","rectangle"],["терезе","rectangle"],["window","rectangle"],["дверь","rectangle"],["есік","rectangle"],["door","rectangle"],["книга","rectangle"],["кітап","rectangle"],["book","rectangle"],
+ ["овал","oval"],["сопақ","oval"],["oval","oval"],["яйцо","oval"],["жұмыртқа","oval"],["egg","oval"],
+ ["ромб","diamond"],["diamond","diamond"],["дорожный знак","diamond"],["жол белгісі","diamond"],
+ ["звезд","starShape"],["жұлдыз","starShape"],["star","starShape"],["сердц","heartShape"],["жүрек","heartShape"],["heart","heartShape"],
+ ["пятиугольник","pentagon"],["бесбұрыш","pentagon"],["five sides","pentagon"],["пятью сторонами","pentagon"],
+ ["шестиугольник","hexagon"],["алтыбұрыш","hexagon"],["six sides","hexagon"],["шестью сторонами","hexagon"],
+ ["четыре равные стороны","square"],["төрт қабырғасы бірдей","square"],["four equal sides","square"]
+ ];
+ const found=words.find(([word])=>q.includes(word));
+ return found?'<div class="geometry-question-visual">'+geometricShapeVisual(found[1],118)+'</div>':"";
+}
 function renderLearn(){
  state.screen="learn";
  const l=state.lang,idx=l==="kk"?1:l==="en"?2:0;
@@ -331,8 +366,8 @@ function renderLearn(){
   $("#app-main").innerHTML=head(t("learn"),t("learnDesc"))+'<div class="learn-madina"><img src="./assets/madina-guide.webp" alt="Мадина"><div><strong>'+(l==="kk"?"Мадина саған көмектеседі!":l==="en"?"Madina is here to help!":"Мадина поможет тебе!")+'</strong><p>'+(l==="kk"?"Бүгін нені үйренеміз?":l==="en"?"What shall we discover today?":"Что сегодня будем изучать?")+'</p></div></div><div class="learn-topic-grid">'+topics.map(x=>'<button class="learn-topic" data-lesson="'+x[0]+'"><span>'+x[1]+'</span><strong>'+x[2][idx]+'</strong></button>').join("")+'</div>';
   nav("home");return;
  }
- const question=L.question[l]||L.question.ru;const colorProgress=(L.topic==="colors"||L.topic==="math"||L.topic==="reading"||L.topic==="thinking")&&L.colorPosition?(l==="kk"?"Тапсырма ":l==="en"?"Question ":"Задание ")+L.colorPosition+" / "+L.colorTotal:"";
- $("#app-main").innerHTML=head(t("learn"),question)+'<section class="learn-layout"><section class="learn-main"><div class="lesson-kicker">'+topics.find(x=>x[0]===activeLesson)[2][idx]+(colorProgress?' · '+colorProgress:"")+'</div><h2 class="lesson-question">'+question+'</h2><div class="lesson-options">'+L.options.map(x=>'<button class="lesson-option '+((activeLesson==="math"||activeLesson==="reading")?"math-answer ":"")+(L.lastAnswer===x[0]?(L.lastCorrect?"correct":"try-again"):"")+'" data-answer="'+x[0]+'" aria-pressed="'+(L.lastAnswer===x[0])+'"><span>'+(activeLesson==="thinking"?geometricShapeVisual(x[0],88):(activeLesson==="reading"?t(x[0]):(activeLesson==="colors"&&x[0]==="pink"?'<i class="lesson-color-dot lesson-color-dot-pink" aria-label="Розовый круг"></i>':x[1])))+'</span>'+((activeLesson==="math"||activeLesson==="reading")?"":'<strong>'+t(x[0])+'</strong>')+'</button>').join("")+'</div><p class="lesson-feedback" aria-live="polite">'+(L.feedback||"")+'</p><button class="soft-button" data-action="repeat">🔊 '+t("again")+'</button> <button class="soft-button" data-action="newlesson">'+t("next")+' →</button> <button class="soft-button" data-action="learn-back">← '+(l==="kk"?"Тақырыптар":l==="en"?"Topics":"К темам")+'</button></section><aside class="lesson-side"><div class="panel lesson-madina"><img src="./assets/madina-guide.webp" alt="Мадина"><p>'+t("youCan")+'</p></div><div class="panel lesson-tools">'+topics.map(x=>'<button class="category-button '+(activeLesson===x[0]?"active":"")+'" data-lesson="'+x[0]+'">'+x[2][idx]+'</button>').join("")+'</div></aside></section>';
+ const question=L.question[l]||L.question.ru;const shapeDemo=activeLesson==="thinking"?geometricQuestionVisual(question):"";const colorProgress=(L.topic==="colors"||L.topic==="math"||L.topic==="reading"||L.topic==="thinking")&&L.colorPosition?(l==="kk"?"Тапсырма ":l==="en"?"Question ":"Задание ")+L.colorPosition+" / "+L.colorTotal:"";
+ $("#app-main").innerHTML=head(t("learn"),question)+'<section class="learn-layout"><section class="learn-main"><div class="lesson-kicker">'+topics.find(x=>x[0]===activeLesson)[2][idx]+(colorProgress?' · '+colorProgress:"")+'</div><h2 class="lesson-question">'+question+'</h2>'+shapeDemo+'<div class="lesson-options">'+L.options.map(x=>'<button class="lesson-option '+((activeLesson==="math"||activeLesson==="reading")?"math-answer ":"")+(L.lastAnswer===x[0]?(L.lastCorrect?"correct":"try-again"):"")+'" data-answer="'+x[0]+'" aria-pressed="'+(L.lastAnswer===x[0])+'"><span>'+(activeLesson==="thinking"?geometricShapeVisual(x[0],88):(activeLesson==="reading"?t(x[0]):(activeLesson==="colors"&&x[0]==="pink"?'<i class="lesson-color-dot lesson-color-dot-pink" aria-label="Розовый круг"></i>':x[1])))+'</span>'+((activeLesson==="math"||activeLesson==="reading")?"":'<strong>'+t(x[0])+'</strong>')+'</button>').join("")+'</div><p class="lesson-feedback" aria-live="polite">'+(L.feedback||"")+'</p><button class="soft-button" data-action="repeat">🔊 '+t("again")+'</button> <button class="soft-button" data-action="newlesson">'+t("next")+' →</button> <button class="soft-button" data-action="learn-back">← '+(l==="kk"?"Тақырыптар":l==="en"?"Topics":"К темам")+'</button></section><aside class="lesson-side"><div class="panel lesson-madina"><img src="./assets/madina-guide.webp" alt="Мадина"><p>'+t("youCan")+'</p></div><div class="panel lesson-tools">'+topics.map(x=>'<button class="category-button '+(activeLesson===x[0]?"active":"")+'" data-lesson="'+x[0]+'">'+x[2][idx]+'</button>').join("")+'</div></aside></section>';
  nav("home");
 }
 let colorLessonDeck=[];
