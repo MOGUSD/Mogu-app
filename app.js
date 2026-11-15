@@ -409,6 +409,27 @@ let thinkingLessonDeck=[];
 let thinkingLessonPosition=0;
 let lastThinkingQuestionIndex=-1;
 function shuffleLessonDeck(deck){for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]]}return deck}
+const lessonFeedbackPhrases={
+ great:{
+  ru:["Умница! Отлично получилось!","Как здорово! Ты справился!","Правильно! Я тобой горжусь!","Вот это да! У тебя получилось!","Молодец! Так держать!"],
+  kk:["Жарайсың! Өте жақсы!","Керемет! Сен орындадың!","Дұрыс! Мен сені мақтан тұтамын!","Тамаша! Қолыңнан келді!","Өте жақсы! Осылай жалғастыр!"],
+  en:["Brilliant! You did it!","Wonderful! You got it right!","Correct! I'm proud of you!","Amazing work! You did it!","Well done! Keep it up!"]
+ },
+ try:{
+  ru:["Ничего страшного! Попробуй ещё раз.","Почти получилось! Давай ещё раз.","Ошибаться не страшно. У тебя получится!","Давай подумаем вместе и попробуем снова.","Не торопись. Попробуй ещё раз!"],
+  kk:["Ештеңе етпейді! Қайта байқап көр.","Аз қалды! Тағы бір рет көрейік.","Қателесу қорқынышты емес. Сенің қолыңнан келеді!","Бірге ойланып, қайта байқап көрейік.","Асықпа. Тағы бір рет байқап көр!"],
+  en:["That's okay! Let's try again.","So close! Give it another try.","It's okay to make mistakes. You can do it!","Let's think together and try once more.","Take your time. Try again!"]
+ }
+};
+let lastLessonFeedbackIndex={great:-1,try:-1};
+function chooseLessonFeedback(kind,lang){
+ const list=lessonFeedbackPhrases[kind][lang]||lessonFeedbackPhrases[kind].ru;
+ let index=Math.floor(Math.random()*list.length);
+ if(list.length>1&&index===lastLessonFeedbackIndex[kind])index=(index+1+Math.floor(Math.random()*(list.length-1)))%list.length;
+ lastLessonFeedbackIndex[kind]=index;
+ return list[index];
+}
+
 let lessonSpeechRun=0;
 function lessonPromptText(){if(!state.lesson)return "";const l=state.lang,question=state.lesson.question[l]||state.lesson.question.ru;const choices=state.lesson.options.map(x=>t(x[0])).join(", ");const prefix=l==="kk"?"Жауап нұсқалары: ":l==="en"?"Answer choices: ":"Варианты ответа: ";return question+". "+prefix+choices+"."}
 function speakLessonPrompt(){
@@ -474,7 +495,7 @@ if(b.dataset.category){state.category=b.dataset.category;renderTalk();return}
 if(b.dataset.picto){addPhrase(b.dataset.picto,b.dataset.icon);return}
 if(b.dataset.urgent){urgentAction(b.dataset.urgent);return}
 if(b.dataset.lesson){if(!lessonSets[b.dataset.lesson])return;activeLesson=b.dataset.lesson;state.lessonMode=true;newLesson();renderLearn();speakLessonPrompt();return}
-if(b.dataset.answer){if(!state.lesson||!state.lessonMode)return;const correct=b.dataset.answer===state.lesson.answer;state.lesson.lastAnswer=b.dataset.answer;state.lesson.lastCorrect=correct;state.lesson.feedback=correct?t("great"):t("try");if(correct){state.stats.lessons++;saveStats()}renderLearn();if(correct){const praise=state.lang==="kk"?"Жарайсың! Өте жақсы!":state.lang==="en"?"Well done! Great job!":"Умница! Отлично получилось!";speakMadina(praise,state.lang,()=>{if(state.screen!=="learn"||!state.lessonMode)return;newLesson();renderLearn();speakLessonPrompt()})}else{announceGuide(state.lang==="kk"?"Қайта байқап көрейік. Асықпа!":state.lang==="en"?"Try again. Take your time!":"Давай попробуем ещё раз. Не спеши!")};return}
+if(b.dataset.answer){if(!state.lesson||!state.lessonMode)return;const correct=b.dataset.answer===state.lesson.answer;state.lesson.lastAnswer=b.dataset.answer;state.lesson.lastCorrect=correct;const feedback=chooseLessonFeedback(correct?"great":"try",state.lang);state.lesson.feedback=feedback;if(correct){state.stats.lessons++;saveStats()}renderLearn();if(correct){speakMadina(feedback,state.lang,()=>{if(state.screen!=="learn"||!state.lessonMode)return;newLesson();renderLearn();speakLessonPrompt()})}else{announceGuide(feedback)};return}
 if(b.dataset.world){state.worldItem={key:b.dataset.world,icon:b.dataset.icon};state.stats.explored++;saveStats();renderWorld();announceGuide(state.lang==="kk"?t(b.dataset.world)+"! Жаңа сөзді бірге үйренейік.":state.lang==="en"?t(b.dataset.world)+"! Let's learn this word together.":t(b.dataset.world)+"! Давай узнаем это слово вместе.");return}
 if(b.dataset.feel){state.feeling={key:b.dataset.feel,icon:emotions.find(x=>x[0]===b.dataset.feel)[1]};state.stats.feelings++;saveStats();renderFeel();announceGuide(state.lang==="kk"?"Сен "+t(b.dataset.feel)+" сезінесің. Рақмет, бөліскеніңе!":state.lang==="en"?"You feel "+t(b.dataset.feel)+". Thank you for sharing!":"Ты чувствуешь: "+t(b.dataset.feel)+". Спасибо, что поделился!");return}
 if(b.dataset.setting){const k=b.dataset.setting,v=b.dataset.value;state.settings[k]=k==="size"?v:k==="rate"?Number(v):v==="true";store.set("settings",state.settings);renderAdult();applySettings();return}
