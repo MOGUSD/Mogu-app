@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "voice": {
+    "provider": "Fish Audio",
+    "referenceId": "33d2eff7a2f449b4b1a2e95d42ebbb33",
+    "model": "s2.1-pro-free"
+  },
+  "phrases": [
+    {
+      "id": "welcome",
+      "ru": "Привет! Меня зовут Мадина, давай поиграем!",
+      "kk": "Сәлем! Менің атым Мадина, бірге ойнайық!",
+      "en": "Hello! My name is Madina. Let’s play together!"
+    },
+    {
+      "id": "hello",
+      "ru": "Привет, друг!",
+      "kk": "Сәлем, досым!",
+      "en": "Hello, friend!"
+    },
+    {
+      "id": "intro",
+      "ru": "Здесь можно говорить, играть и открывать новое. Всё в твоём темпе!",
+      "kk": "Мұнда сөйлесуге, ойнауға және жаңа нәрсе ашуға болады. Өз қарқыныңмен!",
+      "en": "A place to talk, play and discover. At your own pace!"
+    },
+    {
+      "id": "you-can",
+      "ru": "Ты можешь! Каждый шаг важен.",
+      "kk": "Сенің қолыңнан келеді! Әр қадам маңызды.",
+      "en": "You can do it! Every step matters."
+    },
+    {
+      "id": "choose",
+      "ru": "Куда отправимся?",
+      "kk": "Қайда барамыз?",
+      "en": "Where shall we go?"
+    },
+    {
+      "id": "great",
+      "ru": "У тебя получилось!",
+      "kk": "Жарайсың! Болды!",
+      "en": "You did it!"
+    },
+    {
+      "id": "try-again",
+      "ru": "Давай попробуем ещё!",
+      "kk": "Қайта байқап көрейік!",
+      "en": "Let's try again!"
+    },
+    {
+      "id": "listen-choose",
+      "ru": "Послушай и выбери.",
+      "kk": "Тыңда да таңда.",
+      "en": "Listen and choose."
+    },
+    {
+      "id": "listen-again",
+      "ru": "Послушай ещё раз.",
+      "kk": "Қайта тыңда.",
+      "en": "Listen again."
+    },
+    {
+      "id": "new-task",
+      "ru": "Новое задание.",
+      "kk": "Жаңа тапсырма.",
+      "en": "A new activity."
+    },
+    {
+      "id": "help",
+      "ru": "Помоги мне, пожалуйста.",
+      "kk": "Маған көмектесші, өтінемін.",
+      "en": "Please help me."
+    },
+    {
+      "id": "stop",
+      "ru": "Стоп.",
+      "kk": "Тоқта.",
+      "en": "Stop."
+    },
+    {
+      "id": "pain",
+      "ru": "Мне больно.",
+      "kk": "Маған ауыр.",
+      "en": "It hurts."
+    },
+    {
+      "id": "toilet",
+      "ru": "Мне нужно в туалет.",
+      "kk": "Маған дәретхана керек.",
+      "en": "I need the toilet."
+    },
+    {
+      "id": "finished",
+      "ru": "Я закончил.",
+      "kk": "Мен аяқтадым.",
+      "en": "I'm finished."
+    },
+    {
+      "id": "break",
+      "ru": "Мне нужен перерыв.",
+      "kk": "Маған үзіліс керек.",
+      "en": "I need a break."
+    }
+  ]
+}
