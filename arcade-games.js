@@ -66,12 +66,12 @@ function setupGame(){
  if(id==="frog"){game.player={x:4,y:9};game.entities=[];for(let y=1;y<=7;y+=2)for(let i=0;i<2+Math.floor(l/8);i++)game.entities.push({x:Math.random()*9,y,speed:(Math.random()<.5?-1:1)*(0.7+l*.055+Math.random()*.4),type:"car",w:1.1+Math.random()*.5})}
  if(id==="snake"){game.player={x:7,y:7,dir:"right"};game.snake=[{x:7,y:7},{x:6,y:7},{x:5,y:7}];game.started=false;game.moveClock=0;placeFood()}
  if(id==="breakout"){game.paddle=4;game.ball={x:4.5,y:7,dx:.08+l*.003,dy:-.12-l*.004};game.bricks=[];for(let y=0;y<Math.min(3+Math.ceil(l/5),6);y++)for(let x=0;x<8;x++)game.bricks.push({x:x+.08,y:y+.5,alive:true})}
- if(id==="space"){game.player={x:4,y:8};game.entities=[];game.bullets=[];game.wave=1;game.wavesTotal=game.level===1?1:game.level===2?2:Math.min(5,2+Math.floor((game.level-3)/2));game.hasBoss=game.level>=3&&game.level%3===0;game.spawnedInWave=0;game.spawn=0;game.stagePause=0;game.boss=null;game.bossSpawned=false;game.bossShots=[];game.kills=0}
+ if(id==="space"){game.player={x:4,y:8};game.entities=[];game.bullets=[];game.wave=1;game.wavesTotal=game.level===1?1:game.level===2?2:Math.min(5,2+Math.floor((game.level-3)/2));game.hasBoss=game.level>=3&&game.level%3===0;game.spawnedInWave=0;game.spawn=0;game.stagePause=0;game.boss=null;game.bossSpawned=false;game.bossShots=[];game.fireHeld=false;game.fireCooldown=0;game.kills=0}
  if(id==="jumper"){game.player={x:4,y:650,vy:-8};game.platforms=[];for(let i=0;i<9;i++)game.platforms.push({x:Math.random()*7.2,y:720-i*100,w:1.2+Math.random()*.6});game.stars=0}
  if(id==="fruit"){game.player={x:4,y:8};game.entities=[];game.spawn=0}
  if(id==="racing"){game.player={x:1,y:8};game.entities=[];game.spawn=0}
  const spaceHud=id==="space"?'<span>Волна: <b id="arcade-wave">1/'+game.wavesTotal+'</b></span>':"";
- const spaceFire=id==="space"?'<button class="space-fire-btn" data-game-action="fire">🔥 ОГОНЬ</button>':"";
+ const spaceFire=id==="space"?'<button class="space-fire-btn" type="button">🔥 ОГОНЬ</button>':"";
  const canvas='<div class="arcade-stats"><span>Уровень: <b id="arcade-level">'+l+'/30</b></span>'+spaceHud+'<span>Очки: <b id="arcade-score">0</b></span><span>❤️ <b id="arcade-lives">3</b></span></div><canvas id="arcade-canvas" width="800" height="900" aria-label="Игровое поле"></canvas>'+spaceFire+'<p class="arcade-hint" id="arcade-hint">'+hint(id)+'</p><div id="arcade-message"></div>';
  shell(G.find(x=>x.id===id),canvas);
 }
@@ -216,6 +216,8 @@ function drawBreakout(c,dt){
  if(game.bricks.every(x=>!x.alive))completeLevel("Все кирпичики разбиты!");
 }
 function drawSpace(c,dt){
+ game.fireCooldown=(game.fireCooldown||0)-dt;
+ if(game.fireHeld&&game.fireCooldown<=0){game.bullets.push({x:game.player.x*80+35,y:820});game.fireCooldown=8}
  const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#100b45");bg.addColorStop(.5,"#292078");bg.addColorStop(1,"#075b9c");c.fillStyle=bg;c.fillRect(0,0,800,900);
  for(let i=0;i<58;i++){const x=(i*137)%790+5,y=(i*193+game.tick*(1+i%3)*.35)%880+8;c.fillStyle=i%4===0?"#ffe99a":"#ffffffbb";c.beginPath();c.arc(x,y,i%5===0?3:1.8,0,Math.PI*2);c.fill()}
  // Every wave contains exactly ten regular enemy ships.
@@ -321,25 +323,45 @@ document.addEventListener("keydown",e=>{
  const map={ArrowLeft:"left",ArrowRight:"right",ArrowUp:"up",ArrowDown:"down"," ":"fire"};
  if(map[e.key]){if(current){e.preventDefault();if(current==="2048")move2048(map[e.key]);else if(map[e.key]==="fire")action("fire");else act(map[e.key])}}
 });
-let swipeOrigin=null;
+let swipeOrigin=null,canvasPointerId=null;
+const activePointers=new Map();
 function canvasPoint(e,canvas){const r=canvas.getBoundingClientRect();return {x:Math.max(0,Math.min(800,(e.clientX-r.left)/r.width*800)),y:Math.max(0,Math.min(900,(e.clientY-r.top)/r.height*900))}}
 document.addEventListener("pointerdown",e=>{
+ const fire=e.target.closest(".space-fire-btn");
+ if(fire&&current==="space"&&game&&!game.done&&!game.over){
+  activePointers.set(e.pointerId,"fire");game.fireHeld=true;
+  try{fire.setPointerCapture(e.pointerId)}catch(_){}
+  e.preventDefault();return;
+ }
  const board=e.target.closest(".board-2048"),canvas=e.target.closest("#arcade-canvas");
- if(board||canvas){swipeOrigin={x:e.clientX,y:e.clientY,target:board||canvas,point:canvas?canvasPoint(e,canvas):null};if(canvas){canvasPointerId=e.pointerId;if(canvas.setPointerCapture)try{canvas.setPointerCapture(e.pointerId)}catch(_){}}}
-},{passive:true});
+ if(board||canvas){
+  activePointers.set(e.pointerId,canvas?"canvas":"board");
+  if(canvas){
+   canvasPointerId=e.pointerId;
+   swipeOrigin={x:e.clientX,y:e.clientY,target:canvas,point:canvasPoint(e,canvas),pointerId:e.pointerId};
+   try{canvas.setPointerCapture(e.pointerId)}catch(_){}
+  }else swipeOrigin={x:e.clientX,y:e.clientY,target:board,point:null,pointerId:e.pointerId};
+ }
+},{passive:false});
 document.addEventListener("pointermove",e=>{
- if(!swipeOrigin||e.pointerId!==canvasPointerId||swipeOrigin.target!==$q("#arcade-canvas")||!game||game.done||game.over)return;
- const p=canvasPoint(e,swipeOrigin.target);
+ const kind=activePointers.get(e.pointerId);
+ if(kind!=="canvas"||!game||game.done||game.over)return;
+ const canvas=$q("#arcade-canvas");if(!canvas)return;
+ const p=canvasPoint(e,canvas);
  if(current==="breakout")game.paddle=Math.max(0,Math.min(6.5,p.x/100-.75));
  if(current==="fruit")game.player.x=Math.max(0,Math.min(7,p.x/100-.5));
  if(current==="space")game.player.x=Math.max(0,Math.min(9,p.x/80-.5));
  if(current==="jumper")game.player.x=Math.max(0,Math.min(7.2,p.x/100-.35));
 },{passive:true});
 function finishPointer(e){
- if(!swipeOrigin)return;
- const origin=swipeOrigin;swipeOrigin=null;canvasPointerId=null;
+ const kind=activePointers.get(e.pointerId);
+ if(!kind)return;
+ activePointers.delete(e.pointerId);
+ if(kind==="fire"){game.fireHeld=[...activePointers.values()].includes("fire");return}
+ if(!swipeOrigin||swipeOrigin.pointerId!==e.pointerId)return;
+ const origin=swipeOrigin;swipeOrigin=null;if(canvasPointerId===e.pointerId)canvasPointerId=null;
  const dx=e.clientX-origin.x,dy=e.clientY-origin.y;
- if(origin.target.classList&&origin.target.classList.contains("board-2048")){
+ if(kind==="board"){
   if(Math.max(Math.abs(dx),Math.abs(dy))>=20){const dir=Math.abs(dx)>Math.abs(dy)?(dx<0?"left":"right"):(dy<0?"up":"down");move2048(dir)}
   return;
  }
@@ -348,18 +370,18 @@ function finishPointer(e){
   const dir=Math.abs(dx)>Math.abs(dy)?(dx<0?"left":"right"):(dy<0?"up":"down");
   if(current==="frog"||current==="snake")act(dir);
   else if(current==="jumper"&&dir==="up")action("jump");
-  else if(current==="racing"){if(dir==="left"||dir==="right")act(dir)}
+  else if(current==="racing"&&(dir==="left"||dir==="right"))act(dir);
  }else{
   const p=origin.point;
   if(current==="space")action("fire");
   else if(current==="jumper")action("jump");
-  else if(current==="frog"&&p){const px=game.player.x*80+40,py=game.player.y*100+50;const ddx=p.x-px,ddy=p.y-py;act(Math.abs(ddx)>Math.abs(ddy)?(ddx<0?"left":"right"):(ddy<0?"up":"down"))}
+  else if(current==="frog"&&p){const px=game.player.x*80+40,py=game.player.y*100+50,ddx=p.x-px,ddy=p.y-py;act(Math.abs(ddx)>Math.abs(ddy)?(ddx<0?"left":"right"):(ddy<0?"up":"down"))}
   else if(current==="snake"&&p){const h=game.snake[0],ddx=p.x-(h.x*50+25),ddy=p.y-(h.y*50+25);act(Math.abs(ddx)>Math.abs(ddy)?(ddx<0?"left":"right"):(ddy<0?"up":"down"))}
   else if(current==="racing"&&p)game.player.x=Math.max(0,Math.min(2,Math.floor(p.x/800*3)));
  }
 }
 document.addEventListener("pointerup",finishPointer,{passive:true});
-document.addEventListener("pointercancel",e=>{if(e.pointerId===firePointerId){firePointerId=null;if(fireHoldTimer){clearInterval(fireHoldTimer);fireHoldTimer=null}}if(e.pointerId===canvasPointerId){swipeOrigin=null;canvasPointerId=null}},{passive:true});
+document.addEventListener("pointercancel",finishPointer,{passive:true});
 window.addEventListener("resize",()=>{});
 window.renderGames=hub;
 })();
