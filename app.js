@@ -13,6 +13,9 @@ Object.assign(words.ru,{body:"Части тела",school:"Школа",music:"М
 Object.assign(words.kk,{body:"Дене мүшелері",school:"Мектеп",music:"Музыка",cow:"Сиыр",horse:"Жылқы",fish:"Балық",rabbit:"Қоян",elephant:"Піл",lion:"Арыстан",butterfly:"Көбелек",banana:"Банан",orange:"Апельсин",carrot:"Сәбіз",egg:"Жұмыртқа",cheese:"Ірімшік",rice:"Күріш",potato:"Картоп",table:"Үстел",chair:"Орындық",door:"Есік",window:"Терезе",cup:"Кесе",spoon:"Қасық",shoes:"Аяқ киім",pants:"Шалбар",hat:"Бас киім",coat:"Пальто",bicycle:"Велосипед",train:"Пойыз",plane:"Ұшақ",boat:"Қайық",rain:"Жаңбыр",snow:"Қар",cloud:"Бұлт",star:"Жұлдыз",moon:"Ай",head:"Бас",hand:"Қол",eye:"Көз",ear:"Құлақ",nose:"Мұрын",mouth:"Ауыз",foot:"Табан",pencil:"Қарындаш",scissors:"Қайшы",drum:"Барабан",guitar:"Гитара",finished:"Бітті",open:"Ашу",close:"Жабу",go:"Бар",come:"Кел",look:"Қара",wait:"Күт",together:"Бірге",turn:"Менің кезегім",wash:"Жуу",hot:"Ыстық",cold:"Суық",break:"Үзіліс"});
 Object.assign(words.en,{body:"Body",school:"School",music:"Music",cow:"Cow",horse:"Horse",fish:"Fish",rabbit:"Rabbit",elephant:"Elephant",lion:"Lion",butterfly:"Butterfly",banana:"Banana",orange:"Orange",carrot:"Carrot",egg:"Egg",cheese:"Cheese",rice:"Rice",potato:"Potato",table:"Table",chair:"Chair",door:"Door",window:"Window",cup:"Cup",spoon:"Spoon",shoes:"Shoes",pants:"Trousers",hat:"Hat",coat:"Coat",bicycle:"Bicycle",train:"Train",plane:"Plane",boat:"Boat",rain:"Rain",snow:"Snow",cloud:"Cloud",star:"Star",moon:"Moon",head:"Head",hand:"Hand",eye:"Eye",ear:"Ear",nose:"Nose",mouth:"Mouth",foot:"Foot",pencil:"Pencil",scissors:"Scissors",drum:"Drum",guitar:"Guitar",finished:"Finished",open:"Open",close:"Close",go:"Go",come:"Come here",look:"Look",wait:"Wait",together:"Together",turn:"My turn",wash:"Wash",hot:"Hot",cold:"Cold",break:"Break"});
 
+Object.assign(words.ru,{one:"Один",two:"Два",three:"Три",four:"Четыре",five:"Пять",six:"Шесть",seven:"Семь",eight:"Восемь",nine:"Девять",ten:"Десять"});
+Object.assign(words.kk,{one:"Бір",two:"Екі",three:"Үш",four:"Төрт",five:"Бес",six:"Алты",seven:"Жеті",eight:"Сегіз",nine:"Тоғыз",ten:"Он"});
+Object.assign(words.en,{one:"One",two:"Two",three:"Three",four:"Four",five:"Five",six:"Six",seven:"Seven",eight:"Eight",nine:"Nine",ten:"Ten"});
 Object.assign(words.ru,{orangeColor:"Оранжевый",white:"Белый",black:"Чёрный",pink:"Розовый",purple:"Фиолетовый",brown:"Коричневый"});
 Object.assign(words.kk,{orangeColor:"Қызғылт сары",white:"Ақ",black:"Қара",pink:"Қызғылт",purple:"Күлгін",brown:"Қоңыр"});
 Object.assign(words.en,{orangeColor:"Orange",white:"White",black:"Black",pink:"Pink",purple:"Purple",brown:"Brown"});
@@ -157,8 +160,37 @@ colors:[
 {question:{ru:"Найди фиолетовый кружок",kk:"Күлгін дөңгелекті тап",en:"Find the purple circle"},options:[["purple","🟣"],["yellow","🟡"],["white","⚪"]],answer:"purple"},
 {question:{ru:"Какого цвета шоколад? 🍫",kk:"Шоколад қандай түсті? 🍫",en:"What colour is chocolate? 🍫"},options:[["brown","🟤"],["red","🔴"],["blue","🔵"]],answer:"brown"}
 ],math:[
-{question:{ru:"Выбери число два",kk:"Екі санын таңда",en:"Choose the number two"},options:[["one","1️⃣"],["two","2️⃣"],["three","3️⃣"]],answer:"two"},
-{question:{ru:"Сколько будет один плюс один?",kk:"Бірге бірді қосқанда қанша болады?",en:"What is one plus one?"},options:[["three","3️⃣"],["two","2️⃣"],["one","1️⃣"]],answer:"two"}
+{question:{"ru":"Сколько яблок? 🍎","kk":"Неше алма? 🍎","en":"How many apples? 🍎"},options:[["num2","2"],["num3","3"],["num1","1"]],answer:"num1"},
+{question:{"ru":"Посчитай два мяча. ⚽⚽","kk":"Екі допты сана. ⚽⚽","en":"Count the two balls. ⚽⚽"},options:[["num1","1"],["num2","2"],["num3","3"]],answer:"num2"},
+{question:{"ru":"Сколько здесь бананов? 🍌🍌🍌","kk":"Мұнда неше банан бар? 🍌🍌🍌","en":"How many bananas are here? 🍌🍌🍌"},options:[["num4","4"],["num3","3"],["num2","2"]],answer:"num3"},
+{question:{"ru":"Посчитай четыре звезды. ⭐⭐⭐⭐","kk":"Төрт жұлдызды сана. ⭐⭐⭐⭐","en":"Count four stars. ⭐⭐⭐⭐"},options:[["num4","4"],["num3","3"],["num5","5"]],answer:"num4"},
+{question:{"ru":"Сколько цветков? 🌸🌸🌸🌸🌸","kk":"Неше гүл бар? 🌸🌸🌸🌸🌸","en":"How many flowers? 🌸🌸🌸🌸🌸"},options:[["num5","5"],["num6","6"],["num4","4"]],answer:"num5"},
+{question:{"ru":"Посчитай шесть рыбок. 🐟🐟🐟🐟🐟🐟","kk":"Алты балықты сана. 🐟🐟🐟🐟🐟🐟","en":"Count six fish. 🐟🐟🐟🐟🐟🐟"},options:[["num6","6"],["num5","5"],["num7","7"]],answer:"num6"},
+{question:{"ru":"Сколько здесь утят? 🐥🐥🐥🐥🐥🐥🐥","kk":"Мұнда неше үйрек балапаны бар? 🐥🐥🐥🐥🐥🐥🐥","en":"How many ducklings? 🐥🐥🐥🐥🐥🐥🐥"},options:[["num8","8"],["num6","6"],["num7","7"]],answer:"num7"},
+{question:{"ru":"Посчитай восемь сердечек. ❤️❤️❤️❤️❤️❤️❤️❤️","kk":"Сегіз жүректі сана. ❤️❤️❤️❤️❤️❤️❤️❤️","en":"Count eight hearts. ❤️❤️❤️❤️❤️❤️❤️❤️"},options:[["num8","8"],["num7","7"],["num9","9"]],answer:"num8"},
+{question:{"ru":"Сколько здесь машин? 🚗🚗🚗🚗🚗🚗🚗🚗🚗","kk":"Мұнда неше көлік бар? 🚗🚗🚗🚗🚗🚗🚗🚗🚗","en":"How many cars are here? 🚗🚗🚗🚗🚗🚗🚗🚗🚗"},options:[["num10","10"],["num8","8"],["num9","9"]],answer:"num9"},
+{question:{"ru":"Посчитай десять мячей. ⚽⚽⚽⚽⚽⚽⚽⚽⚽⚽","kk":"Он допты сана. ⚽⚽⚽⚽⚽⚽⚽⚽⚽⚽","en":"Count ten balls. ⚽⚽⚽⚽⚽⚽⚽⚽⚽⚽"},options:[["num9","9"],["num10","10"],["num8","8"]],answer:"num10"},
+{question:{"ru":"Найди цифру 1","kk":"1 цифрасын тап","en":"Find number 1"},options:[["num1","1"],["num2","2"],["num3","3"]],answer:"num1"},
+{question:{"ru":"Найди цифру 2","kk":"2 цифрасын тап","en":"Find number 2"},options:[["num2","2"],["num1","1"],["num3","3"]],answer:"num2"},
+{question:{"ru":"Найди цифру 3","kk":"3 цифрасын тап","en":"Find number 3"},options:[["num4","4"],["num3","3"],["num2","2"]],answer:"num3"},
+{question:{"ru":"Найди цифру 4","kk":"4 цифрасын тап","en":"Find number 4"},options:[["num5","5"],["num4","4"],["num3","3"]],answer:"num4"},
+{question:{"ru":"Найди цифру 5","kk":"5 цифрасын тап","en":"Find number 5"},options:[["num5","5"],["num4","4"],["num6","6"]],answer:"num5"},
+{question:{"ru":"Найди цифру 6","kk":"6 цифрасын тап","en":"Find number 6"},options:[["num6","6"],["num7","7"],["num5","5"]],answer:"num6"},
+{question:{"ru":"Найди цифру 7","kk":"7 цифрасын тап","en":"Find number 7"},options:[["num6","6"],["num7","7"],["num8","8"]],answer:"num7"},
+{question:{"ru":"Найди цифру 8","kk":"8 цифрасын тап","en":"Find number 8"},options:[["num8","8"],["num9","9"],["num7","7"]],answer:"num8"},
+{question:{"ru":"Найди цифру 9","kk":"9 цифрасын тап","en":"Find number 9"},options:[["num9","9"],["num8","8"],["num10","10"]],answer:"num9"},
+{question:{"ru":"Найди цифру 10","kk":"10 цифрасын тап","en":"Find number 10"},options:[["num9","9"],["num8","8"],["num10","10"]],answer:"num10"},
+{question:{"ru":"Один плюс один. Сколько будет?","kk":"Бірге бірді қосқанда қанша болады?","en":"One plus one. How many?"},options:[["num1","1"],["num3","3"],["num2","2"]],answer:"num2"},
+{question:{"ru":"Два плюс один. Сколько будет?","kk":"Екіге бірді қосқанда қанша болады?","en":"Two plus one. How many?"},options:[["num2","2"],["num3","3"],["num4","4"]],answer:"num3"},
+{question:{"ru":"Три плюс один. Сколько будет?","kk":"Үшке бірді қосқанда қанша болады?","en":"Three plus one. How many?"},options:[["num3","3"],["num4","4"],["num5","5"]],answer:"num4"},
+{question:{"ru":"Два плюс два. Сколько будет?","kk":"Екіге екіні қосқанда қанша болады?","en":"Two plus two. How many?"},options:[["num5","5"],["num4","4"],["num3","3"]],answer:"num4"},
+{question:{"ru":"Пять минус один. Сколько осталось?","kk":"Бестен бірді азайтсақ, қанша қалады?","en":"Five minus one. How many are left?"},options:[["num3","3"],["num5","5"],["num4","4"]],answer:"num4"},
+{question:{"ru":"Три минус один. Сколько осталось?","kk":"Үштен бірді азайтсақ, қанша қалады?","en":"Three minus one. How many are left?"},options:[["num2","2"],["num1","1"],["num3","3"]],answer:"num2"},
+{question:{"ru":"Четыре минус два. Сколько осталось?","kk":"Төрттен екіні азайтсақ, қанша қалады?","en":"Four minus two. How many are left?"},options:[["num2","2"],["num3","3"],["num1","1"]],answer:"num2"},
+{question:{"ru":"Пять минус два. Сколько осталось?","kk":"Бестен екіні азайтсақ, қанша қалады?","en":"Five minus two. How many are left?"},options:[["num2","2"],["num3","3"],["num4","4"]],answer:"num3"},
+{question:{"ru":"Четыре плюс один. Сколько будет?","kk":"Төртке бірді қосқанда қанша болады?","en":"Four plus one. How many?"},options:[["num6","6"],["num4","4"],["num5","5"]],answer:"num5"},
+{question:{"ru":"Три плюс два. Сколько будет?","kk":"Үшке екіні қосқанда қанша болады?","en":"Three plus two. How many?"},options:[["num5","5"],["num4","4"],["num6","6"]],answer:"num5"},
+{question:{"ru":"Шесть минус один. Сколько осталось?","kk":"Алтыдан бірді азайтсақ, қанша қалады?","en":"Six minus one. How many are left?"},options:[["num5","5"],["num4","4"],["num6","6"]],answer:"num5"}
 ],
 reading:[
 {question:{ru:"Найди букву А",kk:"А әрпін тап",en:"Find the letter A"},options:[["a","🅰️"],["b","🅱️"],["v","🔤"]],answer:"a"},
@@ -181,38 +213,44 @@ let activeLesson="colors";
 function renderLearn(){
  state.screen="learn";
  const l=state.lang,idx=l==="kk"?1:l==="en"?2:0;
- const topics=[["colors","🎨",["Цвета","Түстер","Colours"]],["math","🔢",["Счёт и числа","Санау және сандар","Counting"]],["reading","🔤",["Буквы и чтение","Әріптер мен оқу","Letters and reading"]],["thinking","🧩",["Логика и формы","Логика және пішіндер","Logic and shapes"]],["language","🗣️",["Слова и речь","Сөздер мен сөйлеу","Words and language"]],["daily","🌱",["Навыки жизни","Өмірлік дағдылар","Life skills"]]];
+ const topics=[["colors","🎨",["Цвета","Түстер","Colours"]],["math","🔢",["Учимся считать","Санауды үйренеміз","Learning to count"]],["reading","🔤",["Буквы и чтение","Әріптер мен оқу","Letters and reading"]],["thinking","🧩",["Логика и формы","Логика және пішіндер","Logic and shapes"]],["language","🗣️",["Слова и речь","Сөздер мен сөйлеу","Words and language"]],["daily","🌱",["Навыки жизни","Өмірлік дағдылар","Life skills"]]];
  const L=state.lessonMode&&state.lesson&&state.lesson.topic===activeLesson?state.lesson:null;
  if(!L){
   $("#app-main").innerHTML=head(t("learn"),t("learnDesc"))+'<div class="learn-madina"><img src="./assets/madina-guide.webp" alt="Мадина"><div><strong>'+(l==="kk"?"Мадина саған көмектеседі!":l==="en"?"Madina is here to help!":"Мадина поможет тебе!")+'</strong><p>'+(l==="kk"?"Бүгін нені үйренеміз?":l==="en"?"What shall we discover today?":"Что сегодня будем изучать?")+'</p></div></div><div class="learn-topic-grid">'+topics.map(x=>'<button class="learn-topic" data-lesson="'+x[0]+'"><span>'+x[1]+'</span><strong>'+x[2][idx]+'</strong></button>').join("")+'</div>';
   nav("home");return;
  }
- const question=L.question[l]||L.question.ru;const colorProgress=L.topic==="colors"&&L.colorPosition?(l==="kk"?"Тапсырма ":l==="en"?"Question ":"Задание ")+L.colorPosition+" / "+L.colorTotal:"";
+ const question=L.question[l]||L.question.ru;const colorProgress=(L.topic==="colors"||L.topic==="math")&&L.colorPosition?(l==="kk"?"Тапсырма ":l==="en"?"Question ":"Задание ")+L.colorPosition+" / "+L.colorTotal:"";
  $("#app-main").innerHTML=head(t("learn"),question)+'<section class="learn-layout"><section class="learn-main"><div class="lesson-kicker">'+topics.find(x=>x[0]===activeLesson)[2][idx]+(colorProgress?' · '+colorProgress:"")+'</div><h2 class="lesson-question">'+question+'</h2><div class="lesson-options">'+L.options.map(x=>'<button class="lesson-option '+(L.lastAnswer===x[0]?(L.lastCorrect?"correct":"try-again"):"")+'" data-answer="'+x[0]+'" aria-pressed="'+(L.lastAnswer===x[0])+'"><span>'+(activeLesson==="colors"&&x[0]==="pink"?'<i class="lesson-color-dot lesson-color-dot-pink" aria-label="Розовый круг"></i>':x[1])+'</span><strong>'+t(x[0])+'</strong></button>').join("")+'</div><p class="lesson-feedback" aria-live="polite">'+(L.feedback||"")+'</p><button class="soft-button" data-action="repeat">🔊 '+t("again")+'</button> <button class="soft-button" data-action="newlesson">'+t("next")+' →</button> <button class="soft-button" data-action="learn-back">← '+(l==="kk"?"Тақырыптар":l==="en"?"Topics":"К темам")+'</button></section><aside class="lesson-side"><div class="panel lesson-madina"><img src="./assets/madina-guide.webp" alt="Мадина"><p>'+t("youCan")+'</p></div><div class="panel lesson-tools">'+topics.map(x=>'<button class="category-button '+(activeLesson===x[0]?"active":"")+'" data-lesson="'+x[0]+'">'+x[2][idx]+'</button>').join("")+'</div></aside></section>';
  nav("home");
 }
 let colorLessonDeck=[];
 let colorLessonPosition=0;
 let lastColorQuestionIndex=-1;
+let mathLessonDeck=[];
+let mathLessonPosition=0;
+let lastMathQuestionIndex=-1;
 function shuffleLessonDeck(deck){for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]]}return deck}
 function lessonPromptText(){if(!state.lesson)return "";const l=state.lang,question=state.lesson.question[l]||state.lesson.question.ru;const choices=state.lesson.options.map(x=>t(x[0])).join(", ");const prefix=l==="kk"?"Жауап нұсқалары: ":l==="en"?"Answer choices: ":"Варианты ответа: ";return question+". "+prefix+choices+"."}
 function speakLessonPrompt(){if(state.lesson)speakMadina(lessonPromptText(),state.lang)}
 function newLesson(){
  const set=lessonSets[activeLesson]||lessonSets.colors;
  let item,colorPosition=null,colorTotal=null;
- if(activeLesson==="colors"){
-  if(!colorLessonDeck.length){
-   colorLessonDeck=shuffleLessonDeck(Array.from({length:set.length},(_,i)=>i));
-   colorLessonPosition=0;
-   if(set.length>1&&colorLessonDeck[colorLessonDeck.length-1]===lastColorQuestionIndex){
-    const swapIndex=Math.floor(Math.random()*(colorLessonDeck.length-1));
-    [colorLessonDeck[swapIndex],colorLessonDeck[colorLessonDeck.length-1]]=[colorLessonDeck[colorLessonDeck.length-1],colorLessonDeck[swapIndex]];
+ if(activeLesson==="colors"||activeLesson==="math"){
+  const isMath=activeLesson==="math";
+  let deck=isMath?mathLessonDeck:colorLessonDeck;
+  const lastIndex=isMath?lastMathQuestionIndex:lastColorQuestionIndex;
+  if(!deck.length){
+   deck=shuffleLessonDeck(Array.from({length:set.length},(_,i)=>i));
+   if(isMath){mathLessonDeck=deck;mathLessonPosition=0}else{colorLessonDeck=deck;colorLessonPosition=0}
+   if(set.length>1&&deck[deck.length-1]===lastIndex){
+    const swapIndex=Math.floor(Math.random()*(deck.length-1));
+    [deck[swapIndex],deck[deck.length-1]]=[deck[deck.length-1],deck[swapIndex]];
    }
   }
-  const questionIndex=colorLessonDeck.pop();
+  const questionIndex=deck.pop();
   item=set[questionIndex];
-  lastColorQuestionIndex=questionIndex;
-  colorPosition=++colorLessonPosition;
+  if(isMath){lastMathQuestionIndex=questionIndex;colorPosition=++mathLessonPosition}
+  else{lastColorQuestionIndex=questionIndex;colorPosition=++colorLessonPosition}
   colorTotal=set.length;
  }else item=set[Math.floor(Math.random()*set.length)];
  const options=shuffleLessonDeck(item.options.slice());
