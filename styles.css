@@ -801,3 +801,32 @@ body{
 @media(max-width:680px){
  body{background-position:center center;background-attachment:scroll}
 }
+
+/* MOGU splash screen: exact user-approved artwork, only image-embedded logo and Play */
+html,body{min-height:100%;margin:0}
+body.mogu-splash-mode{overflow:hidden;background:#0878ff}
+body.mogu-splash-mode .app-shell{width:100%;max-width:none;min-height:100dvh;height:100dvh;margin:0;padding:0;display:block}
+body.mogu-splash-mode .topbar,body.mogu-splash-mode .bottom-nav{display:none!important}
+body.mogu-splash-mode #app-main{width:100%;height:100%;min-height:100dvh;margin:0;padding:0}
+.welcome-screen.mogu-splash{
+ position:relative;width:100%;height:100%;min-height:100dvh;margin:0;padding:0;overflow:hidden;
+ border:0;border-radius:0;box-shadow:none;background-color:#0878ff;
+ background-image:url("https://d2jqrm6oza8nb6.cloudfront.net/datasets/828a8ce3-53e2-4b0d-8dfe-cd129bd07289.jpeg?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiZjNiNmU0NDI1NWE1OThmZCIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5NDg0MzA3NH0.a6ihGa83qIepiFRmLLVRT0MFJUE9nN-uP0BCY0q2r7Q");background-position:center center;background-size:cover;background-repeat:no-repeat;
+}
+.mogu-splash .splash-play,.mogu-splash .splash-settings,.mogu-splash .splash-info{
+ position:absolute;z-index:5;display:block;padding:0;border:0;background:transparent;box-shadow:none;
+ appearance:none;-webkit-appearance:none;cursor:pointer;touch-action:manipulation;
+}
+.mogu-splash .splash-play{
+ left:54.5%;top:47%;width:19%;height:29%;border-radius:50%;
+}
+.mogu-splash .splash-settings{left:2.5%;top:2.5%;width:9%;height:15%;border-radius:50%}
+.mogu-splash .splash-info{right:2.5%;top:2.5%;width:9%;height:15%;border-radius:50%}
+.mogu-splash .splash-play:focus-visible,.mogu-splash .splash-settings:focus-visible,.mogu-splash .splash-info:focus-visible{outline:4px solid #fff;outline-offset:3px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(orientation:portrait){
+ .welcome-screen.mogu-splash{background-size:auto 100%;background-position:43% center}
+ .mogu-splash .splash-play{left:55%;top:48%;width:24%;height:25%}
+ .mogu-splash .splash-settings{left:3%;top:2%;width:13%;height:12%}
+ .mogu-splash .splash-info{right:3%;top:2%;width:13%;height:12%}
+}
