@@ -549,3 +549,32 @@ button:active{transform:translateY(3px) scale(.98);filter:saturate(1.12)}
 .lesson-option.colors-option.correct{outline:5px solid #18b85a;outline-offset:-9px}
 .lesson-option.colors-option.try-again{outline:5px solid #ff9a36;outline-offset:-9px}
 @media(max-width:560px){.lesson-option.colors-option{min-height:132px;border-radius:21px;padding:9px 5px}.lesson-option.colors-option .color-answer-dot{width:66px;height:66px}}}
+
+/* Life skills: step-by-step animated practice */
+.daily-learning{max-width:760px;margin:0 auto 34px;padding:clamp(16px,3vw,28px);border:3px solid #fff;border-radius:30px;background:linear-gradient(145deg,#fff9e8,#eaf8ff 58%,#f3eaff);box-shadow:0 8px 0 #d7c9e7,0 16px 32px #50396a12;text-align:center}
+.daily-topline{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#6b5186;font-weight:900;font-size:16px}
+.daily-progress{height:12px;margin:12px 0 20px;border-radius:20px;background:#e4dced;overflow:hidden}
+.daily-progress i{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#79dca7,#51b9dc);transition:width .3s ease}
+.daily-learning .lesson-question{margin:10px 0 16px;color:#50366f}
+.daily-scene{height:clamp(220px,34vw,300px);position:relative;display:flex;align-items:center;justify-content:center;gap:clamp(12px,4vw,38px);overflow:hidden;border:3px solid #fff;border-radius:28px;background:radial-gradient(circle at 20% 20%,#fff 0 8%,transparent 9%),linear-gradient(145deg,#dff6ff,#f3eaff 58%,#fff0d8);box-shadow:inset 0 -12px 24px #7964a015}
+.daily-scene-character{font-size:clamp(78px,13vw,116px);z-index:1;filter:drop-shadow(0 8px 5px #58436b20);animation:daily-character 2.4s ease-in-out infinite}
+.daily-scene-action{font-size:clamp(76px,13vw,116px);z-index:2;filter:drop-shadow(0 8px 5px #58436b22);animation:daily-action 1.25s ease-in-out infinite}
+.daily-scene-ground{position:absolute;bottom:22px;left:12%;right:12%;height:18px;border-radius:50%;background:#7e91a51c}
+.daily-scene-sparkle{position:absolute;top:18px;right:24px;color:#f2b83f;font-size:36px;animation:daily-sparkle 2s ease-in-out infinite}
+.daily-scene.replay .daily-scene-character,.daily-scene.replay .daily-scene-action{animation:daily-action .85s ease-in-out 2}
+.daily-step-count{margin:18px 0 6px;color:#7a6392;font-weight:900}
+.daily-step-caption{min-height:58px;display:flex;align-items:center;justify-content:center;padding:8px 12px;color:#49345f;font-size:clamp(20px,3vw,26px);font-weight:950;line-height:1.25}
+.daily-step-dots{display:flex;justify-content:center;gap:8px;margin:12px 0}
+.daily-step-dots span{width:12px;height:12px;border-radius:50%;background:#d9cde8;transition:transform .2s,background .2s}
+.daily-step-dots span.done{background:#69c99a}
+.daily-step-dots span.active{background:#ffbd49;transform:scale(1.35)}
+.daily-adult-note{margin:14px auto;padding:12px 14px;max-width:560px;border-radius:16px;background:#fff9;color:#6b5680;font-weight:750}
+.daily-controls{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:18px 0 10px}
+.daily-controls .primary-button{border:0;border-radius:20px;padding:14px 24px;background:linear-gradient(145deg,#ffe77b,#ffb83d);color:#563b73;font-size:18px;font-weight:950;box-shadow:0 5px 0 #d99e32;cursor:pointer}
+.daily-controls .primary-button:active{transform:translateY(3px);box-shadow:0 2px 0 #d99e32}
+.daily-back{margin-top:8px}
+@keyframes daily-character{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-9px) rotate(2deg)}}
+@keyframes daily-action{0%,100%{transform:translateY(2px) scale(.94) rotate(-3deg)}50%{transform:translateY(-12px) scale(1.08) rotate(3deg)}}
+@keyframes daily-sparkle{0%,100%{transform:scale(.8) rotate(0);opacity:.55}50%{transform:scale(1.15) rotate(25deg);opacity:1}}
+@media(prefers-reduced-motion:reduce){.daily-scene-character,.daily-scene-action,.daily-scene-sparkle{animation:none!important}}
+@media(max-width:560px){.daily-learning{padding:14px;border-radius:24px}.daily-scene{height:220px}.daily-controls{flex-direction:column}.daily-controls button{width:100%}}
