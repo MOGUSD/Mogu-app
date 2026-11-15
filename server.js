@@ -169,7 +169,7 @@ const server = http.createServer(async (req, res) => {
     if (req.method === "GET" && url.pathname.startsWith("/api/madina/library/")) {
       if (!audioStorageReady()) return send(res,503,"Audio library storage is not configured","text/plain");
       const relative = url.pathname.slice("/api/madina/library/".length);
-      if (!/^(ru|kk|en)\\/[a-f0-9]{24}\\.mp3$/.test(relative))
+      if (!/^(ru|kk|en)\/[a-f0-9]{24}\.mp3$/.test(relative))
         return send(res,400,"Invalid audio path","text/plain");
       try {
         const object = await readAudioObject("audio/madina/"+relative);
