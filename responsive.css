@@ -222,3 +222,15 @@ body.mogu-splash-mode .welcome-screen.mogu-splash::before{
  .brand{padding:3px!important;border-radius:16px!important}
  .splash-brand-logo{width:clamp(126px,34vw,178px);max-height:22vh;border-radius:18px}
 }
+
+
+/* The uploaded full MaDoni logo is rendered by .splash-brand-logo.
+   Hide the previous, unrelated horizontal logo pseudo-element to prevent overlap. */
+body.mogu-splash-mode .welcome-screen.mogu-splash::before{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+}
+@media(max-width:600px){
+  .brand-mark{width:64px!important;height:64px!important;flex-basis:64px!important}
+}
