@@ -144,11 +144,14 @@ function head(title,sub){return '<div class="screen-top"><button class="back-but
 let activeMadinaAudio=null;
 let madinaSpeechRun=0;
 const MADINA_API_BASE="https://mogu-web-production.up.railway.app";
-let madinaAudioManifest={entries:{}};
-const madinaAudioManifestReady=fetch(MADINA_API_BASE+"/api/madina/library/manifest.json",{cache:"no-cache"})
+const cachedMadinaManifest=store.get("madina-audio-manifest",null);
+const validMadinaManifest=data=>!!(data&&data.voiceId==="33d2eff7a2f449b4b1a2e95d42ebbb33"&&data.entries&&typeof data.entries==="object");
+let madinaAudioManifest=validMadinaManifest(cachedMadinaManifest)?cachedMadinaManifest:{entries:{}};
+const madinaAudioManifestRefresh=fetch(MADINA_API_BASE+"/api/madina/library/manifest.json",{cache:"no-cache"})
  .then(response=>response.ok?response.json():null)
- .then(data=>{if(data&&data.voiceId==="33d2eff7a2f449b4b1a2e95d42ebbb33")madinaAudioManifest=data;})
- .catch(()=>{});
+ .then(data=>{if(validMadinaManifest(data)){madinaAudioManifest=data;store.set("madina-audio-manifest",data);return data;}return null;})
+ .catch(()=>null);
+const madinaAudioManifestReady=validMadinaManifest(cachedMadinaManifest)?Promise.resolve(madinaAudioManifest):madinaAudioManifestRefresh;
 function findMadinaLibraryAudio(text,language){
  const entries=Object.values(madinaAudioManifest.entries||{});
  const entry=entries.find(item=>item.lang===language&&item.text===text);
