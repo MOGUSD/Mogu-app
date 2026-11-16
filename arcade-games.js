@@ -636,6 +636,9 @@ document.addEventListener("pointerdown",e=>{
    canvasPointerId=e.pointerId;
    swipeOrigin={x:e.clientX,y:e.clientY,target:canvas,point:canvasPoint(e,canvas),pointerId:e.pointerId};
    try{canvas.setPointerCapture(e.pointerId)}catch(_){}
+   // iOS Safari may start text selection / callout during rapid taps.
+   // The jumper uses taps as jump input, so consume the native gesture.
+   if(current==="jumper")e.preventDefault();
   }else swipeOrigin={x:e.clientX,y:e.clientY,target:board,point:null,pointerId:e.pointerId};
  }
 },{passive:false});
@@ -681,6 +684,10 @@ function finishPointer(e){
   else if(current==="racing"&&p)game.player.x=Math.max(0,Math.min(2,Math.floor(p.x/800*3)));
  }
 }
+// Prevent iOS text selection, magnifier and context menu while tapping in Jumper.
+document.addEventListener("selectstart",e=>{if(current==="jumper"&&e.target.closest(".arcade-shell"))e.preventDefault()});
+document.addEventListener("contextmenu",e=>{if(current==="jumper"&&e.target.closest(".arcade-shell"))e.preventDefault()});
+document.addEventListener("dblclick",e=>{if(current==="jumper"&&e.target.closest(".arcade-shell"))e.preventDefault()});
 document.addEventListener("pointerup",finishPointer,{passive:true});
 document.addEventListener("pointercancel",finishPointer,{passive:true});
 window.addEventListener("resize",()=>{});
