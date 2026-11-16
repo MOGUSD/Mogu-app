@@ -1,11 +1,11 @@
-const CACHE_NAME="mogu-browser-v50-unified-cartoon-system";
+const CACHE_NAME="mogu-browser-v51-learn-artwork-fix";
 const APP_SHELL=[
   "./","./index.html",
-  "./styles.css?v=madoni-unified-cartoon-system-20261116",
-  "./app.js?v=madoni-unified-cartoon-system-20261116",
+  "./styles.css?v=madoni-learn-artwork-fix-20261117",
+  "./app.js?v=madoni-learn-artwork-fix-20261117",
   "./manifest.webmanifest",
   "./assets/fonts/DynaPuff[wdth,wght].ttf",
-  "./assets/mogu-icon.svg","./assets/mimi.svg","./assets/tiko.svg","./assets/luna.svg","./assets/madina-home-character.webp","./assets/hub-play.svg","./assets/hub-learn.svg","./assets/hub-world.svg","./assets/hub-feel.svg","./assets/hub-talk.svg","./assets/learn-icons.svg",
+  "./assets/mogu-icon.svg","./assets/mimi.svg","./assets/tiko.svg","./assets/luna.svg","./assets/madina-home-character.webp","./assets/hub-play.svg","./assets/hub-learn.svg","./assets/hub-world.svg","./assets/hub-feel.svg","./assets/hub-talk.svg","./assets/learn-icons.svg","./assets/learn-colors.svg","./assets/learn-math.svg","./assets/learn-reading.svg","./assets/learn-thinking.svg","./assets/learn-language.svg","./assets/learn-daily.svg",
   "./assets/audio/bouncy-adventure.mp3",
   "./assets/audio/button-pop.mp3"
 ];
