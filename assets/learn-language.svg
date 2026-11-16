@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><defs>
+ <linearGradient id="pink" x2="0" y2="1"><stop stop-color="#ffb9d0"/><stop offset="1" stop-color="#f05f9b"/></linearGradient>
+ <linearGradient id="blue" x2="0" y2="1"><stop stop-color="#9deaff"/><stop offset="1" stop-color="#36aee8"/></linearGradient>
+ <linearGradient id="yellow" x2="0" y2="1"><stop stop-color="#fff19a"/><stop offset="1" stop-color="#ffb92e"/></linearGradient>
+ <linearGradient id="purple" x2="0" y2="1"><stop stop-color="#d8c4ff"/><stop offset="1" stop-color="#8b69e8"/></linearGradient>
+ <linearGradient id="green" x2="0" y2="1"><stop stop-color="#baf5c9"/><stop offset="1" stop-color="#55c78c"/></linearGradient>
+ <linearGradient id="orange" x2="0" y2="1"><stop stop-color="#ffd29b"/><stop offset="1" stop-color="#ff8a45"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="5" stdDeviation="3" flood-color="#34406b" flood-opacity=".22"/></filter>
+</defs>
+ <g filter="url(#shadow)" stroke="#39446d" stroke-width="4" stroke-linejoin="round">
+  <path d="M15 19h77q12 0 12 12v40q0 12-12 12H56L35 101V83H15Q4 83 4 71V31q0-12 11-12" fill="url(#blue)"/>
+  <path d="M72 72h35q12 0 12 12v17q0 12-12 12H91l-14 11v-11H72q-12 0-12-12V84q0-12 12-12" fill="url(#pink)"/>
+ </g><g fill="#fff" font-family="Trebuchet MS,sans-serif" font-weight="900" text-anchor="middle"><text x="52" y="59" font-size="35" stroke="#39446d" stroke-width="1">АБВ</text><text x="92" y="100" font-size="24" stroke="#39446d" stroke-width="1">!</text></g>
+</svg>
