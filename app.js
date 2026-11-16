@@ -79,6 +79,51 @@ const methodIntro={ru:"Выберите направление и попробу
 function renderMethod(){state.screen="method";const lang=state.lang;const langIndex={ru:0,kk:1,en:2}[lang]??0;const pick=values=>Array.isArray(values)?(values[langIndex]??values[0]??""):"";const statuses=store.get("method-status",{});const active=state.methodArea;const heading=lang==="kk"?"MaDoni даму жолы":lang==="en"?"MaDoni development path":"Методика развития MaDoni";const cards=methodAreas.map((d,i)=>'<button class="method-domain" data-method-area="'+i+'"><span>'+d.icon+'</span><strong>'+pick(d.title)+'</strong><small>'+pick(d.goal)+'</small></button>').join("");const selected=Number.isInteger(active)?methodAreas[active]:null;const detail=selected?(()=>{const d=selected;return '<section class="method-detail"><div class="section-head"><h2>'+d.icon+' '+pick(d.title)+'</h2><button class="soft-button" data-action="method-close">×</button></div><p>'+pick(d.goal)+'</p>'+d.activities.map((a,j)=>{const id=d.key+"-"+j;const status=Math.max(0,Math.min(methodStatusLabels[lang].length-1,Number(statuses[id])||0));return '<article class="method-activity"><h3>'+pick(a.slice(0,3))+'</h3><p>'+pick(a[3])+'</p><div class="method-status"><span>'+methodStatusLabels[lang][status]+'</span><div>'+methodStatusLabels[lang].map((label,k)=>'<button class="'+(status===k?"selected":"")+'" data-method-status="'+id+'" data-value="'+k+'" aria-label="'+label+'">'+(k+1)+'</button>').join("")+'</div></div></article>'}).join("")+'</section>'})():"";$("#app-main").innerHTML=head(heading,methodIntro[lang])+'<div class="method-note">🌱 '+methodIntro[lang]+'</div><div class="method-domain-grid">'+cards+'</div>'+detail+'<div class="method-footnote">Важно: двигательные, пищевые и речевые терапевтические упражнения подбираются профильным специалистом. MaDoni дополняет занятия, но не заменяет их.</div>';nav("adult")}
 function saveStats(){store.set("stats",state.stats)}
 function speak(text){return speakMadina(text,state.lang)}
+
+const worldSpeechCache=new Map();
+const worldSpeechPending=new Map();
+function prefetchWorldSpeech(key){
+ const language=state.lang,cacheKey=language+":"+key;
+ if(worldSpeechCache.has(cacheKey)||worldSpeechPending.has(cacheKey))return worldSpeechPending.get(cacheKey);
+ const task=(async()=>{
+  try{
+   await madinaAudioManifestReady;
+   if(state.lang!==language)return;
+   const phrase=String(t(key)).trim();
+   const libraryUrl=findMadinaLibraryAudio(phrase,language);
+   if(libraryUrl){worldSpeechCache.set(cacheKey,libraryUrl);return}
+   const response=await fetch(MADINA_API_BASE+"/api/madina/speech",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:phrase,language}),signal:AbortSignal.timeout(12000)});
+   if(!response.ok)throw new Error("TTS "+response.status);
+   const blob=await response.blob();
+   if(blob.size)worldSpeechCache.set(cacheKey,URL.createObjectURL(blob));
+  }catch(_){}
+  finally{worldSpeechPending.delete(cacheKey)}
+ })();
+ worldSpeechPending.set(cacheKey,task);
+ return task;
+}
+function speakWorldWord(key){
+ const language=state.lang,cacheKey=language+":"+key,phrase=t(key);
+ cancelMadinaSpeech();
+ const cached=worldSpeechCache.get(cacheKey);
+ if(cached){
+  const audio=new Audio(cached);activeMadinaAudio=audio;
+  audio.volume=Math.max(0,Math.min(1,Number(audioPrefs.voiceVolume??.95)));
+  audio.onended=()=>{if(activeMadinaAudio===audio)activeMadinaAudio=null};
+  audio.onerror=()=>{if(activeMadinaAudio===audio)activeMadinaAudio=null;worldSpeechCache.delete(cacheKey);speakWorldWord(key)};
+  audio.play().catch(()=>{if(activeMadinaAudio===audio)activeMadinaAudio=null;worldSpeechCache.delete(cacheKey);speakWorldWord(key)});
+  return;
+ }
+ if("speechSynthesis"in window){
+  const utterance=new SpeechSynthesisUtterance(phrase);
+  utterance.lang=language==="kk"?"kk-KZ":language==="en"?"en-US":"ru-RU";
+  utterance.rate=.88;utterance.pitch=1.08;
+  utterance.volume=Math.max(0,Math.min(1,Number(audioPrefs.voiceVolume??.95)));
+  speechSynthesis.speak(utterance);
+ }
+ prefetchWorldSpeech(key);
+}
+
 const guideLines={
 ru:{welcome:"Привет! Меня зовут Мадина. Давай поиграем!",home:"Я Мадина! Выбирай, куда отправимся. Я помогу тебе!",adventures:"Ура, приключения! Выбери мир. Мы будем играть вместе, спокойно и без спешки.",learn:"Давай учиться играя! Выбери, что хочешь открыть сегодня.",world:"Посмотрим, что вокруг нас! Нажимай на картинки, и мы узнаем новые слова.",feel:"Здесь можно рассказать о своих чувствах. Любое чувство важно.",talk:"Хочешь что-то сказать? Выбирай картинки. Мы вместе составим твою фразу.",progress:"Здесь собраны твои открытия. Мы радуемся каждому маленькому шагу!",adult:"Это настройки для взрослых. Здесь можно настроить звук и открыть раздел для родителей.",method:"Здесь взрослые найдут идеи для занятий вместе с ребёнком."},
 kk:{welcome:"Сәлем! Менің атым Мадина. Бірге ойнайық!",home:"Мен Мадинамын! Қайда баратынымызды таңда. Мен саған көмектесемін!",adventures:"Тамаша! Әлемді таңда. Біз бірге, асықпай ойнаймыз.",learn:"Ойын арқылы үйренейік! Бүгін нені білгің келеді?",world:"Айналамызға қарайық! Суреттерді басып, жаңа сөздерді үйренейік.",feel:"Сезімдерің туралы айтуға болады. Әр сезім маңызды.",talk:"Бір нәрсе айтқың келе ме? Суреттерді таңдап, сөйлем құрайық.",progress:"Мұнда сенің жаңалықтарың бар. Әр қадамыңа қуанамыз!",adult:"Бұл — ересектерге арналған баптаулар.",method:"Мұнда ересектерге бірге ойнауға арналған идеялар бар."},
@@ -699,7 +744,7 @@ if(b.dataset.dailyCategory!==undefined){const dailyIndex=Number(b.dataset.dailyC
 if(b.hasAttribute("data-daily-repeat")){speakLessonPrompt();const scene=document.querySelector(".daily-scene");if(scene){scene.classList.remove("replay");void scene.offsetWidth;scene.classList.add("replay")}playDailyStepAnimation();return}
 if(b.hasAttribute("data-daily-next")){if(!state.lesson||activeLesson!=="daily")return;const skill=dailySkills[state.lesson.dailyIndex];if(state.lesson.dailyStep<skill.steps.length-1){state.lesson.dailyStep++;renderLearn();speakLessonPrompt()}else{state.lessonMode=false;state.lesson=null;renderLearn();speakMadina(state.lang==="kk"?"Жарайсың! Бұл дағдыны аяқтадың!":state.lang==="en"?"Well done! You finished this skill!":"Молодец! Ты завершил этот навык!",state.lang)}return}
 if(b.dataset.answer){if(!state.lesson||!state.lessonMode)return;const correct=b.dataset.answer===state.lesson.answer;state.lesson.lastAnswer=b.dataset.answer;state.lesson.lastCorrect=correct;const feedback=chooseLessonFeedback(correct?"great":"try",state.lang);state.lesson.feedback=feedback;if(correct){state.stats.lessons++;saveStats()}renderLearn();if(correct){speakMadina(feedback,state.lang,()=>{if(state.screen!=="learn"||!state.lessonMode)return;newLesson();renderLearn();speakLessonPrompt()})}else{announceGuide(feedback)};return}
-if(b.dataset.world){state.worldItem={key:b.dataset.world,icon:b.dataset.icon};state.stats.explored++;saveStats();renderWorld();announceGuide(state.lang==="kk"?t(b.dataset.world)+"! Жаңа сөзді бірге үйренейік.":state.lang==="en"?t(b.dataset.world)+"! Let's learn this word together.":t(b.dataset.world)+"! Давай узнаем это слово вместе.");return}
+if(b.dataset.world){state.worldItem={key:b.dataset.world,icon:b.dataset.icon};state.stats.explored++;saveStats();speakWorldWord(b.dataset.world);renderWorld();return}
 if(b.dataset.feel){state.feeling={key:b.dataset.feel,icon:emotions.find(x=>x[0]===b.dataset.feel)[1]};state.stats.feelings++;saveStats();renderFeel();announceGuide(state.lang==="kk"?"Сен "+t(b.dataset.feel)+" сезінесің. Рақмет, бөліскеніңе!":state.lang==="en"?"You feel "+t(b.dataset.feel)+". Thank you for sharing!":"Ты чувствуешь: "+t(b.dataset.feel)+". Спасибо, что поделился!");return}
 if(b.dataset.setting){const k=b.dataset.setting,v=b.dataset.value;state.settings[k]=k==="size"?v:k==="rate"?Number(v):v==="true";store.set("settings",state.settings);renderAdult();applySettings();return}
 });
