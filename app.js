@@ -567,6 +567,7 @@ function renderDailyLesson(L){
  playDailyStepAnimation();
 }
 
+function learnTopicArt(key){return '<span class="learn-topic-art" aria-hidden="true"><svg viewBox="0 0 128 128" focusable="false"><use href="./assets/learn-icons.svg#'+key+'"></use></svg></span>'}
 function renderLearn(){
  state.screen="learn";
  const l=state.lang,idx=l==="kk"?1:l==="en"?2:0;
@@ -574,7 +575,7 @@ function renderLearn(){
  const L=state.lessonMode&&state.lesson&&state.lesson.topic===activeLesson?state.lesson:null;
  if(activeLesson==="daily"&&!L){renderDailyCategories();nav("home");return;}
  if(!L){
-  $("#app-main").innerHTML=head(t("learn"),t("learnDesc"))+'<div class="learn-madina"><img src="./assets/madina-home-character.webp?v=madina-all-pages-20261116" alt="Мадина"><div><strong>'+(l==="kk"?"Мадина саған көмектеседі!":l==="en"?"Madina is here to help!":"Мадина поможет тебе!")+'</strong><p>'+(l==="kk"?"Бүгін нені үйренеміз?":l==="en"?"What shall we discover today?":"Что сегодня будем изучать?")+'</p></div></div><div class="learn-topic-grid">'+topics.map(x=>'<button class="learn-topic" data-lesson="'+x[0]+'"><span>'+x[1]+'</span><strong>'+x[2][idx]+'</strong></button>').join("")+'</div>';
+  $("#app-main").innerHTML=head(t("learn"),t("learnDesc"))+'<div class="learn-madina"><img src="./assets/madina-home-character.webp?v=madina-all-pages-20261116" alt="Мадина"><div><strong>'+(l==="kk"?"Мадина саған көмектеседі!":l==="en"?"Madina is here to help!":"Мадина поможет тебе!")+'</strong><p>'+(l==="kk"?"Бүгін нені үйренеміз?":l==="en"?"What shall we discover today?":"Что сегодня будем изучать?")+'</p></div></div><div class="learn-topic-grid">'+topics.map(x=>'<button class="learn-topic" data-lesson="'+x[0]+'">'+learnTopicArt(x[0])+'<strong>'+x[2][idx]+'</strong></button>').join("")+'</div>';
   nav("home");return;
  }
  if(activeLesson==="daily"){renderDailyLesson(L);nav("home");return;}
