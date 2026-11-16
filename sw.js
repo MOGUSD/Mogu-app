@@ -1,8 +1,8 @@
-const CACHE_NAME="mogu-browser-v49-cartoon-design-system";
+const CACHE_NAME="mogu-browser-v50-unified-cartoon-system";
 const APP_SHELL=[
   "./","./index.html",
-  "./styles.css?v=madoni-cartoon-design-system-20261116",
-  "./app.js?v=madoni-cartoon-design-system-20261116",
+  "./styles.css?v=madoni-unified-cartoon-system-20261116",
+  "./app.js?v=madoni-unified-cartoon-system-20261116",
   "./manifest.webmanifest",
   "./assets/fonts/DynaPuff[wdth,wght].ttf",
   "./assets/mogu-icon.svg","./assets/mimi.svg","./assets/tiko.svg","./assets/luna.svg","./assets/madina-home-character.webp","./assets/hub-play.svg","./assets/hub-learn.svg","./assets/hub-world.svg","./assets/hub-feel.svg","./assets/hub-talk.svg","./assets/learn-icons.svg",
