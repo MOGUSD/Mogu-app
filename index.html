@@ -16,11 +16,11 @@
 <link rel="apple-touch-icon" href="./assets/madoni-logo.webp?v=madoni-brand-v2-20261116">
 <meta property="og:image" content="https://mogu-web-production.up.railway.app/assets/madoni-logo.webp?v=madoni-brand-v2-20261116">
 <link rel="manifest" href="./manifest.webmanifest">
-<link rel="stylesheet" href="./styles.css?v=madoni-learn-artwork-fix-20261117">
+<link rel="stylesheet" href="./styles.css?v=madoni-stability-v52">
 <link rel="stylesheet" href="./splash-fit-fix.css?v=1">
 <link rel="stylesheet" href="./responsive.css?v=remove-splash-logo-fix-blue-flash-20261116">
-<link rel="stylesheet" href="./mini-games.css?v=madoni-learn-artwork-fix-20261117">
-<link rel="stylesheet" href="./arcade-games.css?v=16">
+<link rel="stylesheet" href="./mini-games.css?v=madoni-stability-v52">
+<link rel="stylesheet" href="./arcade-games.css?v=madoni-stability-v52">
 </head>
 <body>
 <div class="festivo-intro" id="festivo-intro" role="status" aria-label="FESTIVO present — загрузка">
@@ -41,7 +41,7 @@
 <script>
 window.addEventListener("load",function(){var intro=document.getElementById("festivo-intro");if(!intro)return;intro.classList.add("is-loading");setTimeout(function(){if(typeof window.moguStartWelcome==="function")window.moguStartWelcome();setTimeout(function(){intro.classList.add("is-leaving");setTimeout(function(){intro.remove()},550)},30)},2000)},{once:true});
 </script>
-<script>if("serviceWorker" in navigator){navigator.serviceWorker.getRegistrations().then(rs=>Promise.all(rs.map(r=>r.unregister())));if("caches" in window)caches.keys().then(keys=>Promise.all(keys.map(k=>caches.delete(k))));}</script>
+
 <div class="app-shell">
 <header class="topbar">
  <a class="brand" href="./" data-action="home" aria-label="MaDoni — главная"><img src="./assets/madoni-logo.webp?v=madoni-brand-v2-20261116" alt="MaDoni" class="brand-mark"><span class="brand-copy"><strong>MaDoni</strong><small>Учусь • Говорю • Играю</small></span></a>
@@ -51,7 +51,9 @@ window.addEventListener("load",function(){var intro=document.getElementById("fes
 <nav class="bottom-nav" aria-label="Домой" id="bottom-nav"><button class="nav-home" data-nav="home" aria-label="Домой"><span>⌂</span></button></nav>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="./app.js?v=madina-all-pages-20261116" defer></script>
-<script src="./arcade-games.js?v=16" defer></script>
->
+<script src="./app.js?v=madoni-stability-v52" defer></script>
+<script src="./arcade-games.js?v=madoni-stability-v52" defer></script>
+<script>
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=madoni-offline-v52",{updateViaCache:"none"}).catch(()=>{}));}
+</script>
 </body></html>
