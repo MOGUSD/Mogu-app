@@ -20,6 +20,24 @@
 <link rel="stylesheet" href="./arcade-games.css?v=16">
 </head>
 <body>
+<div class="festivo-intro" id="festivo-intro" role="status" aria-label="FESTIVO present — загрузка">
+  <div class="festivo-intro-brand"><div class="festivo-word">FESTIVO</div><div class="festivo-present">present</div></div>
+  <div class="festivo-loader" aria-hidden="true"><span></span></div>
+</div>
+<style>
+.festivo-intro{position:fixed;inset:0;z-index:1000000;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#050408;color:#fff;opacity:1;visibility:visible;transition:opacity .48s ease,visibility .48s ease;padding:env(safe-area-inset-top) 28px env(safe-area-inset-bottom)}
+.festivo-intro.is-leaving{opacity:0;visibility:hidden;pointer-events:none}
+.festivo-intro-brand{text-align:center;transform:translateY(-3vh);font-family:"Comfortaa","Trebuchet MS",ui-rounded,sans-serif;font-weight:900;letter-spacing:.075em}
+.festivo-word{font-size:clamp(38px,10vw,66px);line-height:1.12;color:#fff;text-shadow:0 0 5px #fff,0 0 13px #b88aff,0 0 28px #8a45ff,0 0 52px #7134dc}
+.festivo-present{margin-top:9px;font-size:clamp(17px,4.5vw,25px);font-weight:700;letter-spacing:.24em;text-transform:lowercase;color:#fff;text-shadow:0 0 7px #d9c2ff,0 0 20px #914cff,0 0 35px #7134dc}
+.festivo-loader{position:absolute;left:12%;right:12%;bottom:calc(12vh + env(safe-area-inset-bottom));height:5px;overflow:hidden;border-radius:10px;background:#282132;box-shadow:0 0 12px #7134dc35}
+.festivo-loader span{display:block;width:100%;height:100%;border-radius:inherit;background:linear-gradient(90deg,#7540d8,#c6a1ff,#fff);transform:scaleX(0);transform-origin:left;animation:festivo-loading 1.75s cubic-bezier(.2,.7,.25,1) forwards;box-shadow:0 0 12px #a66cff,0 0 24px #8a45ff}
+@keyframes festivo-loading{to{transform:scaleX(1)}}
+@media(prefers-reduced-motion:reduce){.festivo-intro,.festivo-loader span{transition:none;animation-duration:.3s}}
+</style>
+<script>
+window.addEventListener("load",function(){setTimeout(function(){var intro=document.getElementById("festivo-intro");if(intro){intro.classList.add("is-leaving");setTimeout(function(){intro.remove()},550)}},250)},{once:true});
+</script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.getRegistrations().then(rs=>Promise.all(rs.map(r=>r.unregister())));if("caches" in window)caches.keys().then(keys=>Promise.all(keys.map(k=>caches.delete(k))));}</script>
 <div class="app-shell">
 <header class="topbar">
@@ -30,6 +48,6 @@
 <nav class="bottom-nav" aria-label="Домой" id="bottom-nav"><button class="nav-home" data-nav="home" aria-label="Домой"><span>⌂</span></button></nav>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="./app.js?v=mogu-music-startup-v1-20261116" defer></script>
+<script src="./app.js?v=mogu-festivo-intro-v1-20261116" defer></script>
 <script src="./arcade-games.js?v=16" defer></script>
 </body></html>
