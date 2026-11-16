@@ -1187,3 +1187,30 @@ body::before,body::after,
 .madoni-letter{display:inline;-webkit-text-stroke:1.45px var(--madoni-outline);paint-order:stroke fill;text-shadow:0 2px 0 var(--madoni-outline),0 4px 0 rgba(52,35,79,.20),0 5px 7px rgba(52,35,79,.13)}
 .madoni-letter.c0{color:var(--madoni-pink)}.madoni-letter.c1{color:var(--madoni-orange)}.madoni-letter.c2{color:var(--madoni-yellow)}.madoni-letter.c3{color:var(--madoni-mint)}.madoni-letter.c4{color:var(--madoni-blue)}.madoni-letter.c5{color:var(--madoni-purple)}
 @media(max-width:600px){.madoni-letter{-webkit-text-stroke:1.1px var(--madoni-outline);text-shadow:0 1.5px 0 var(--madoni-outline),0 3px 0 rgba(52,35,79,.18)}}
+
+/* MaDoni display typography — DynaPuff Bold, solid ink colour. */
+@font-face{
+ font-family:"DynaPuff";
+ src:url("./assets/fonts/DynaPuff[wdth,wght].ttf") format("truetype");
+ font-style:normal;
+ font-weight:400 700;
+ font-display:swap;
+}
+#app-main h1,#app-main h2,#app-main h3,
+#app-main .screen-title,#app-main .route-copy strong,
+#app-main .hub-card-copy strong,#app-main .section-head strong,
+#app-main .hero h1,#app-main .screen-heading-copy h1{
+ font-family:"DynaPuff","Nunito",system-ui,sans-serif!important;
+ font-weight:700!important;
+ font-variation-settings:"wdth" 100,"wght" 700;
+ letter-spacing:-.02em;
+ line-height:1.16;
+ color:var(--ink);
+ -webkit-text-stroke:0;
+ text-shadow:none;
+}
+#app-main .route-cta,#app-main .urgent,#app-main .back-button,
+#app-main .soft-button,#app-main .say-button,#app-main .method-domain strong{
+ font-family:"DynaPuff","Nunito",system-ui,sans-serif;
+ font-weight:700;
+}

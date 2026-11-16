@@ -53,27 +53,5 @@ window.addEventListener("load",function(){var intro=document.getElementById("fes
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="./app.js?v=madina-all-pages-20261116" defer></script>
 <script src="./arcade-games.js?v=16" defer></script>
-
-<script>
-(function(){
- const selector="#app-main h1,#app-main h2,#app-main h3,#app-main .screen-title,#app-main .route-copy strong,#app-main .hub-card-copy strong,#app-main .section-head strong";
- function decorate(scope){
-  if(!scope||scope.nodeType!==1&&scope.nodeType!==9)return;
-  const elements=[];
-  if(scope.nodeType===1&&scope.matches&&scope.matches(selector))elements.push(scope);
-  if(scope.querySelectorAll)elements.push(...scope.querySelectorAll(selector));
-  elements.forEach(el=>{
-   if(el.dataset.madoniRainbow==="1")return;
-   const label=el.getAttribute("aria-label"),original=el.textContent||"",walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),nodes=[];
-   while(walker.nextNode())nodes.push(walker.currentNode);
-   let i=0;
-   nodes.forEach(node=>{const value=node.nodeValue||"";if(!value)return;const fragment=document.createDocumentFragment();Array.from(value).forEach(char=>{const span=document.createElement("span");span.className="madoni-letter c"+(i++%6);span.textContent=char;fragment.appendChild(span)});node.parentNode.replaceChild(fragment,node)});
-   if(!label)el.setAttribute("aria-label",original);
-   el.dataset.madoniRainbow="1";
-  });
- }
- const start=()=>{const root=document.getElementById("app-main");if(!root)return;decorate(root);new MutationObserver(records=>records.forEach(record=>record.addedNodes.forEach(node=>decorate(node)))).observe(root,{childList:true,subtree:true})};
- if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start,{once:true});else start();
-})();
-</script>
+>
 </body></html>
