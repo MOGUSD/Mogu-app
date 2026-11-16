@@ -1,7 +1,7 @@
 
 /* Mini-games: bright, touch-friendly game room */
 .mini-games-welcome{display:flex;align-items:center;gap:14px;margin:14px 0 20px;padding:14px 18px;border:3px solid #fff;border-radius:25px;background:linear-gradient(120deg,#fff1c8,#e4f7ff);box-shadow:var(--shadow)}
-.mini-games-welcome img{width:88px;height:88px;object-fit:contain;flex:0 0 auto}
+.mini-games-welcome img{width:76px;height:114px;object-fit:contain;object-position:center bottom;flex:0 0 auto;display:block}
 .mini-games-welcome strong{display:block;color:#513777;font-size:clamp(18px,4vw,23px);font-weight:950}
 .mini-games-welcome p{margin:5px 0 0;color:#6a5c7e;font-weight:750;line-height:1.4}
 .mini-games-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:12px 0 30px}
