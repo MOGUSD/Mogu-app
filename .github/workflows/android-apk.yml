@@ -2,24 +2,6 @@ name: Build MaDoni Android APK
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - feature/android-apk
-    paths:
-      - 'app.js'
-      - 'index.html'
-      - 'styles.css'
-      - 'responsive.css'
-      - 'splash-fit-fix.css'
-      - 'mini-games.css'
-      - 'arcade-games.css'
-      - 'arcade-games.js'
-      - 'sw.js'
-      - 'manifest.webmanifest'
-      - 'assets/**'
-      - 'package.json'
-      - 'capacitor.config.json'
-      - '.github/workflows/android-apk.yml'
 
 permissions:
   contents: read
