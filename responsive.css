@@ -185,3 +185,23 @@ body.mogu-splash-mode .welcome-screen.mogu-splash{
   background-position:center center!important;background-size:100% 100%!important;
   background-repeat:no-repeat!important;
 }
+
+
+/* Larger dimensional MaDoni logo on the welcome splash. */
+body.mogu-splash-mode .welcome-screen.mogu-splash::before{
+  content:"";
+  position:absolute;
+  z-index:3;
+  left:50%;
+  top:16.5%;
+  width:clamp(230px,62vw,390px);
+  aspect-ratio:698 / 326;
+  transform:translateX(-50%);
+  background:url("./assets/logo-madoni.webp") center / contain no-repeat;
+  pointer-events:none;
+  filter:
+    drop-shadow(0 5px 0 #6551a8)
+    drop-shadow(0 9px 0 #40347f)
+    drop-shadow(0 13px 12px rgba(24,25,91,.42))
+    drop-shadow(0 0 12px rgba(255,221,95,.35));
+}
