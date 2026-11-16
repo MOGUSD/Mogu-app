@@ -1,7 +1,7 @@
-const CACHE_NAME="mogu-browser-v54-stable-offline";
+const CACHE_NAME="mogu-browser-v55-rounded-font";
 const APP_SHELL=[
   "./","./index.html","./manifest.webmanifest",
-  "./styles.css?v=madoni-stability-v54",
+  "./styles.css?v=madoni-typography-v55",
   "./splash-fit-fix.css?v=1",
   "./responsive.css?v=remove-splash-logo-fix-blue-flash-20261116",
   "./mini-games.css?v=madoni-stability-v54",
