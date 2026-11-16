@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><defs>
+ <linearGradient id="pink" x2="0" y2="1"><stop stop-color="#ffb9d0"/><stop offset="1" stop-color="#f05f9b"/></linearGradient>
+ <linearGradient id="blue" x2="0" y2="1"><stop stop-color="#9deaff"/><stop offset="1" stop-color="#36aee8"/></linearGradient>
+ <linearGradient id="yellow" x2="0" y2="1"><stop stop-color="#fff19a"/><stop offset="1" stop-color="#ffb92e"/></linearGradient>
+ <linearGradient id="purple" x2="0" y2="1"><stop stop-color="#d8c4ff"/><stop offset="1" stop-color="#8b69e8"/></linearGradient>
+ <linearGradient id="green" x2="0" y2="1"><stop stop-color="#baf5c9"/><stop offset="1" stop-color="#55c78c"/></linearGradient>
+ <linearGradient id="orange" x2="0" y2="1"><stop stop-color="#ffd29b"/><stop offset="1" stop-color="#ff8a45"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="5" stdDeviation="3" flood-color="#34406b" flood-opacity=".22"/></filter>
+</defs>
+ <g filter="url(#shadow)" stroke="#39446d" stroke-width="4" stroke-linejoin="round">
+  <path d="M13 35q25-12 51 5v69Q38 91 13 103z" fill="#fff1a9"/><path d="M115 35Q90 23 64 40v69q26-18 51-6z" fill="#fff"/><path d="M64 40v69" fill="none"/>
+  <path d="M25 52q13-4 25 3M25 67q13-4 25 3M77 52q13-4 25-3M77 67q13-4 25-3" fill="none" stroke="#e58aa9" stroke-width="3" stroke-linecap="round"/>
+ </g><path d="M47 23q-1-12 10-12 8 0 8 9 0-9 9-9 11 0 9 14l-18 18z" fill="url(#pink)" stroke="#39446d" stroke-width="3"/>
+ <circle cx="60" cy="25" r="2.5" fill="#39446d"/><circle cx="72" cy="25" r="2.5" fill="#39446d"/>
+</svg>
