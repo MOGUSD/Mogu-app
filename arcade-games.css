@@ -299,3 +299,29 @@ body.arcade-playing #arcade-canvas {
 body.arcade-playing #arcade-canvas {
   touch-action:none!important;
 }
+
+
+/* Arcade color formula: each candy surface gets a deliberate contrasting text color. */
+.arcade-yellow,.arcade-mint,.arcade-pink,.arcade-blue,
+.arcade-card,.arcade-play,.arcade-top,.arcade-stats,.arcade-hint{
+  color:#17275f!important;
+}
+.arcade-card strong,.arcade-card small,.arcade-play,
+.arcade-top,.arcade-stats,.arcade-hint{
+  color:#17275f!important;
+}
+.arcade-main-btn{color:#fff05a!important}
+.arcade-restart{color:#17275f!important}
+.tile-2,.tile-4,.tile-8,.tile-16,.tile-32,.tile-1024{
+  color:#18358a!important;
+  text-shadow:none!important;
+}
+.tile-64,.tile-128,.tile-256{
+  color:#fff05a!important;
+  text-shadow:0 1px 2px #17275f55!important;
+}
+.tile-512{color:#18358a!important;text-shadow:none!important}
+.tile-2048{color:#18358a!important;text-shadow:none!important}
+.space-fire-btn{color:#fff05a!important}
+.race-accelerate{color:#18358a!important}
+.race-brake{color:#fff05a!important}

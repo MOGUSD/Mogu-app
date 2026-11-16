@@ -1,7 +1,7 @@
-const CACHE_NAME="mogu-browser-v46-dynapuff-cyrillic";
+const CACHE_NAME="mogu-browser-v47-color-formula";
 const APP_SHELL=[
   "./","./index.html",
-  "./styles.css?v=madoni-dynapuff-cyrillic-20261116",
+  "./styles.css?v=madoni-dynapuff-color-formula-20261116",
   "./app.js?v=madina-all-pages-20261116",
   "./manifest.webmanifest",
   "./assets/fonts/DynaPuff[wdth,wght].ttf",

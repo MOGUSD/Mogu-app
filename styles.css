@@ -1239,3 +1239,119 @@ button,input,textarea,select{font-weight:600}
   font-family:"DynaPuff",system-ui,sans-serif!important;
   font-weight:700;
 }
+
+
+/* MaDoni contrast color formula: playful complementary colors with readable text. */
+:root{
+  --madoni-ink:#17275f;
+  --madoni-blue-text:#18358a;
+  --madoni-yellow-text:#fff05a;
+  --madoni-purple-text:#fff18a;
+  --madoni-pink-text:#33205f;
+  --madoni-light-text:#fffdf4;
+}
+#app-main .hub-learn,
+#app-main .daily-category-intro{
+  color:var(--madoni-yellow-text)!important;
+}
+#app-main .hub-learn .hub-card-copy strong,
+#app-main .hub-learn .hub-card-copy small,
+#app-main .hub-learn .hub-arrow,
+#app-main .daily-category-intro strong,
+#app-main .daily-category-intro p{
+  color:var(--madoni-yellow-text)!important;
+}
+#app-main .hub-play,
+#app-main .hub-world,
+#app-main .hub-feel{
+  color:var(--madoni-ink)!important;
+}
+#app-main .hub-play .hub-card-copy strong,
+#app-main .hub-play .hub-card-copy small,
+#app-main .hub-play .hub-arrow,
+#app-main .hub-world .hub-card-copy strong,
+#app-main .hub-world .hub-card-copy small,
+#app-main .hub-world .hub-arrow,
+#app-main .hub-feel .hub-card-copy strong,
+#app-main .hub-feel .hub-card-copy small,
+#app-main .hub-feel .hub-arrow{
+  color:var(--madoni-ink)!important;
+  text-shadow:none!important;
+}
+#app-main .hub-talk .hub-card-copy strong,
+#app-main .hub-talk .hub-card-copy small,
+#app-main .hub-talk .hub-arrow{
+  color:var(--madoni-yellow-text)!important;
+}
+#app-main .route-card.learn,
+#app-main .daily-category-card:nth-child(5n+1){
+  color:var(--madoni-yellow-text)!important;
+}
+#app-main .route-card.learn *,
+#app-main .daily-category-card:nth-child(5n+1) *{
+  color:var(--madoni-yellow-text)!important;
+}
+#app-main .route-card.talk,
+#app-main .daily-category-card:nth-child(5n+2),
+#app-main .daily-category-card:nth-child(5n+3),
+#app-main .daily-category-card:nth-child(5n+4){
+  color:var(--madoni-blue-text)!important;
+}
+#app-main .route-card.talk *,
+#app-main .daily-category-card:nth-child(5n+2) *,
+#app-main .daily-category-card:nth-child(5n+3) *,
+#app-main .daily-category-card:nth-child(5n+4) *{
+  color:var(--madoni-blue-text)!important;
+}
+#app-main .daily-category-card:nth-child(5n){
+  color:var(--madoni-yellow-text)!important;
+}
+#app-main .daily-category-card:nth-child(5n) *{
+  color:var(--madoni-yellow-text)!important;
+}
+#app-main .daily-category-number{
+  color:var(--madoni-blue-text)!important;
+}
+#app-main .urgent:nth-child(1),
+#app-main .urgent:nth-child(2),
+#app-main .urgent:nth-child(4),
+#app-main .world-card,
+#app-main .feel-card:nth-child(1),
+#app-main .feel-card:nth-child(3),
+#app-main .feel-card:nth-child(5),
+#app-main .feel-card:nth-child(6),
+#app-main .stat-card:nth-child(4n+1),
+#app-main .stat-card:nth-child(4n+2),
+#app-main .stat-card:nth-child(4n+3){
+  color:var(--madoni-blue-text)!important;
+}
+#app-main .urgent:nth-child(3),
+#app-main .feel-card:nth-child(2),
+#app-main .feel-card:nth-child(4),
+#app-main .feel-card:nth-child(7),
+#app-main .stat-card:nth-child(4n){
+  color:var(--madoni-yellow-text)!important;
+}
+#app-main .urgent:nth-child(1) *,
+#app-main .urgent:nth-child(2) *,
+#app-main .urgent:nth-child(3) *,
+#app-main .urgent:nth-child(4) *,
+#app-main .world-card *,
+#app-main .feel-card *,
+#app-main .stat-card *{
+  color:inherit!important;
+}
+#app-main .screen-title{
+  color:var(--madoni-blue-text)!important;
+}
+#app-main .panel,
+#app-main .learn-main,
+#app-main .learn-topic,
+#app-main .method-detail,
+#app-main .phrase-panel,
+#app-main .phrase-line,
+#app-main .setting-card,
+#app-main .speech-bubble,
+#app-main .daily-learning{
+  color:var(--madoni-ink)!important;
+}
