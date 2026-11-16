@@ -1467,3 +1467,35 @@ button,input,textarea,select{font-weight:600}
   #app-main .learn-topic strong,#app-main .daily-category-card strong{font-size:12px}
   #app-main .lesson-option{font-size:30px}
 }
+
+
+/* Unified MaDoni cartoon language: learning art, rounded controls and tactile states */
+.learn-topic-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.learn-topic{
+  aspect-ratio:1/1;min-height:0;width:100%;padding:12px 9px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  border:3px solid #fff;border-radius:26px;text-align:center;overflow:hidden;
+  box-shadow:0 6px 0 #35416a20,0 12px 22px #35416a16;
+  transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;
+}
+.learn-topic:nth-child(6n+1){background:linear-gradient(145deg,#ffe58a,#ffbf43)}
+.learn-topic:nth-child(6n+2){background:linear-gradient(145deg,#a9eaff,#54c3ef)}
+.learn-topic:nth-child(6n+3){background:linear-gradient(145deg,#ffc1d8,#f27eaa)}
+.learn-topic:nth-child(6n+4){background:linear-gradient(145deg,#d9c9ff,#9b7be9)}
+.learn-topic:nth-child(6n+5){background:linear-gradient(145deg,#bdf0d0,#68cf9a)}
+.learn-topic:nth-child(6n){background:linear-gradient(145deg,#ffd0a0,#ff9854)}
+.learn-topic-art{display:grid;place-items:center;width:min(76%,92px);aspect-ratio:1;flex:0 0 auto}
+.learn-topic-art svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 4px 3px #39446d24)}
+.learn-topic strong{display:block;max-width:100%;font-size:clamp(12px,2.2vw,16px);line-height:1.2;font-weight:900;color:#26345f;text-wrap:balance}
+.learn-topic:hover{transform:translateY(-3px);filter:saturate(1.08);box-shadow:0 9px 0 #35416a20,0 15px 25px #35416a18}
+.learn-topic:active{transform:translateY(2px) scale(.98)}
+.app-shell button{font-family:inherit;-webkit-tap-highlight-color:transparent}
+.app-shell button:focus-visible{outline:3px solid #39446d;outline-offset:3px}
+.app-shell button:active{transition-duration:.08s}
+@media(max-width:520px){
+ .learn-topic-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+ .learn-topic{padding:9px 5px;border-radius:21px;gap:5px}
+ .learn-topic-art{width:78%;max-width:76px}
+ .learn-topic strong{font-size:clamp(11px,3vw,14px)}
+}
+@media(max-width:360px){.learn-topic-grid{gap:7px}.learn-topic{padding:7px 3px}.learn-topic strong{font-size:11px}}
