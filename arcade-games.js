@@ -69,7 +69,7 @@ function setupGame(){
  if(id==="space"){game.player={x:4,y:8};game.entities=[];game.bullets=[];game.wave=1;game.wavesTotal=game.level===1?1:game.level===2?2:Math.min(5,2+Math.floor((game.level-3)/2));game.hasBoss=game.level>=3&&game.level%3===0;game.spawnedInWave=0;game.spawn=0;game.stagePause=0;game.boss=null;game.bossSpawned=false;game.bossShots=[];game.fireHeld=false;game.fireCooldown=0;game.kills=0}
  if(id==="jumper"){game.player={x:3.7,y:670,vy:-11,face:1};game.platforms=[];for(let i=0;i<9;i++){const r=Math.random();const type=i===0?"start":r<.13?"falling":r<.25?"spikes":r<.36?"timed":r<.48?"moving":"normal";game.platforms.push({x:i===0?3.1:Math.random()*7.0,y:760-i*112,w:1.25+Math.random()*.45,type,phase:Math.random()*6,triggered:false,fallSpeed:0})}game.stars=[];game.camera=0;game.maxHeight=0;game.bonusClock=0;game.targetMeters=game.level*250}
  if(id==="fruit"){game.player={x:4,y:8};game.entities=[];game.spawn=0;game.fruitsCaught=0;game.missed=0;game.fruitTarget=100+(l-1)*50}
- if(id==="racing"){game.player={x:1,y:8};game.entities=[];game.spawn=0;game.passedCars=0;game.raceTarget=30+game.level*10}
+ if(id==="racing"){game.player={x:1,y:8};game.entities=[];game.spawn=0;game.passedCars=0;game.raceTarget=30+game.level*10;game.raceCountdown=180;game.raceStarted=false;game.raceGoTimer=0;game.startLineY=570;game.finishLineY=null;game.raceFinished=false}
  const spaceHud=id==="space"?'<span>Волна: <b id="arcade-wave">1/'+game.wavesTotal+'</b></span>':"";
  const spaceFire=id==="space"?'<button class="space-fire-btn" type="button">🔥 ОГОНЬ</button>':"";
  const fruitHud=id==="fruit"?'<span>Фрукты: <b id="arcade-fruit-count">0/'+game.fruitTarget+'</b></span><span>Пропущено: <b id="arcade-fruit-missed">0/5</b></span>':"";const raceHud=id==="racing"?'<span>Машины: <b id="arcade-race-count">0/'+game.raceTarget+'</b></span>':"";const canvas='<div class="arcade-stats"><span>Уровень: <b id="arcade-level">'+l+'/30</b></span>'+spaceHud+fruitHud+raceHud+'<span>Очки: <b id="arcade-score">0</b></span><span>❤️ <b id="arcade-lives">3</b></span></div><canvas id="arcade-canvas" width="800" height="900" aria-label="Игровое поле"></canvas>'+spaceFire+'<p class="arcade-hint" id="arcade-hint">'+hint(id)+'</p><div id="arcade-message"></div>';
@@ -478,28 +478,55 @@ function drawRaceCar(c,x,y,color,player=false,phase=0){
  if(player){rect(c,w*.43,4,w*.14,14,"#ffffff",5);rect(c,w*.43,158,w*.14,8,"#ffe66d",4)}
  c.restore();
 }
+function drawRaceStripe(c,y,label){
+ // Black-and-white chequered strip spanning all three lanes
+ c.save();c.shadowColor="#10182799";c.shadowBlur=14;
+ for(let row=0;row<2;row++)for(let col=0;col<12;col++){
+  c.fillStyle=(row+col)%2===0?"#ffffff":"#182235";
+  c.fillRect(110+col*(580/12),y+row*20,580/12+1,20);
+ }
+ c.shadowBlur=0;c.fillStyle="#ffffff";c.font="900 30px system-ui, sans-serif";c.textAlign="center";c.shadowColor="#172238";c.shadowBlur=5;c.fillText(label,400,y-12);c.restore();
+}
 function drawRacing(c,dt){
  const l=game.level;
  const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#a8f477");bg.addColorStop(.55,"#51d99d");bg.addColorStop(1,"#22b9b9");c.fillStyle=bg;c.fillRect(0,0,800,900);
  // Road shoulder, asphalt and safety rails
  rect(c,92,0,616,900,"#dce8a0",0);rect(c,110,0,580,900,"#35435a",0);
  rect(c,110,0,12,900,"#f8d66d",0);rect(c,678,0,12,900,"#f8d66d",0);
- // Lane lines scroll toward the player to create a sense of speed
  game.roadOffset=(game.roadOffset||0)+dt*(5+l*.25);
  c.setLineDash([48,38]);c.lineDashOffset=-game.roadOffset%86;c.strokeStyle="#ffffffd9";c.lineWidth=7;c.beginPath();c.moveTo(303,0);c.lineTo(303,900);c.moveTo(496,0);c.lineTo(496,900);c.stroke();c.setLineDash([]);
- // Small roadside details
  for(let i=0;i<9;i++){const yy=((i*125+game.roadOffset*1.7)%1020)-80;rect(c,45,yy,28,48,"#ffffffa8",8);rect(c,727,yy,28,48,"#ffffffa8",8);rect(c,52,yy+8,14,32,"#ff9c4a",5);rect(c,734,yy+8,14,32,"#ff9c4a",5)}
- game.spawn-=dt;
- if(game.spawn<=0){game.entities.push({lane:Math.floor(Math.random()*3),y:-190,speed:1.35+l*.045,color:["#ff5268","#ffb52e","#6d7cff","#ac63e8","#24c99a"][Math.floor(Math.random()*5)]});game.spawn=Math.max(27,54-l*.65)}
- game.entities.forEach(e=>{e.y+=e.speed*dt*2.15;drawRaceCar(c,150+e.lane*193,e.y,e.color,false,e.y)});
- // Player car is deliberately larger and brighter so it is easy to distinguish
  const playerX=150+game.player.x*193;
- drawRaceCar(c,playerX,700,"#2878ff",true,game.elapsed||0);
- if(game.entities.some(e=>e.lane===game.player.x&&e.y>535&&e.y<825)){
-  game.entities=game.entities.filter(e=>!(e.lane===game.player.x&&e.y>535&&e.y<825));loseLife();
+ if(!game.raceStarted){
+  drawRaceStripe(c,game.startLineY,"СТАРТ");
+  game.raceCountdown-=dt;
+  const number=Math.ceil(Math.max(0,game.raceCountdown)/60);
+  if(game.raceCountdown<=0){game.raceStarted=true;game.raceGoTimer=42}
+  c.save();c.fillStyle="#111b32bb";c.beginPath();c.roundRect(245,270,310,190,32);c.fill();
+  c.textAlign="center";c.fillStyle="#fff";c.font="900 112px system-ui, sans-serif";
+  c.fillText(number>0?String(number):"ПОЕХАЛИ!",400,number>0?400:385);
+  c.font="700 25px system-ui, sans-serif";c.fillStyle="#ffe68b";c.fillText("ПРИГОТОВЬСЯ К ГОНКЕ",400,430);c.restore();
+ }else if(!game.raceFinished){
+  if(game.raceGoTimer>0)game.raceGoTimer-=dt;
+  if(game.startLineY<900){game.startLineY+=dt*12; if(game.startLineY<900)drawRaceStripe(c,game.startLineY,"СТАРТ");}
+  game.spawn-=dt;
+  if(game.spawn<=0){game.entities.push({lane:Math.floor(Math.random()*3),y:-190,speed:1.35+l*.045,color:["#ff5268","#ffb52e","#6d7cff","#ac63e8","#24c99a"][Math.floor(Math.random()*5)]});game.spawn=Math.max(27,54-l*.65)}
+  game.entities.forEach(e=>{e.y+=e.speed*dt*2.15;drawRaceCar(c,150+e.lane*193,e.y,e.color,false,e.y)});
+  if(game.entities.some(e=>e.lane===game.player.x&&e.y>535&&e.y<825)){
+   game.entities=game.entities.filter(e=>!(e.lane===game.player.x&&e.y>535&&e.y<825));loseLife();
+  }
+  game.entities=game.entities.filter(e=>{if(e.y>930){game.score+=5;game.passedCars++;return false}return true});
+  if(game.passedCars>=game.raceTarget){
+   game.raceFinished=true;game.finishLineY=-180;game.entities=[];game.spawn=99999;
+  }
+ }else{
+  game.finishLineY+=dt*12;
+  drawRaceStripe(c,game.finishLineY,"ФИНИШ!");
+  if(game.finishLineY>=650){completeLevel("Финиш! Ты обогнал "+game.passedCars+" машин и пересёк финишную линию!");return}
  }
- game.entities=game.entities.filter(e=>{if(e.y>930){game.score+=5;game.passedCars++;return false}return true});
- if(game.passedCars>=game.raceTarget)completeLevel("Финиш! Ты обогнал "+game.passedCars+" машин и прошёл трассу!");
+ // Player remains on screen throughout the countdown and final finish-line approach
+ drawRaceCar(c,playerX,700,"#2878ff",true,game.elapsed||0);
+ if(game.raceGoTimer>0&&game.raceStarted){c.save();c.textAlign="center";c.font="900 58px system-ui, sans-serif";c.fillStyle="#fff27b";c.shadowColor="#172238";c.shadowBlur=12;c.fillText("ПОЕХАЛИ!",400,220);c.restore()}
 }
 function completeLevel(msg){
  if(game.done||game.over)return;game.done=true;cancelAnimationFrame(raf);const next=Math.min(30,game.level+1);if(game.level<30)save(current,next);localStorage.setItem("mogu-arcade-best-"+current,String(Math.max(best(current),game.score)));
