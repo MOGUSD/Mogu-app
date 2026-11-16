@@ -681,4 +681,5 @@ if(b.dataset.setting){const k=b.dataset.setting,v=b.dataset.value;state.settings
 try{const saved=store.get("language","ru");if(words[saved])state.lang=saved}catch(_){}
 render();
 syncAudio(); // Attempt autoplay on launch; mobile browsers may wait for the first tap.
+document.addEventListener("pointerdown",unlockAudio,{once:true,passive:true}); // Start on the first touch anywhere in the app if autoplay is blocked.
 // Service worker disabled during interface redesign to prevent stale UI from being shown.
