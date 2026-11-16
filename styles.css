@@ -1129,3 +1129,20 @@ body.mogu-splash-mode .mogu-splash .splash-play{left:36%!important;top:66%!impor
     flex-basis:104px;
   }
 }
+
+
+/* Remove oversized translucent white decorative bubbles that obscure page content. */
+#app-main .hub-heading::before,
+#app-main .hub-heading::after,
+#app-main .learn-madina::before,
+#app-main .learn-madina::after,
+#app-main .page-guide::before,
+#app-main .page-guide::after,
+#app-main .screen-top::before,
+#app-main .screen-top::after{
+  display:none!important;
+  content:none!important;
+}
+#app-main .daily-scene{
+  background-image:linear-gradient(145deg,#dff6ff,#f3eaff 58%,#fff0d8)!important;
+}
