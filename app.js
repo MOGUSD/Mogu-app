@@ -28,8 +28,32 @@ const backgroundMusic=new Audio("./assets/audio/bouncy-adventure.mp3");
 backgroundMusic.loop=true;backgroundMusic.preload="auto";
 const buttonSound=new Audio("./assets/audio/button-pop.mp3");buttonSound.preload="auto";
 let audioUnlocked=false;
-function syncAudio(){backgroundMusic.volume=Math.max(0,Math.min(1,Number(audioPrefs.musicVolume)));buttonSound.volume=Math.max(0,Math.min(1,Number(audioPrefs.effectVolume)));if(!audioPrefs.music){backgroundMusic.pause();return}if(audioUnlocked&&backgroundMusic.paused)backgroundMusic.play().catch(()=>{})}
+let musicPlayPending=false;
+function attemptBackgroundMusic(){
+ if(!audioPrefs.music||!audioUnlocked)return;
+ backgroundMusic.volume=Math.max(0,Math.min(1,Number(audioPrefs.musicVolume)));
+ if(!backgroundMusic.paused||musicPlayPending)return;
+ musicPlayPending=true;
+ let result;
+ try{result=backgroundMusic.play()}catch(_){musicPlayPending=false;return}
+ if(result&&typeof result.then==="function"){
+  result.then(()=>{musicPlayPending=false}).catch(()=>{musicPlayPending=false});
+ }else{musicPlayPending=false}
+}
+function syncAudio(){
+ backgroundMusic.volume=Math.max(0,Math.min(1,Number(audioPrefs.musicVolume)));
+ buttonSound.volume=Math.max(0,Math.min(1,Number(audioPrefs.effectVolume)));
+ if(!audioPrefs.music){musicPlayPending=false;backgroundMusic.pause();return}
+ attemptBackgroundMusic();
+}
 function unlockAudio(){audioUnlocked=true;syncAudio()}
+backgroundMusic.addEventListener("playing",()=>{musicPlayPending=false});
+backgroundMusic.addEventListener("pause",()=>{musicPlayPending=false;if(audioPrefs.music&&audioUnlocked)attemptBackgroundMusic()});
+backgroundMusic.addEventListener("ended",()=>{if(audioPrefs.music&&audioUnlocked)attemptBackgroundMusic()});
+backgroundMusic.addEventListener("canplay",()=>{if(audioPrefs.music&&audioUnlocked)attemptBackgroundMusic()});
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)syncAudio()});
+window.addEventListener("pageshow",syncAudio);
+window.addEventListener("focus",syncAudio);
 function playButtonSound(){if(!audioPrefs.effects)return;try{buttonSound.currentTime=0;buttonSound.volume=Math.max(0,Math.min(1,Number(audioPrefs.effectVolume)));buttonSound.play().catch(()=>{})}catch(_){}}
 function saveAudio(){store.set("audio",audioPrefs);syncAudio()}
 function soundPanel(){const kk=state.lang==="kk",en=state.lang==="en";const music=kk?"Фондық музыка":en?"Background music":"Фоновая музыка";const effects=kk?"Түйме дыбыстары":en?"Button sounds":"Звуки кнопок";const title=kk?"Дыбыс баптаулары":en?"Sound settings":"Звуковые настройки";const volume=kk?"Дыбыс деңгейі":en?"Volume":"Громкость";const on=kk?"Қосулы":en?"On":"Включено";const off=kk?"Өшірулі":en?"Off":"Выключено";return '<section class="setting-card sound-settings"><h3>🎵 '+title+'</h3><div class="sound-row"><div><strong>'+music+'</strong><small>'+(audioPrefs.music?on:off)+'</small></div><button class="sound-toggle '+(audioPrefs.music?'selected':'')+'" data-audio-toggle="music">'+(audioPrefs.music?'🔊':'🔇')+'</button></div><label class="sound-volume">'+volume+' <output id="music-volume-value">'+Math.round(audioPrefs.musicVolume*100)+'%</output><input type="range" min="0" max="100" value="'+Math.round(audioPrefs.musicVolume*100)+'" data-audio-volume="musicVolume"></label><div class="sound-row"><div><strong>'+effects+'</strong><small>'+(audioPrefs.effects?on:off)+'</small></div><button class="sound-toggle '+(audioPrefs.effects?'selected':'')+'" data-audio-toggle="effects">'+(audioPrefs.effects?'✨':'🔇')+'</button></div><label class="sound-volume">'+volume+' <output id="effect-volume-value">'+Math.round(audioPrefs.effectVolume*100)+'%</output><input type="range" min="0" max="100" value="'+Math.round(audioPrefs.effectVolume*100)+'" data-audio-volume="effectVolume"></label><label class="sound-volume">'+(kk?'Громкость голоса':en?'Voice volume':'Громкость голоса')+' <output id="voice-volume-value">'+Math.round(audioPrefs.voiceVolume*100)+'%</output><input type="range" min="0" max="100" value="'+Math.round(audioPrefs.voiceVolume*100)+'" data-audio-volume="voiceVolume"></label><button class="voice-test-button" data-action="voice-test">🔊 '+(kk?'Послушать Мадину':en?'Hear Madina':'Послушать голос Мадины')+'</button><p class="sound-hint">'+(kk?'Музыка бірінші түртуден кейін басталады.':en?'Music starts after your first tap.':'Музыка начнёт играть после первого нажатия на экран.')+'</p></section>'}
@@ -682,5 +706,5 @@ try{const saved=store.get("language","ru");if(words[saved])state.lang=saved}catc
 render();
 syncAudio(); // Attempt autoplay on launch; mobile browsers may wait for the first tap.
 window.moguStartWelcome=function(){unlockAudio();speakWelcome()};
-document.addEventListener("pointerdown",function(){unlockAudio();if(state.screen==="welcome"&&!state.welcomeVoicePlaybackStarted)speakWelcome(true)},{once:true,passive:true}); // Retry Madina voice on the first touch if iOS blocked autoplay.
+document.addEventListener("pointerdown",function(){unlockAudio();if(state.screen==="welcome"&&!state.welcomeVoicePlaybackStarted)speakWelcome(true)},{capture:true,passive:true}); // Keep music alive after touch controls and iOS audio interruptions.
 // Service worker disabled during interface redesign to prevent stale UI from being shown.
