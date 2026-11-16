@@ -28,7 +28,7 @@ const backgroundMusic=new Audio("./assets/audio/bouncy-adventure.mp3");
 backgroundMusic.loop=true;backgroundMusic.preload="auto";
 const buttonSound=new Audio("./assets/audio/button-pop.mp3");buttonSound.preload="auto";
 let audioUnlocked=false;
-function syncAudio(){backgroundMusic.volume=Math.max(0,Math.min(1,Number(audioPrefs.musicVolume)));buttonSound.volume=Math.max(0,Math.min(1,Number(audioPrefs.effectVolume)));if(!audioPrefs.music){backgroundMusic.pause();return}if(state.screen==="welcome"&&!state.welcomeSpeechDone)return;if(audioUnlocked&&backgroundMusic.paused)backgroundMusic.play().catch(()=>{})}
+function syncAudio(){backgroundMusic.volume=Math.max(0,Math.min(1,Number(audioPrefs.musicVolume)));buttonSound.volume=Math.max(0,Math.min(1,Number(audioPrefs.effectVolume)));if(!audioPrefs.music){backgroundMusic.pause();return}if(audioUnlocked&&backgroundMusic.paused)backgroundMusic.play().catch(()=>{})}
 function unlockAudio(){if(!audioUnlocked){audioUnlocked=true;syncAudio()}}
 function playButtonSound(){if(!audioPrefs.effects)return;try{buttonSound.currentTime=0;buttonSound.volume=Math.max(0,Math.min(1,Number(audioPrefs.effectVolume)));buttonSound.play().catch(()=>{})}catch(_){}}
 function saveAudio(){store.set("audio",audioPrefs);syncAudio()}
@@ -680,4 +680,5 @@ if(b.dataset.setting){const k=b.dataset.setting,v=b.dataset.value;state.settings
 });
 try{const saved=store.get("language","ru");if(words[saved])state.lang=saved}catch(_){}
 render();
+syncAudio(); // Attempt autoplay on launch; mobile browsers may wait for the first tap.
 // Service worker disabled during interface redesign to prevent stale UI from being shown.
