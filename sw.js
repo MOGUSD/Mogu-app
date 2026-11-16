@@ -1,4 +1,4 @@
-const CACHE_NAME="mogu-browser-v44-comicsans-bold";
+const CACHE_NAME="mogu-browser-v43-dynapuff-solid";
 const APP_SHELL=[
   "./","./index.html",
   "./styles.css?v=madoni-dynapuff-20261116",
