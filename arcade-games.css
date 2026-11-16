@@ -285,3 +285,17 @@ body.arcade-playing #arcade-canvas {
 .race-accelerate{background:linear-gradient(110deg,#ff9d32,#ffcf4b);text-shadow:0 2px 3px #9b5b1c88}
 .race-brake{background:linear-gradient(110deg,#3987ed,#735ce8);text-shadow:0 2px 3px #263c9b88}
 .race-control:active{transform:translateY(3px);box-shadow:0 2px 0 #26344b55}
+
+
+/* Jumper: suppress iOS text selection, magnifier and touch callouts during rapid taps */
+body.arcade-playing .arcade-shell,
+body.arcade-playing .arcade-shell *,
+body.arcade-playing #arcade-canvas {
+  -webkit-user-select:none!important;
+  user-select:none!important;
+  -webkit-touch-callout:none!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+body.arcade-playing #arcade-canvas {
+  touch-action:none!important;
+}
