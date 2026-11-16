@@ -204,15 +204,67 @@ function drawSnake(c,dt){
  if(game.score>=(game.level*10+10))completeLevel("Змейка выросла! Уровень пройден.");
 }
 function drawBreakout(c,dt){
- const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#ffc4e1");bg.addColorStop(.5,"#c8b8ff");bg.addColorStop(1,"#9be8ff");c.fillStyle=bg;c.fillRect(0,0,800,900);
- game.bricks.forEach((b,i)=>{if(b.alive)rect(c,b.x*100,b.y*75,88,58,["#ff8b9e","#ffcb65","#70c8ef","#9c8be9"][i%4],12)});
- const p=game.paddle*100;rect(c,p,820,150,24,"#5944a2",12);
- const b=game.ball;b.x+=b.dx*dt*.55;b.y+=b.dy*dt*.55;if(b.x<.1||b.x>7.8)b.dx*=-1;if(b.y<.1)b.dy=Math.abs(b.dy);
- if(b.y>7.9&&b.x*100>p-20&&b.x*100<p+170)b.dy=-Math.abs(b.dy);
- if(b.y>9){game.lives--;b.x=4;b.y=7;b.dy=-.13;if(game.lives<=0)loseLife(true)}
- const hit=game.bricks.find(x=>x.alive&&b.x>x.x-.08&&b.x<x.x+.98&&b.y>x.y-.08&&b.y<x.y+.8);
- if(hit){hit.alive=false;b.dy*=-1;game.score+=5}
- rect(c,b.x*100,b.y*100,24,24,"#ff6c65",12);
+ // Ночная аркадная сцена с неоновыми кирпичиками и мягким свечением
+ const bg=c.createLinearGradient(0,0,800,900);
+ bg.addColorStop(0,"#171c55");bg.addColorStop(.48,"#30246f");bg.addColorStop(1,"#111d4b");
+ c.fillStyle=bg;c.fillRect(0,0,800,900);
+ // Мягкие световые пятна и звёздная пыль
+ for(let i=0;i<18;i++){
+  const x=(i*173+61)%800,y=(i*239+37)%900;
+  c.fillStyle=i%3===0?"#b9a7ff55":"#ffffff35";
+  c.beginPath();c.arc(x,y,2+(i%3),0,Math.PI*2);c.fill();
+ }
+ const colors=[
+  ["#ff91c8","#e83f91","#a92371"],
+  ["#ffe17a","#ff9e32","#ce6426"],
+  ["#82f1e2","#20c6b7","#148a9e"],
+  ["#a9a0ff","#7466f5","#4439b4"],
+  ["#9ceaff","#42a9f5","#2769c9"],
+  ["#c4f58a","#73d65c","#359b50"]
+ ];
+ game.bricks.forEach((brick,i)=>{
+  if(!brick.alive)return;
+  const x=brick.x*100+4,y=brick.y*75+5,w=80,h=48,pal=colors[(Math.floor(brick.y)+i%2+game.level-1)%colors.length];
+  c.save();
+  c.shadowColor=pal[0];c.shadowBlur=13;
+  const grad=c.createLinearGradient(x,y,x,y+h);
+  grad.addColorStop(0,pal[0]);grad.addColorStop(.52,pal[1]);grad.addColorStop(1,pal[2]);
+  rect(c,x,y+3,w,h,grad,12);
+  c.shadowBlur=0;
+  // Тонкая светлая окантовка и объёмная нижняя грань
+  c.strokeStyle="#ffffffa8";c.lineWidth=2;c.beginPath();c.roundRect(x+1,y+3,w-2,h,11);c.stroke();
+  c.fillStyle="#ffffff66";c.beginPath();c.roundRect(x+8,y+8,w-16,5,3);c.fill();
+  c.fillStyle="#ffffff24";c.beginPath();c.ellipse(x+20,y+17,9,5,-.35,0,Math.PI*2);c.fill();
+  c.fillStyle="#20194c35";c.beginPath();c.roundRect(x+5,y+h-7,w-10,5,3);c.fill();
+  c.restore();
+ });
+ // Лёгкая подсветка нижней зоны
+ const floor=c.createLinearGradient(0,770,0,900);floor.addColorStop(0,"#5c4fd000");floor.addColorStop(1,"#8b78ff30");
+ c.fillStyle=floor;c.fillRect(0,770,800,130);
+ // Платформа — яркая стеклянная капсула
+ const p=game.paddle*100,px=p-2,py=820,pw=154,ph=25;
+ c.save();c.shadowColor="#48e7ffb8";c.shadowBlur=24;
+ const paddleGrad=c.createLinearGradient(px,py,px,py+ph);
+ paddleGrad.addColorStop(0,"#e4ffff");paddleGrad.addColorStop(.28,"#63e8ff");paddleGrad.addColorStop(1,"#5368ec");
+ rect(c,px,py,pw,ph,paddleGrad,14);c.shadowBlur=0;
+ rect(c,px+13,py+4,pw-26,4,"#ffffffb8",3);
+ c.restore();
+ // Движение и отскоки мяча
+ const ball=game.ball;
+ ball.x+=ball.dx*dt*.55;ball.y+=ball.dy*dt*.55;
+ if(ball.x<.1||ball.x>7.8)ball.dx*=-1;
+ if(ball.y<.1)ball.dy=Math.abs(ball.dy);
+ if(ball.y>7.9&&ball.x*100>p-20&&ball.x*100<p+170)ball.dy=-Math.abs(ball.dy);
+ if(ball.y>9){game.lives--;ball.x=4;ball.y=7;ball.dy=-.13;if(game.lives<=0)loseLife(true)}
+ const hit=game.bricks.find(x=>x.alive&&ball.x>x.x-.08&&ball.x<x.x+.98&&ball.y>x.y-.08&&ball.y<x.y+.8);
+ if(hit){hit.alive=false;ball.dy*=-1;game.score+=5}
+ // Золотой шар с ореолом и бликом
+ const bx=ball.x*100+12,by=ball.y*100+12;
+ c.save();c.shadowColor="#fff17b";c.shadowBlur=25;
+ const ballGrad=c.createRadialGradient(bx-5,by-6,2,bx,by,17);
+ ballGrad.addColorStop(0,"#ffffff");ballGrad.addColorStop(.35,"#fff7a6");ballGrad.addColorStop(1,"#ff9d38");
+ c.fillStyle=ballGrad;c.beginPath();c.arc(bx,by,15,0,Math.PI*2);c.fill();
+ c.shadowBlur=0;c.fillStyle="#ffffffd9";c.beginPath();c.arc(bx-5,by-6,4,0,Math.PI*2);c.fill();c.restore();
  if(game.bricks.every(x=>!x.alive))completeLevel("Все кирпичики разбиты!");
 }
 function drawSpace(c,dt){
