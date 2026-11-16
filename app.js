@@ -760,4 +760,3 @@ render();
 syncAudio(); // Attempt autoplay on launch; mobile browsers may wait for the first tap.
 window.moguStartWelcome=function(){unlockAudio();speakWelcome()};
 document.addEventListener("pointerdown",function(){unlockAudio();if(state.screen==="welcome"&&!state.welcomeVoicePlaybackStarted)speakWelcome(true)},{capture:true,passive:true}); // Keep music alive after touch controls and iOS audio interruptions.
-// Service worker disabled during interface redesign to prevent stale UI from being shown.
