@@ -681,5 +681,6 @@ if(b.dataset.setting){const k=b.dataset.setting,v=b.dataset.value;state.settings
 try{const saved=store.get("language","ru");if(words[saved])state.lang=saved}catch(_){}
 render();
 syncAudio(); // Attempt autoplay on launch; mobile browsers may wait for the first tap.
-window.moguStartWelcome=function(){unlockAudio();speakWelcome()};\ndocument.addEventListener("pointerdown",function(){unlockAudio();if(state.screen==="welcome"&&!state.welcomeVoicePlaybackStarted)speakWelcome(true)},{once:true,passive:true}); // Retry Madina voice on the first touch if iOS blocked autoplay.
+window.moguStartWelcome=function(){unlockAudio();speakWelcome()};
+document.addEventListener("pointerdown",function(){unlockAudio();if(state.screen==="welcome"&&!state.welcomeVoicePlaybackStarted)speakWelcome(true)},{once:true,passive:true}); // Retry Madina voice on the first touch if iOS blocked autoplay.
 // Service worker disabled during interface redesign to prevent stale UI from being shown.
