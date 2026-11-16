@@ -9,6 +9,11 @@ on:
       - 'app.js'
       - 'index.html'
       - 'styles.css'
+      - 'responsive.css'
+      - 'splash-fit-fix.css'
+      - 'mini-games.css'
+      - 'arcade-games.css'
+      - 'arcade-games.js'
       - 'sw.js'
       - 'manifest.webmanifest'
       - 'assets/**'
@@ -43,7 +48,7 @@ jobs:
       - name: Prepare web app bundle
         run: |
           mkdir -p www
-          cp index.html styles.css app.js manifest.webmanifest sw.js www/
+          cp index.html styles.css responsive.css splash-fit-fix.css mini-games.css arcade-games.css app.js arcade-games.js manifest.webmanifest sw.js www/
           cp -R assets www/assets
 
       - name: Create high-resolution launcher artwork from MaDoni logo
