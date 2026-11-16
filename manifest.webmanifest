@@ -11,10 +11,16 @@
   "theme_color": "#fff8e8",
   "icons": [
     {
-      "src": "./assets/madoni-logo.webp?v=madoni-brand-v1-20261116",
+      "src": "./assets/madoni-logo.webp?v=madoni-brand-v2-20261116",
       "sizes": "192x192",
       "type": "image/webp",
       "purpose": "any"
+    },
+    {
+      "src": "./assets/madoni-logo.webp?v=madoni-brand-v2-20261116",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any maskable"
     }
   ]
 }
