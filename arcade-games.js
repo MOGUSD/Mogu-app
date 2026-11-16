@@ -69,13 +69,13 @@ function setupGame(){
  if(id==="space"){game.player={x:4,y:8};game.entities=[];game.bullets=[];game.wave=1;game.wavesTotal=game.level===1?1:game.level===2?2:Math.min(5,2+Math.floor((game.level-3)/2));game.hasBoss=game.level>=3&&game.level%3===0;game.spawnedInWave=0;game.spawn=0;game.stagePause=0;game.boss=null;game.bossSpawned=false;game.bossShots=[];game.fireHeld=false;game.fireCooldown=0;game.kills=0}
  if(id==="jumper"){game.player={x:3.7,y:670,vy:-11,face:1};game.platforms=[];for(let i=0;i<9;i++){const r=Math.random();const type=i===0?"start":r<.13?"falling":r<.25?"spikes":r<.36?"timed":r<.48?"moving":"normal";game.platforms.push({x:i===0?3.1:Math.random()*7.0,y:760-i*112,w:1.25+Math.random()*.45,type,phase:Math.random()*6,triggered:false,fallSpeed:0})}game.stars=[];game.camera=0;game.maxHeight=0;game.bonusClock=0;game.targetMeters=game.level*250}
  if(id==="fruit"){game.player={x:4,y:8};game.entities=[];game.spawn=0;game.fruitsCaught=0;game.missed=0;game.fruitTarget=100+(l-1)*50}
- if(id==="racing"){game.player={x:1,y:8};game.entities=[];game.spawn=0;game.passedCars=0;game.raceTarget=30+game.level*10;game.raceCountdown=180;game.raceStarted=false;game.raceGoTimer=0;game.startLineY=570;game.finishLineY=null;game.raceFinished=false}
+ if(id==="racing"){game.player={x:1,y:8};game.entities=[];game.spawn=0;game.passedCars=0;game.raceTarget=30+game.level*10;game.raceCountdown=180;game.raceStarted=false;game.raceGoTimer=0;game.startLineY=570;game.finishLineY=null;game.raceFinished=false;game.speedFactor=1;game.accelHeld=false;game.brakeHeld=false}
  const spaceHud=id==="space"?'<span>Волна: <b id="arcade-wave">1/'+game.wavesTotal+'</b></span>':"";
  const spaceFire=id==="space"?'<button class="space-fire-btn" type="button">🔥 ОГОНЬ</button>':"";
- const fruitHud=id==="fruit"?'<span>Фрукты: <b id="arcade-fruit-count">0/'+game.fruitTarget+'</b></span><span>Пропущено: <b id="arcade-fruit-missed">0/5</b></span>':"";const raceHud=id==="racing"?'<span>Машины: <b id="arcade-race-count">0/'+game.raceTarget+'</b></span>':"";const canvas='<div class="arcade-stats"><span>Уровень: <b id="arcade-level">'+l+'/30</b></span>'+spaceHud+fruitHud+raceHud+'<span>Очки: <b id="arcade-score">0</b></span><span>❤️ <b id="arcade-lives">3</b></span></div><canvas id="arcade-canvas" width="800" height="900" aria-label="Игровое поле"></canvas>'+spaceFire+'<p class="arcade-hint" id="arcade-hint">'+hint(id)+'</p><div id="arcade-message"></div>';
+ const fruitHud=id==="fruit"?'<span>Фрукты: <b id="arcade-fruit-count">0/'+game.fruitTarget+'</b></span><span>Пропущено: <b id="arcade-fruit-missed">0/5</b></span>':"";const raceHud=id==="racing"?'<span>Машины: <b id="arcade-race-count">0/'+game.raceTarget+'</b></span>':"";const raceControls=id==="racing"?'<div class="race-controls"><button class="race-control race-accelerate" type="button" data-race-control="accel">⚡ РАЗГОН</button><button class="race-control race-brake" type="button" data-race-control="brake">▼ ТОРМОЗ</button></div>':"";const canvas='<div class="arcade-stats"><span>Уровень: <b id="arcade-level">'+l+'/30</b></span>'+spaceHud+fruitHud+raceHud+'<span>Очки: <b id="arcade-score">0</b></span><span>❤️ <b id="arcade-lives">3</b></span></div><canvas id="arcade-canvas" width="800" height="900" aria-label="Игровое поле"></canvas>'+spaceFire+'<p class="arcade-hint" id="arcade-hint">'+hint(id)+'</p><div id="arcade-message"></div>';
  shell(G.find(x=>x.id===id),canvas);
 }
-function hint(id){return ({frog:"Проведи лягушку через дорогу к домику. Касайся поля или проводи пальцем в нужную сторону.",snake:"Собирай фрукты. Не касайся стен и собственного хвоста.",breakout:"Веди пальцем по полю — платформа будет двигаться за ним.",space:"Веди пальцем, чтобы двигать корабль, и нажимай кнопку ОГОНЬ. В каждой волне 10 врагов.",jumper:"Прыгай по платформам всё выше! Веди пальцем влево и вправо, касайся экрана для дополнительного прыжка. Собирай звёзды.",fruit:"Перемещай корзинку пальцем по полю.",racing:"Свайпай влево и вправо, чтобы менять полосу. Обгони всех соперников и постарайся не столкнуться!"})[id]}
+function hint(id){return ({frog:"Проведи лягушку через дорогу к домику. Касайся поля или проводи пальцем в нужную сторону.",snake:"Собирай фрукты. Не касайся стен и собственного хвоста.",breakout:"Веди пальцем по полю — платформа будет двигаться за ним.",space:"Веди пальцем, чтобы двигать корабль, и нажимай кнопку ОГОНЬ. В каждой волне 10 врагов.",jumper:"Прыгай по платформам всё выше! Веди пальцем влево и вправо, касайся экрана для дополнительного прыжка. Собирай звёзды.",fruit:"Перемещай корзинку пальцем по полю.",racing:"Свайпай влево и вправо для перестроения. Удерживай РАЗГОН или ТОРМОЗ, чтобы менять скорость."})[id]}
 function placeFood(){
  let p;do{p={x:Math.floor(Math.random()*14)+1,y:Math.floor(Math.random()*12)+1}}while(game.snake&&game.snake.some(s=>s.x===p.x&&s.y===p.y));
  const roll=Math.random();game.food={...p,value:roll<.07?10:roll<.27?5:1};
@@ -488,46 +488,43 @@ function drawRaceStripe(c,y,label){
  c.shadowBlur=0;c.fillStyle="#ffffff";c.font="900 30px system-ui, sans-serif";c.textAlign="center";c.shadowColor="#172238";c.shadowBlur=5;c.fillText(label,400,y-12);c.restore();
 }
 function drawRacing(c,dt){
- const l=game.level;
+ const l=game.level,speedFactor=game.accelHeld?1.48:game.brakeHeld?.62:1;
  const bg=c.createLinearGradient(0,0,800,900);bg.addColorStop(0,"#a8f477");bg.addColorStop(.55,"#51d99d");bg.addColorStop(1,"#22b9b9");c.fillStyle=bg;c.fillRect(0,0,800,900);
- // Road shoulder, asphalt and safety rails
- rect(c,92,0,616,900,"#dce8a0",0);rect(c,110,0,580,900,"#35435a",0);
- rect(c,110,0,12,900,"#f8d66d",0);rect(c,678,0,12,900,"#f8d66d",0);
- game.roadOffset=(game.roadOffset||0)+dt*(5+l*.25);
+ rect(c,92,0,616,900,"#dce8a0",0);rect(c,110,0,580,900,"#35435a",0);rect(c,110,0,12,900,"#f8d66d",0);rect(c,678,0,12,900,"#f8d66d",0);
+ game.roadOffset=(game.roadOffset||0)+dt*(5+l*.25)*speedFactor;
  c.setLineDash([48,38]);c.lineDashOffset=-game.roadOffset%86;c.strokeStyle="#ffffffd9";c.lineWidth=7;c.beginPath();c.moveTo(303,0);c.lineTo(303,900);c.moveTo(496,0);c.lineTo(496,900);c.stroke();c.setLineDash([]);
  for(let i=0;i<9;i++){const yy=((i*125+game.roadOffset*1.7)%1020)-80;rect(c,45,yy,28,48,"#ffffffa8",8);rect(c,727,yy,28,48,"#ffffffa8",8);rect(c,52,yy+8,14,32,"#ff9c4a",5);rect(c,734,yy+8,14,32,"#ff9c4a",5)}
  const playerX=150+game.player.x*193;
  if(!game.raceStarted){
-  drawRaceStripe(c,game.startLineY,"СТАРТ");
-  game.raceCountdown-=dt;
-  const number=Math.ceil(Math.max(0,game.raceCountdown)/60);
+  drawRaceStripe(c,game.startLineY,"СТАРТ");game.raceCountdown-=dt;const number=Math.ceil(Math.max(0,game.raceCountdown)/60);
   if(game.raceCountdown<=0){game.raceStarted=true;game.raceGoTimer=42}
-  c.save();c.fillStyle="#111b32bb";c.beginPath();c.roundRect(245,270,310,190,32);c.fill();
-  c.textAlign="center";c.fillStyle="#fff";c.font="900 112px system-ui, sans-serif";
-  c.fillText(number>0?String(number):"ПОЕХАЛИ!",400,number>0?400:385);
-  c.font="700 25px system-ui, sans-serif";c.fillStyle="#ffe68b";c.fillText("ПРИГОТОВЬСЯ К ГОНКЕ",400,430);c.restore();
+  c.save();c.fillStyle="#111b32bb";c.beginPath();c.roundRect(245,270,310,190,32);c.fill();c.textAlign="center";c.fillStyle="#fff";c.font="900 112px system-ui, sans-serif";c.fillText(number>0?String(number):"ПОЕХАЛИ!",400,number>0?400:385);c.font="700 25px system-ui, sans-serif";c.fillStyle="#ffe68b";c.fillText("ПРИГОТОВЬСЯ К ГОНКЕ",400,430);c.restore();
  }else if(!game.raceFinished){
   if(game.raceGoTimer>0)game.raceGoTimer-=dt;
-  if(game.startLineY<900){game.startLineY+=dt*12; if(game.startLineY<900)drawRaceStripe(c,game.startLineY,"СТАРТ");}
+  if(game.startLineY<900){game.startLineY+=dt*12*speedFactor;if(game.startLineY<900)drawRaceStripe(c,game.startLineY,"СТАРТ")}
   game.spawn-=dt;
-  if(game.spawn<=0){game.entities.push({lane:Math.floor(Math.random()*3),y:-190,speed:1.35+l*.045,color:["#ff5268","#ffb52e","#6d7cff","#ac63e8","#24c99a"][Math.floor(Math.random()*5)]});game.spawn=Math.max(27,54-l*.65)}
-  game.entities.forEach(e=>{e.y+=e.speed*dt*2.15;drawRaceCar(c,150+e.lane*193,e.y,e.color,false,e.y)});
-  if(game.entities.some(e=>e.lane===game.player.x&&e.y>535&&e.y<825)){
-   game.entities=game.entities.filter(e=>!(e.lane===game.player.x&&e.y>535&&e.y<825));loseLife();
+  // A generous distance between rivals; never spawn directly in the player's lane.
+  const approachBusy=game.entities.some(e=>e.y<180&&e.y>-360);
+  if(game.spawn<=0&&!approachBusy){
+   const safeLanes=[0,1,2].filter(lane=>lane!==game.player.x),lane=safeLanes[Math.floor(Math.random()*safeLanes.length)];
+   game.entities.push({lane,y:-190,speed:1.35+l*.045,color:["#ff5268","#ffb52e","#6d7cff","#ac63e8","#24c99a"][Math.floor(Math.random()*5)]});
+   game.spawn=125/speedFactor;
   }
+  game.entities.forEach(e=>{e.y+=e.speed*dt*2.15*speedFactor;drawRaceCar(c,150+e.lane*193,e.y,e.color,false,e.y)});
+  // Only register a hit when the two car bodies physically overlap.
+  const hit=game.entities.find(e=>e.lane===game.player.x&&e.y<790&&e.y+174>630);
+  if(hit){game.entities=game.entities.filter(e=>e!==hit);loseLife();if(game.over)return}
   game.entities=game.entities.filter(e=>{if(e.y>930){game.score+=5;game.passedCars++;return false}return true});
-  if(game.passedCars>=game.raceTarget){
-   game.raceFinished=true;game.finishLineY=-180;game.entities=[];game.spawn=99999;
-  }
+  if(game.passedCars>=game.raceTarget){game.raceFinished=true;game.finishLineY=-180;game.entities=[];game.spawn=99999;game.accelHeld=false;game.brakeHeld=false}
  }else{
-  game.finishLineY+=dt*12;
-  drawRaceStripe(c,game.finishLineY,"ФИНИШ!");
+  game.finishLineY+=dt*12*speedFactor;drawRaceStripe(c,game.finishLineY,"ФИНИШ!");
   if(game.finishLineY>=650){completeLevel("Финиш! Ты обогнал "+game.passedCars+" машин и пересёк финишную линию!");return}
  }
- // Player remains on screen throughout the countdown and final finish-line approach
  drawRaceCar(c,playerX,700,"#2878ff",true,game.elapsed||0);
  if(game.raceGoTimer>0&&game.raceStarted){c.save();c.textAlign="center";c.font="900 58px system-ui, sans-serif";c.fillStyle="#fff27b";c.shadowColor="#172238";c.shadowBlur=12;c.fillText("ПОЕХАЛИ!",400,220);c.restore()}
+ c.save();c.textAlign="center";c.font="bold 22px system-ui";c.fillStyle="#ffffff";c.shadowColor="#18243a";c.shadowBlur=5;c.fillText(game.accelHeld?"РАЗГОН":game.brakeHeld?"ТОРМОЗ":"СКОРОСТЬ",400,875);c.restore();
 }
+
 function completeLevel(msg){
  if(game.done||game.over)return;game.done=true;cancelAnimationFrame(raf);const next=Math.min(30,game.level+1);if(game.level<30)save(current,next);localStorage.setItem("mogu-arcade-best-"+current,String(Math.max(best(current),game.score)));
  const finished=game.level>=30;
@@ -567,6 +564,13 @@ let swipeOrigin=null,canvasPointerId=null;
 const activePointers=new Map();
 function canvasPoint(e,canvas){const r=canvas.getBoundingClientRect();return {x:Math.max(0,Math.min(800,(e.clientX-r.left)/r.width*800)),y:Math.max(0,Math.min(900,(e.clientY-r.top)/r.height*900))}}
 document.addEventListener("pointerdown",e=>{
+ const raceControl=e.target.closest("[data-race-control]");
+ if(raceControl&&current==="racing"&&game&&!game.done&&!game.over){
+  const type=raceControl.dataset.raceControl;activePointers.set(e.pointerId,type);
+  if(type==="accel")game.accelHeld=true;else game.brakeHeld=true;
+  try{raceControl.setPointerCapture(e.pointerId)}catch(_){}
+  e.preventDefault();return;
+ }
  const fire=e.target.closest(".space-fire-btn");
  if(fire&&current==="space"&&game&&!game.done&&!game.over){
   activePointers.set(e.pointerId,"fire");game.fireHeld=true;
@@ -597,6 +601,11 @@ function finishPointer(e){
  const kind=activePointers.get(e.pointerId);
  if(!kind)return;
  activePointers.delete(e.pointerId);
+ if(kind==="accel"||kind==="brake"){
+  if(kind==="accel")game.accelHeld=[...activePointers.values()].includes("accel");
+  if(kind==="brake")game.brakeHeld=[...activePointers.values()].includes("brake");
+  return;
+ }
  if(kind==="fire"){game.fireHeld=[...activePointers.values()].includes("fire");return}
  if(!swipeOrigin||swipeOrigin.pointerId!==e.pointerId)return;
  const origin=swipeOrigin;swipeOrigin=null;if(canvasPointerId===e.pointerId)canvasPointerId=null;
