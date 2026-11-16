@@ -1,7 +1,7 @@
-const CACHE_NAME="mogu-browser-v43-dynapuff-solid";
+const CACHE_NAME="mogu-browser-v45-contrast";
 const APP_SHELL=[
   "./","./index.html",
-  "./styles.css?v=madoni-dynapuff-20261116",
+  "./styles.css?v=madoni-comicsans-contrast-20261116",
   "./app.js?v=madina-all-pages-20261116",
   "./manifest.webmanifest",
   "./assets/fonts/DynaPuff[wdth,wght].ttf",
