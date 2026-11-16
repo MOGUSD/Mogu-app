@@ -2,7 +2,7 @@
   "name": "mogu-mobile",
   "version": "1.0.0",
   "private": true,
-  "description": "МОГУ — Учусь • Говорю • Играю",
+  "description": "MaDoni — Учусь • Говорю • Играю",
   "scripts": {
     "build:android": "cap sync android && cd android && ./gradlew assembleDebug",
     "audio:generate": "node scripts/generate-madina-audio.js"
