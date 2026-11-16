@@ -1107,3 +1107,8 @@ body.mogu-splash-mode .welcome-screen.mogu-splash{position:relative!important;wi
 body.mogu-splash-mode .mogu-splash .splash-settings{left:2%!important;top:1%!important;width:17%!important;height:10%!important}
 body.mogu-splash-mode .mogu-splash .splash-play{left:36%!important;top:66%!important;width:28%!important;height:11%!important}
 @media(orientation:portrait){body.mogu-splash-mode .welcome-screen.mogu-splash{background-size:cover!important;background-position:center center!important}}
+
+
+/* Keep the 3D Madina illustration clear in the home voice greeting. */
+.hub-madina img{width:82px;height:94px;object-fit:contain;flex:0 0 82px}
+@media(max-width:680px){.hub-madina img{width:76px;height:88px;flex-basis:76px}}
