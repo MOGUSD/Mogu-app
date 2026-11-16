@@ -1,13 +1,20 @@
 {
-  "name":"MaDoni — Учусь • Говорю • Играю",
-  "short_name":"MaDoni",
-  "description":"Приложение для общения и обучения детей с синдромом Дауна.",
-  "lang":"ru",
-  "start_url":"./",
-  "scope":"./",
-  "display":"standalone",
-  "orientation":"portrait",
-  "background_color":"#fff8e8",
-  "theme_color":"#fff8e8",
-  "icons":[{"src":"./assets/mogu-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+  "name": "MaDoni — Учусь • Говорю • Играю",
+  "short_name": "MaDoni",
+  "description": "Приложение для общения и обучения детей с синдромом Дауна.",
+  "lang": "ru",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fff8e8",
+  "theme_color": "#fff8e8",
+  "icons": [
+    {
+      "src": "./assets/madoni-logo.webp?v=madoni-brand-v1-20261116",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "any"
+    }
+  ]
 }

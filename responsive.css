@@ -205,3 +205,20 @@ body.mogu-splash-mode .welcome-screen.mogu-splash::before{
     drop-shadow(0 13px 12px rgba(24,25,91,.42))
     drop-shadow(0 0 12px rgba(255,221,95,.35));
 }
+
+
+/* MaDoni brand identity: full illustrated logo in the header and on the opening cover. */
+.brand{padding:4px!important;gap:0!important;border-radius:18px!important;min-width:0}
+.brand-mark{display:block;width:64px!important;height:64px!important;flex:0 0 64px!important;object-fit:contain;animation:none!important}
+.brand-copy{display:none!important}
+.splash-brand-logo{
+ position:absolute;z-index:4;top:max(2.5%,env(safe-area-inset-top));left:50%;
+ transform:translateX(-50%);display:block;width:clamp(132px,31vw,218px);
+ height:auto;max-height:24vh;object-fit:contain;background:#fff;
+ border-radius:22px;box-shadow:0 8px 22px rgba(35,20,90,.22);
+}
+@media(max-width:600px){
+ .brand-mark{width:54px!important;height:54px!important;flex-basis:54px!important}
+ .brand{padding:3px!important;border-radius:16px!important}
+ .splash-brand-logo{width:clamp(126px,34vw,178px);max-height:22vh;border-radius:18px}
+}

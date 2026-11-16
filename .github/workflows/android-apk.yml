@@ -1,4 +1,4 @@
-name: Build МОГУ Android APK
+name: Build MaDoni Android APK
 
 on:
   workflow_dispatch:
@@ -46,16 +46,16 @@ jobs:
           cp index.html styles.css app.js manifest.webmanifest sw.js www/
           cp -R assets www/assets
 
-      - name: Create high-resolution launcher artwork from original МОГУ logo
+      - name: Create high-resolution launcher artwork from MaDoni logo
         run: |
           node - <<'NODE'
           const sharp = require('sharp');
           (async () => {
-            await sharp('assets/mogu-original.webp')
+            await sharp('assets/madoni-logo.webp')
               .resize(1024, 1024, { fit: 'contain', background: '#fff8e8' })
               .png()
               .toFile('assets/icon-only.png');
-            await sharp('assets/mogu-original.webp')
+            await sharp('assets/madoni-logo.webp')
               .resize(2732, 2732, { fit: 'contain', background: '#fff8e8' })
               .png()
               .toFile('assets/splash.png');
@@ -65,7 +65,7 @@ jobs:
       - name: Create Capacitor Android project
         run: npx cap add android
 
-      - name: Generate Android launcher icons from original МОГУ logo
+      - name: Generate Android launcher icons from MaDoni logo
         run: |
           test -s assets/icon-only.png
           test -s assets/splash.png
@@ -75,8 +75,8 @@ jobs:
         run: npx cap sync android
 
       # Capacitor sync may restore its default artwork. Replace the adaptive foreground PNGs
-      # themselves with the original МОГУ artwork AFTER sync, then point both adaptive icons at them.
-      - name: Force Android adaptive icons to use the original МОГУ artwork
+      # themselves with the MaDoni artwork AFTER sync, then point both adaptive icons at them.
+      - name: Force Android adaptive icons to use the MaDoni artwork
         run: |
           node - <<'NODE'
           const sharp = require('sharp');
@@ -92,7 +92,7 @@ jobs:
               for (const dir of dirs) {
                 if (!fs.existsSync(dir)) continue;
                 const output = path.join(dir, 'ic_launcher_foreground.png');
-                await sharp('assets/mogu-original.webp')
+                await sharp('assets/madoni-logo.webp')
                   .resize(Math.round(size * 0.66), Math.round(size * 0.66), { fit: 'contain', background: { r: 255, g: 255, b: 255, alpha: 1 } })
                   .extend({ top: Math.round(size * 0.17), bottom: size - Math.round(size * 0.17) - Math.round(size * 0.66), left: Math.round(size * 0.17), right: size - Math.round(size * 0.17) - Math.round(size * 0.66), background: { r: 255, g: 255, b: 255, alpha: 1 } })
                   .png()
@@ -121,7 +121,7 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleDebug
 
-      - name: Install and launch МОГУ in Android emulator
+      - name: Install and launch MaDoni in Android emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
@@ -137,7 +137,7 @@ jobs:
       - name: Publish APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: mogu-android-apk
+          name: madoni-android-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 30
