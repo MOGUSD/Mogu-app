@@ -80,49 +80,56 @@ function renderMethod(){state.screen="method";const lang=state.lang;const langIn
 function saveStats(){store.set("stats",state.stats)}
 function speak(text){return speakMadina(text,state.lang)}
 
+
 const worldSpeechCache=new Map();
 const worldSpeechPending=new Map();
-function prefetchWorldSpeech(key){
+function prepareWorldAudio(key){
  const language=state.lang,cacheKey=language+":"+key;
- if(worldSpeechCache.has(cacheKey)||worldSpeechPending.has(cacheKey))return worldSpeechPending.get(cacheKey);
+ if(worldSpeechCache.has(cacheKey))return Promise.resolve(worldSpeechCache.get(cacheKey));
+ if(worldSpeechPending.has(cacheKey))return worldSpeechPending.get(cacheKey);
  const task=(async()=>{
   try{
    await madinaAudioManifestReady;
-   if(state.lang!==language)return;
+   if(state.lang!==language)return null;
    const phrase=String(t(key)).trim();
    const libraryUrl=findMadinaLibraryAudio(phrase,language);
-   if(libraryUrl){worldSpeechCache.set(cacheKey,libraryUrl);return}
-   const response=await fetch(MADINA_API_BASE+"/api/madina/speech",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:phrase,language}),signal:AbortSignal.timeout(12000)});
-   if(!response.ok)throw new Error("TTS "+response.status);
-   const blob=await response.blob();
-   if(blob.size)worldSpeechCache.set(cacheKey,URL.createObjectURL(blob));
-  }catch(_){}
+   if(!libraryUrl)return null;
+   const audio=new Audio();
+   audio.preload="auto";
+   audio.src=libraryUrl;
+   audio.volume=Math.max(0,Math.min(1,Number(audioPrefs.voiceVolume??.95)));
+   audio.load();
+   worldSpeechCache.set(cacheKey,audio);
+   return audio;
+  }catch(_){return null}
   finally{worldSpeechPending.delete(cacheKey)}
  })();
  worldSpeechPending.set(cacheKey,task);
  return task;
 }
+function preloadWorldAudio(){
+ const keys=worldData.map(item=>item[0]);
+ let index=0;
+ const worker=async()=>{while(index<keys.length){const key=keys[index++];await prepareWorldAudio(key)}};
+ for(let n=0;n<4;n++)worker();
+}
 function speakWorldWord(key){
- const language=state.lang,cacheKey=language+":"+key,phrase=t(key);
+ const language=state.lang,cacheKey=language+":"+key;
  cancelMadinaSpeech();
- const cached=worldSpeechCache.get(cacheKey);
- if(cached){
-  const audio=new Audio(cached);activeMadinaAudio=audio;
+ const play=audio=>{
+  if(!audio)return;
+  try{audio.pause();audio.currentTime=0}catch(_){}
+  activeMadinaAudio=audio;
   audio.volume=Math.max(0,Math.min(1,Number(audioPrefs.voiceVolume??.95)));
   audio.onended=()=>{if(activeMadinaAudio===audio)activeMadinaAudio=null};
-  audio.onerror=()=>{if(activeMadinaAudio===audio)activeMadinaAudio=null;worldSpeechCache.delete(cacheKey);speakWorldWord(key)};
-  audio.play().catch(()=>{if(activeMadinaAudio===audio)activeMadinaAudio=null;worldSpeechCache.delete(cacheKey);speakWorldWord(key)});
-  return;
- }
- if("speechSynthesis"in window){
-  const utterance=new SpeechSynthesisUtterance(phrase);
-  utterance.lang=language==="kk"?"kk-KZ":language==="en"?"en-US":"ru-RU";
-  utterance.rate=.88;utterance.pitch=1.08;
-  utterance.volume=Math.max(0,Math.min(1,Number(audioPrefs.voiceVolume??.95)));
-  speechSynthesis.speak(utterance);
- }
- prefetchWorldSpeech(key);
+  audio.onerror=()=>{if(activeMadinaAudio===audio)activeMadinaAudio=null};
+  audio.play().catch(()=>{if(activeMadinaAudio===audio)activeMadinaAudio=null});
+ };
+ const cached=worldSpeechCache.get(cacheKey);
+ if(cached){play(cached);return}
+ prepareWorldAudio(key).then(play);
 }
+
 
 const guideLines={
 ru:{welcome:"Привет! Меня зовут Мадина. Давай поиграем!",home:"Я Мадина! Выбирай, куда отправимся. Я помогу тебе!",adventures:"Ура, приключения! Выбери мир. Мы будем играть вместе, спокойно и без спешки.",learn:"Давай учиться играя! Выбери, что хочешь открыть сегодня.",world:"Посмотрим, что вокруг нас! Нажимай на картинки, и мы узнаем новые слова.",feel:"Здесь можно рассказать о своих чувствах. Любое чувство важно.",talk:"Хочешь что-то сказать? Выбирай картинки. Мы вместе составим твою фразу.",progress:"Здесь собраны твои открытия. Мы радуемся каждому маленькому шагу!",adult:"Это настройки для взрослых. Здесь можно настроить звук и открыть раздел для родителей.",method:"Здесь взрослые найдут идеи для занятий вместе с ребёнком."},
@@ -722,7 +729,7 @@ function newLesson(){
  const options=shuffleLessonDeck(item.options.slice());
  state.lesson={topic:activeLesson,question:item.question,options,answer:item.answer,colorPosition,colorTotal,lastAnswer:null,lastCorrect:false,feedback:""};
 }
-function renderWorld(){state.screen="world";const groups=["animals","food","home","clothes","transport","nature"];$("#app-main").innerHTML=head(t("world"),t("worldDesc"))+'<div class="section-head"><h2>'+t("explore")+'</h2><span class="hint">🌱</span></div><div class="world-grid">'+worldData.map(x=>'<button class="world-card" data-world="'+x[0]+'" data-icon="'+x[1]+'"><span class="pic">'+x[1]+'</span><strong>'+t(x[0])+'</strong><small>'+t(x[2])+'</small></button>').join("")+'</div>'+(state.worldItem?'<div class="detail-card"><span class="detail-pic">'+state.worldItem.icon+'</span><div><h3>'+t(state.worldItem.key)+'</h3><p>'+t("explore")+'</p></div><button class="soft-button" data-action="worldsay">🔊</button></div>':"");nav("home")}
+function renderWorld(){state.screen="world";const groups=["animals","food","home","clothes","transport","nature"];$("#app-main").innerHTML=head(t("world"),t("worldDesc"))+'<div class="section-head"><h2>'+t("explore")+'</h2><span class="hint">🌱</span></div><div class="world-grid">'+worldData.map(x=>'<button class="world-card" data-world="'+x[0]+'" data-icon="'+x[1]+'"><span class="pic">'+x[1]+'</span><strong>'+t(x[0])+'</strong><small>'+t(x[2])+'</small></button>').join("")+'</div>'+(state.worldItem?'<div class="detail-card"><span class="detail-pic">'+state.worldItem.icon+'</span><div><h3>'+t(state.worldItem.key)+'</h3><p>'+t("explore")+'</p></div><button class="soft-button" data-action="worldsay">🔊</button></div>':"");nav("home");preloadWorldAudio()}
 function renderFeel(){state.screen="feel";$("#app-main").innerHTML=head(t("feel"),t("feelDesc"))+'<div class="section-head"><h2>'+t("iFeel")+'</h2><span class="hint">💜</span></div><div class="panel buddy-card feel-guide"><img src="./assets/luna.svg" alt="Луна"><p>'+t("youCan")+'</p></div><div class="feel-grid">'+emotions.map(x=>'<button class="feel-card" data-feel="'+x[0]+'"><span class="pic">'+x[1]+'</span>'+t(x[0])+'</button>').join("")+'</div>'+(state.feeling?'<div class="feel-selected"><span class="pic">'+state.feeling.icon+'</span><div><h3>'+t(state.feeling.key)+'</h3><p>'+t("iFeel")+' '+t(state.feeling.key).toLowerCase()+'</p></div><button class="soft-button" data-action="feeladd">'+t("addTalk")+'</button><button class="soft-button" data-action="feelsay">🔊</button></div>':"");nav("home")}
 function renderProgress(){state.screen="progress";$("#app-main").innerHTML=head(t("progress"),t("progressNote"))+'<div class="progress-grid"><div class="stat-card"><span class="stat-icon">🗣️</span><strong>'+state.stats.spoken+'</strong><small>'+t("spoken")+'</small></div><div class="stat-card"><span class="stat-icon">🔎</span><strong>'+state.stats.explored+'</strong><small>'+t("explored")+'</small></div><div class="stat-card"><span class="stat-icon">🧩</span><strong>'+state.stats.lessons+'</strong><small>'+t("lessons")+'</small></div><div class="stat-card"><span class="stat-icon">💜</span><strong>'+state.stats.feelings+'</strong><small>'+t("feelings")+'</small></div></div><div class="adventure-progress-summary">🗺️ <strong>'+store.get("adventure-done",[]).length+' / '+adventureTracks.reduce((n,w)=>n+w.missions.length,0)+'</strong> '+(state.lang==="kk"?"MaDoni оқиғаларындағы тапсырмалар":state.lang==="en"?"MaDoni adventure missions explored":"заданий в Приключениях MaDoni")+'</div><div class="progress-note">🌟 '+t("progressNote")+'</div>';nav("progress")}
 function renderAdult(){state.screen="adult";const s=state.settings,kk=state.lang==="kk",en=state.lang==="en";const title=kk?"Баптаулар":en?"Settings":"Настройки";const parent=kk?"Ата-аналарға":en?"For parents":"Родителям";const sound=kk?"Дыбыс":en?"Sound":"Звук";const parentBody='<section class="parent-panel"><div class="parent-welcome"><strong>'+parent+'</strong><p>'+(kk?"Бұл бөлім ересектерге арналған.":en?"This section is for adults and caregivers.":"Этот раздел предназначен для взрослых и родителей.")+'</p></div><button class="method-entry" data-action="method">🌱 <span class="method-title">'+(kk?"MaDoni даму әдістемесі":en?"MaDoni development guide":"Методика развития MaDoni")+'</span> →</button><div class="adult-grid"><section class="setting-card"><h3>'+t("size")+'</h3><div class="setting-control">'+["normal","large","xlarge"].map(v=>'<button class="'+(s.size===v?"selected":"")+'" data-setting="size" data-value="'+v+'">'+t(v)+'</button>').join("")+'</div></section><section class="setting-card"><h3>'+t("simple")+'</h3><div class="setting-control"><button class="'+(!s.simple?"selected":"")+'" data-setting="simple" data-value="false">'+t("off")+'</button><button class="'+(s.simple?"selected":"")+'" data-setting="simple" data-value="true">'+t("on")+'</button></div></section><section class="setting-card"><h3>'+t("motion")+'</h3><div class="setting-control"><button class="'+(s.motion?"selected":"")+'" data-setting="motion" data-value="true">'+t("on")+'</button><button class="'+(!s.motion?"selected":"")+'" data-setting="motion" data-value="false">'+t("off")+'</button></div></section><section class="setting-card"><h3>'+t("rate")+'</h3><div class="setting-control"><button data-setting="rate" data-value="0.7">Медленно</button><button data-setting="rate" data-value="0.85">Обычно</button><button data-setting="rate" data-value="1">Быстрее</button></div></section></div><div class="privacy-note">🔒 '+t("privacy")+'</div></section>';$("#app-main").innerHTML='<div class="settings-page"><div class="settings-heading"><h1>'+title+'</h1><button class="soft-button" data-action="home">← '+t("back")+'</button></div><div class="settings-tabs"><button class="'+(state.settingsTab==="sound"?"active":"")+'" data-settings-tab="sound">🔊 '+sound+'</button><button class="'+(state.settingsTab==="parents"?"active":"")+'" data-settings-tab="parents">👨‍👩‍👧 '+parent+'</button></div>'+(state.settingsTab==="sound"?soundPanel():parentBody)+'</div>';document.getElementById("bottom-nav").hidden=false;nav("home")}
