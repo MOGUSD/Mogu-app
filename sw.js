@@ -1,7 +1,7 @@
-const CACHE_NAME="mogu-browser-v52-stable-offline";
+const CACHE_NAME="mogu-browser-v53-stable-offline";
 const APP_SHELL=[
   "./","./index.html","./manifest.webmanifest",
-  "./styles.css?v=madoni-stability-v52",
+  "./styles.css?v=madoni-stability-v53",
   "./splash-fit-fix.css?v=1",
   "./responsive.css?v=remove-splash-logo-fix-blue-flash-20261116",
   "./mini-games.css?v=madoni-stability-v52",
