@@ -27,6 +27,15 @@ jobs:
       - name: Install mobile build tools
         run: npm install
 
+      - name: Validate source files and configuration
+        run: |
+          node --check app.js
+          node --check arcade-games.js
+          node --check sw.js
+          node --check server.js
+          node -e "const fs=require('fs'); for (const f of ['package.json','manifest.webmanifest','capacitor.config.json']) JSON.parse(fs.readFileSync(f,'utf8'));"
+          for file in index.html styles.css responsive.css splash-fit-fix.css mini-games.css arcade-games.css app.js arcade-games.js manifest.webmanifest sw.js; do test -s "$file"; done
+
       - name: Prepare web app bundle
         run: |
           mkdir -p www
