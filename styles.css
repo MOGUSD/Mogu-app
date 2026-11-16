@@ -1499,3 +1499,139 @@ button,input,textarea,select{font-weight:600}
  .learn-topic strong{font-size:clamp(11px,3vw,14px)}
 }
 @media(max-width:360px){.learn-topic-grid{gap:7px}.learn-topic{padding:7px 3px}.learn-topic strong{font-size:11px}}
+
+
+/* MaDoni unified cartoon system — shared across every section */
+:root{
+  --md-ink:#17346f;
+  --md-blue:#35bdf2;
+  --md-yellow:#ffe34f;
+  --md-red:#ff7188;
+  --md-green:#62d99a;
+  --md-purple:#a78af4;
+  --md-orange:#ffad55;
+  --md-outline:#fff;
+  --md-shadow:0 6px 0 #263c7022,0 12px 22px #263c7018;
+}
+#app-main .hub-card,
+#app-main .world-card,
+#app-main .feel-card,
+#app-main .urgent,
+#app-main .pictogram,
+#app-main .mini-game-card,
+#app-main .method-domain,
+#app-main .daily-category-card,
+#app-main .learn-topic,
+#app-main .lesson-option{
+  position:relative;
+  overflow:hidden;
+  border:3px solid var(--md-outline);
+  border-radius:25px;
+  box-shadow:var(--md-shadow);
+  font-family:inherit;
+  font-weight:900;
+  transition:transform .16s ease,box-shadow .16s ease,filter .16s ease;
+}
+#app-main .hub-card:active,
+#app-main .world-card:active,
+#app-main .feel-card:active,
+#app-main .urgent:active,
+#app-main .pictogram:active,
+#app-main .mini-game-card:active,
+#app-main .method-domain:active,
+#app-main .daily-category-card:active{
+  transform:translateY(3px) scale(.985);
+  box-shadow:0 2px 0 #263c7022,0 5px 10px #263c7012;
+}
+#app-main .hub-card{min-height:0;aspect-ratio:1/1;flex-direction:column;justify-content:center;align-items:center;gap:9px;padding:13px;text-align:center}
+#app-main .hub-card-icon{width:clamp(54px,9vw,88px);height:auto;aspect-ratio:1;flex:0 0 auto;filter:drop-shadow(0 4px 3px #263c7028)}
+#app-main .hub-card-copy{align-items:center;gap:4px}
+#app-main .hub-card-copy strong{font-size:clamp(17px,2.4vw,24px);line-height:1.12}
+#app-main .hub-card-copy small{font-size:clamp(11px,1.5vw,14px);line-height:1.2}
+#app-main .hub-arrow{position:absolute;right:12px;top:7px;margin:0;font-size:23px;opacity:.72}
+#app-main .hub-play{background:linear-gradient(145deg,#fff17a,#ffd02f);color:#17346f!important}
+#app-main .hub-learn{background:linear-gradient(145deg,#8be5ff,#32b8ed);color:#17346f!important}
+#app-main .hub-world{background:linear-gradient(145deg,#ff9aaa,#ff637f);color:#17346f!important}
+#app-main .hub-feel{background:linear-gradient(145deg,#ffe77b,#ffbf42);color:#17346f!important}
+#app-main .hub-talk{grid-column:1/-1;aspect-ratio:auto;min-height:118px;flex-direction:row;justify-content:flex-start;text-align:left;padding:15px 20px}
+#app-main .hub-talk .hub-card-copy{align-items:flex-start}
+#app-main .hub-talk .hub-arrow{position:static;margin-left:auto;font-size:30px}
+#app-main .hub-world *,
+#app-main .hub-play *,
+#app-main .hub-learn *,
+#app-main .hub-feel *{color:#17346f!important}
+#app-main .hub-talk{background:linear-gradient(145deg,#4bc9f5,#2698dc);color:#fff34f!important}
+#app-main .hub-talk *{color:#fff34f!important}
+#app-main .world-grid{gap:12px}
+#app-main .world-card{aspect-ratio:1/1;min-height:0;padding:10px;gap:7px;background:linear-gradient(145deg,#fff17a,#ffd02f);color:#17346f!important}
+#app-main .world-card:nth-child(6n+2){background:linear-gradient(145deg,#8be5ff,#32b8ed)}
+#app-main .world-card:nth-child(6n+3){background:linear-gradient(145deg,#ff9aaa,#ff637f)}
+#app-main .world-card:nth-child(6n+4){background:linear-gradient(145deg,#a8edc2,#54d493)}
+#app-main .world-card:nth-child(6n+5){background:linear-gradient(145deg,#cbb8ff,#9878ed)}
+#app-main .world-card:nth-child(6n){background:linear-gradient(145deg,#ffd09b,#ff9a4c)}
+#app-main .world-card *{color:#17346f!important}
+#app-main .world-card .pic{display:grid;place-items:center;width:66%;max-width:86px;aspect-ratio:1;border-radius:23px;background:#ffffffb8;font-size:clamp(32px,5vw,48px);filter:drop-shadow(0 3px 2px #263c7020)}
+#app-main .world-card strong{font-size:clamp(13px,1.8vw,17px);line-height:1.15}
+#app-main .world-card small{font-size:11px;opacity:.78}
+#app-main .feel-grid{gap:12px}
+#app-main .feel-card{aspect-ratio:1/1;min-height:0;padding:10px;background:linear-gradient(145deg,#fff17a,#ffd02f);color:#17346f!important;font-size:clamp(13px,1.7vw,17px)}
+#app-main .feel-card:nth-child(7n+2){background:linear-gradient(145deg,#8be5ff,#32b8ed)}
+#app-main .feel-card:nth-child(7n+3){background:linear-gradient(145deg,#ff9aaa,#ff637f)}
+#app-main .feel-card:nth-child(7n+4){background:linear-gradient(145deg,#cbb8ff,#9878ed)}
+#app-main .feel-card:nth-child(7n+5){background:linear-gradient(145deg,#a8edc2,#54d493)}
+#app-main .feel-card:nth-child(7n+6){background:linear-gradient(145deg,#8be9e0,#45c9c0)}
+#app-main .feel-card:nth-child(7n){background:linear-gradient(145deg,#ffd09b,#ff9a4c)}
+#app-main .feel-card *{color:#17346f!important}
+#app-main .feel-card .pic{display:grid;place-items:center;width:68%;max-width:78px;aspect-ratio:1;border-radius:22px;background:#ffffffbd;font-size:clamp(34px,5vw,48px);filter:drop-shadow(0 3px 2px #263c7020)}
+#app-main .urgent{min-height:82px;border-radius:22px;background:linear-gradient(145deg,#fff17a,#ffd02f);color:#17346f!important}
+#app-main .urgent:nth-child(2){background:linear-gradient(145deg,#ff9aaa,#ff637f);color:#17346f!important}
+#app-main .urgent:nth-child(3){background:linear-gradient(145deg,#8be5ff,#32b8ed);color:#17346f!important}
+#app-main .urgent:nth-child(4){background:linear-gradient(145deg,#a8edc2,#54d493);color:#17346f!important}
+#app-main .urgent *{color:#17346f!important}
+#app-main .pictogram-grid{gap:12px}
+#app-main .pictogram{aspect-ratio:1/1;min-height:0;padding:9px;background:linear-gradient(145deg,#fff17a,#ffd02f);color:#17346f!important}
+#app-main .pictogram:nth-child(6n+2){background:linear-gradient(145deg,#8be5ff,#32b8ed)}
+#app-main .pictogram:nth-child(6n+3){background:linear-gradient(145deg,#ff9aaa,#ff637f)}
+#app-main .pictogram:nth-child(6n+4){background:linear-gradient(145deg,#a8edc2,#54d493)}
+#app-main .pictogram:nth-child(6n+5){background:linear-gradient(145deg,#cbb8ff,#9878ed)}
+#app-main .pictogram:nth-child(6n){background:linear-gradient(145deg,#ffd09b,#ff9a4c)}
+#app-main .pictogram .pic{display:grid;place-items:center;width:68%;max-width:76px;aspect-ratio:1;border-radius:20px;background:#ffffffbd;font-size:clamp(30px,4vw,42px)}
+#app-main .pictogram strong{font-size:clamp(11px,1.5vw,14px);line-height:1.15;color:#17346f!important}
+#app-main .mini-game-card{border:3px solid #fff;border-radius:27px;box-shadow:var(--md-shadow);color:#17346f!important}
+#app-main .mini-game-card .mini-game-icon{filter:drop-shadow(0 4px 3px #263c7028)}
+#app-main .mini-game-card strong,#app-main .mini-game-card small,#app-main .mini-game-card .mini-game-cta{color:inherit!important}
+#app-main .soft-button,
+#app-main .phrase-actions button,
+#app-main .say-button,
+#app-main .lesson-next,
+#app-main .mini-game-toolbar button,
+#app-main .mini-game-cta{
+  border:2px solid #fff;
+  border-radius:17px;
+  box-shadow:0 4px 0 #263c7020;
+  font-family:inherit;
+  font-weight:900;
+  transition:transform .14s ease,box-shadow .14s ease;
+}
+#app-main .soft-button:active,
+#app-main .phrase-actions button:active,
+#app-main .say-button:active,
+#app-main .lesson-next:active,
+#app-main .mini-game-toolbar button:active{transform:translateY(2px);box-shadow:0 1px 0 #263c7020}
+#app-main button:focus-visible{outline:3px solid #17346f;outline-offset:3px}
+@media(max-width:760px){
+ #app-main .hub-grid{gap:10px}
+ #app-main .hub-card{border-radius:22px;padding:10px}
+ #app-main .hub-card-icon{width:62px}
+ #app-main .hub-talk{min-height:100px;aspect-ratio:auto;padding:12px}
+ #app-main .world-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+ #app-main .feel-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+ #app-main .urgent{min-height:70px;flex-direction:column;gap:3px;font-size:12px}
+ #app-main .pictogram-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+}
+@media(max-width:380px){
+ #app-main .hub-card-copy strong{font-size:15px}
+ #app-main .hub-card-copy small{font-size:10px}
+ #app-main .world-card .pic,#app-main .feel-card .pic{font-size:34px}
+ #app-main .pictogram-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
