@@ -116,3 +116,46 @@ body.mogu-splash-mode .mogu-splash .splash-play {
     background-size: contain, cover !important;
   }
 }
+
+
+/* Home navigation: compact square button, not a full-width bottom bar. */
+#bottom-nav.bottom-nav{
+  position:fixed!important;
+  left:50%!important;
+  right:auto!important;
+  bottom:calc(14px + env(safe-area-inset-bottom))!important;
+  transform:translateX(-50%)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:82px!important;
+  min-width:82px!important;
+  max-width:82px!important;
+  height:82px!important;
+  min-height:82px!important;
+  padding:7px!important;
+  gap:0!important;
+  border:2px solid #fff!important;
+  border-radius:24px!important;
+  background:linear-gradient(145deg,#fff,#edf0ff)!important;
+  box-shadow:0 6px 0 #c4d0ef,0 12px 24px #1d347a30!important;
+}
+#bottom-nav .nav-home{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  aspect-ratio:1/1!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:18px!important;
+  background:linear-gradient(145deg,#ffe76f,#ffbd38)!important;
+  color:#533875!important;
+  font-size:38px!important;
+  line-height:1!important;
+  box-shadow:0 4px 0 #d69f27,inset 0 2px 0 #fff8!important;
+}
+#bottom-nav .nav-home span{display:block;line-height:1!important}
+#bottom-nav[hidden]{display:none!important}
