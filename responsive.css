@@ -185,3 +185,39 @@ body.mogu-splash-mode .welcome-screen.mogu-splash{
   background-position:center center!important;background-size:100% 100%!important;
   background-repeat:no-repeat!important;
 }
+
+
+/* Gentle breeze and playful button motion on the welcome illustration.
+   The illustration is a single flattened image, so its scenery gets a subtle drift;
+   the interactive controls are animated independently. */
+body.mogu-splash-mode .welcome-screen.mogu-splash{
+  animation:mogu-breeze-scene 18s ease-in-out infinite alternate;
+  will-change:background-position;
+}
+body.mogu-splash-mode .welcome-screen.mogu-splash .splash-play{
+  transform-origin:50% 55%;
+  animation:mogu-play-breathe 2.8s ease-in-out infinite;
+  will-change:transform,filter;
+}
+body.mogu-splash-mode .welcome-screen.mogu-splash .splash-settings{
+  transform-origin:50% 50%;
+  animation:mogu-settings-float 4.6s ease-in-out infinite;
+  will-change:transform;
+}
+@keyframes mogu-breeze-scene{
+  0%{background-position:49.8% 50.1%,50% 50%}
+  100%{background-position:50.2% 49.9%,50.15% 50.1%}
+}
+@keyframes mogu-play-breathe{
+  0%,100%{transform:translateY(0) scale(1);filter:drop-shadow(0 3px 3px #6337a544)}
+  50%{transform:translateY(-5px) scale(1.035);filter:drop-shadow(0 8px 9px #6337a566)}
+}
+@keyframes mogu-settings-float{
+  0%,100%{transform:translateY(0) rotate(-1deg)}
+  50%{transform:translateY(-3px) rotate(1.5deg)}
+}
+@media(prefers-reduced-motion:reduce){
+  body.mogu-splash-mode .welcome-screen.mogu-splash,
+  body.mogu-splash-mode .welcome-screen.mogu-splash .splash-play,
+  body.mogu-splash-mode .welcome-screen.mogu-splash .splash-settings{animation:none!important;will-change:auto}
+}
