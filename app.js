@@ -567,7 +567,7 @@ function renderDailyLesson(L){
  playDailyStepAnimation();
 }
 
-function learnTopicArt(key){return '<span class="learn-topic-art" aria-hidden="true"><svg viewBox="0 0 128 128" focusable="false"><use href="./assets/learn-icons.svg#'+key+'"></use></svg></span>'}
+function learnTopicArt(key){return '<span class="learn-topic-art" aria-hidden="true"><img src="./assets/learn-'+key+'.svg?v=learn-art-v2" alt="" loading="eager" decoding="async"></span>'}
 function renderLearn(){
  state.screen="learn";
  const l=state.lang,idx=l==="kk"?1:l==="en"?2:0;
