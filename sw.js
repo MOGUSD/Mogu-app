@@ -1,13 +1,13 @@
-const CACHE_NAME="mogu-browser-v53-stable-offline";
+const CACHE_NAME="mogu-browser-v54-stable-offline";
 const APP_SHELL=[
   "./","./index.html","./manifest.webmanifest",
-  "./styles.css?v=madoni-stability-v53",
+  "./styles.css?v=madoni-stability-v54",
   "./splash-fit-fix.css?v=1",
   "./responsive.css?v=remove-splash-logo-fix-blue-flash-20261116",
-  "./mini-games.css?v=madoni-stability-v53",
-  "./arcade-games.css?v=madoni-stability-v53",
-  "./app.js?v=madoni-stability-v53",
-  "./arcade-games.js?v=madoni-stability-v53",
+  "./mini-games.css?v=madoni-stability-v54",
+  "./arcade-games.css?v=madoni-stability-v54",
+  "./app.js?v=madoni-stability-v54",
+  "./arcade-games.js?v=madoni-stability-v54",
   "./assets/fonts/DynaPuff[wdth,wght].ttf",
   "./assets/madoni-logo.webp","./assets/mogu-icon.svg",
   "./assets/mimi.svg","./assets/tiko.svg","./assets/luna.svg",
