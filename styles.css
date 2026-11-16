@@ -1161,3 +1161,21 @@ body::before,body::after,
   background:none!important;
   box-shadow:none!important;
 }
+
+
+/* Remove all glossy white oval/circle overlays from Learn and World cards. */
+#app-main .world-card::before,
+#app-main .world-card::after,
+#app-main .learn-topic::before,
+#app-main .learn-topic::after,
+#app-main .adventure-world::before,
+#app-main .adventure-world::after,
+#app-main .route-card::before,
+#app-main .route-card::after,
+#app-main .learn-madina::before,
+#app-main .learn-madina::after{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+  box-shadow:none!important;
+}
