@@ -1,17 +1,17 @@
-const CACHE_NAME="mogu-browser-v59-scene-editor";
+const CACHE_NAME="mogu-browser-v60-madoni-brand";
 const APP_SHELL=[
-  "./","./index.html","./manifest.webmanifest",
+  "./","./index.html","./manifest.webmanifest?v=madoni-brand-v3-20261117",
   "./styles.css?v=madoni-typography-v56",
   "./splash-fit-fix.css?v=1",
-  "./responsive.css?v=splash-recovery-20261117",
+  "./responsive.css?v=madoni-brand-v3-20261117",
   "./mini-games.css?v=madoni-stability-v54",
   "./arcade-games.css?v=madoni-stability-v54",
   "./scene-editor.css?v=scene-editor-v1",
-  "./app.js?v=splash-recovery-20261117",
+  "./app.js?v=madoni-brand-v3-20261117",
   "./arcade-games.js?v=madoni-stability-v54",
   "./scene-editor.js?v=scene-editor-v1",
   "./assets/fonts/DynaPuff[wdth,wght].ttf",
-  "./assets/madoni-logo.webp","./assets/mogu-icon.svg",
+  "./assets/madoni-logo.webp","./assets/madoni-icon.svg","./assets/madoni-icon-maskable.svg","./assets/mogu-icon.svg",
   "./assets/mimi.svg","./assets/tiko.svg","./assets/luna.svg",
   "./assets/madina-home-character.webp","./assets/start/madoni-start.webp","./assets/madina-guide.webp",
   "./assets/madina-guide-3d.svg","./assets/madina-cutout.svg",
