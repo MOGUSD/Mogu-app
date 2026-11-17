@@ -11,7 +11,7 @@ const APP_SHELL=[
   "./arcade-games.js?v=madoni-stability-v54",
   "./scene-editor.js?v=scene-editor-v1",
   "./assets/fonts/DynaPuff[wdth,wght].ttf",
-  "./assets/madoni-logo.webp","./assets/madoni-icon.svg","./assets/madoni-icon-maskable.svg","./assets/mogu-icon.svg",
+  "./assets/madoni-logo.webp?v=madoni-brand-v3-20261117","./assets/madoni-icon.svg?v=madoni-brand-v3-20261117","./assets/madoni-icon-maskable.svg?v=madoni-brand-v3-20261117","./assets/mogu-icon.svg",
   "./assets/mimi.svg","./assets/tiko.svg","./assets/luna.svg",
   "./assets/madina-home-character.webp","./assets/start/madoni-start.webp","./assets/madina-guide.webp",
   "./assets/madina-guide-3d.svg","./assets/madina-cutout.svg",
