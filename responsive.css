@@ -241,3 +241,17 @@ body.mogu-splash-mode .splash-brand-logo{display:none!important}
 body.mogu-splash-mode .welcome-screen.mogu-splash::before{content:none!important;display:none!important;background:none!important}
 /* Match the loading/underlay background to the dark intro instead of flashing blue. */
 body.mogu-splash-mode{background-color:#050408!important}
+
+
+/* 2026-11-17 emergency splash recovery: do not depend on an expired signed CDN image. */
+body.mogu-splash-mode{background:#1597e8!important}
+body.mogu-splash-mode .welcome-screen.mogu-splash{
+ background-color:#55c5f4!important;
+ background-image:radial-gradient(ellipse at 18% 13%,rgba(255,255,255,.92) 0 7%,transparent 7.5%),radial-gradient(ellipse at 83% 20%,rgba(255,255,255,.78) 0 8%,transparent 8.5%),radial-gradient(ellipse at 5% 62%,rgba(255,255,255,.24) 0 12%,transparent 13%),linear-gradient(180deg,#168de8 0%,#6ed5f4 58%,#b6ed8a 58.5%,#65c95c 100%)!important;
+ background-position:center!important;background-size:cover!important;background-repeat:no-repeat!important;
+}
+.mogu-splash .splash-madina{position:absolute;z-index:2;left:4%;bottom:2%;height:55%;width:min(58vw,330px);object-fit:contain;object-position:left bottom;filter:drop-shadow(0 8px 8px rgba(26,68,65,.2));pointer-events:none}
+.mogu-splash .splash-settings{left:max(18px,env(safe-area-inset-left));top:max(18px,env(safe-area-inset-top));width:54px;height:54px;border-radius:50%;background:linear-gradient(145deg,#fff,#e8f3ff);color:#2463a7;font-size:29px;box-shadow:0 5px 0 rgba(31,77,135,.22),0 8px 18px rgba(17,58,110,.2);display:grid;place-items:center}
+.mogu-splash .splash-play{left:auto;right:12%;top:auto;bottom:11%;width:clamp(88px,22vw,124px);height:clamp(88px,22vw,124px);border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#ffe65d 0%,#ff9d19 68%,#f47712 100%);border:5px solid #fff3bf;color:#fff;font-size:clamp(38px,9vw,54px);text-shadow:0 3px 0 #d66a0b;box-shadow:0 7px 0 #d66a0b,0 12px 26px rgba(104,59,12,.28),inset 0 3px 0 rgba(255,255,255,.75)}
+.mogu-splash .splash-play span[aria-hidden="true"]{transform:translateX(3px)}
+@media(max-width:600px) and (orientation:portrait){.mogu-splash .splash-madina{left:0;bottom:4%;height:48%;width:64vw}.mogu-splash .splash-play{right:11%;bottom:13%}}
