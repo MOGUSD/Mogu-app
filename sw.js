@@ -1,4 +1,4 @@
-const CACHE_NAME="mogu-browser-v57-splash-recovery";
+const CACHE_NAME="mogu-browser-v58-madoni-start-screen";
 const APP_SHELL=[
   "./","./index.html","./manifest.webmanifest",
   "./styles.css?v=madoni-typography-v56",
@@ -11,7 +11,7 @@ const APP_SHELL=[
   "./assets/fonts/DynaPuff[wdth,wght].ttf",
   "./assets/madoni-logo.webp","./assets/mogu-icon.svg",
   "./assets/mimi.svg","./assets/tiko.svg","./assets/luna.svg",
-  "./assets/madina-home-character.webp","./assets/madina-guide.webp",
+  "./assets/madina-home-character.webp","./assets/start/madoni-start.webp","./assets/madina-guide.webp",
   "./assets/madina-guide-3d.svg","./assets/madina-cutout.svg",
   "./assets/hub-play.svg","./assets/hub-learn.svg","./assets/hub-world.svg",
   "./assets/hub-feel.svg","./assets/hub-talk.svg",

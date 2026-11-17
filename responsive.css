@@ -300,3 +300,16 @@ body.mogu-splash-mode .welcome-screen.mogu-splash {
 @supports (height: 100svh) {
   .festivo-intro { min-height: 100svh !important; }
 }
+
+/* MaDoni opening artwork: archive composition, full-bleed and safe-area aware. */
+html,body{background:#050408!important}
+body.mogu-splash-mode,body.mogu-splash-mode .app-shell,body.mogu-splash-mode #app-main,
+body.mogu-splash-mode .welcome-screen.mogu-splash{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;min-height:100dvh!important;max-height:none!important;margin:0!important;padding:0!important;box-sizing:border-box!important}
+body.mogu-splash-mode .topbar,body.mogu-splash-mode #bottom-nav{display:none!important}
+body.mogu-splash-mode .welcome-screen.mogu-splash{display:block!important;overflow:hidden!important;background:#050408!important;background-image:none!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+body.mogu-splash-mode .mogu-splash .splash-art{position:absolute!important;inset:0!important;display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center center!important;margin:0!important;border:0!important;pointer-events:none!important}
+body.mogu-splash-mode .mogu-splash .splash-settings,body.mogu-splash-mode .mogu-splash .splash-play{position:absolute!important;z-index:5!important;display:block!important;padding:0!important;margin:0!important;border:0!important;background:transparent!important;box-shadow:none!important;border-radius:0!important;color:transparent!important;appearance:none!important;-webkit-appearance:none!important;touch-action:manipulation!important;-webkit-tap-highlight-color:transparent!important}
+body.mogu-splash-mode .mogu-splash .splash-settings{left:78%!important;top:5%!important;width:19%!important;height:13%!important}
+body.mogu-splash-mode .mogu-splash .splash-play{left:66%!important;top:72%!important;width:33%!important;height:18%!important}
+body.mogu-splash-mode .mogu-splash button:focus-visible{outline:4px solid #fff!important;outline-offset:2px!important;border-radius:24px!important}
+@media(prefers-reduced-motion:reduce){body.mogu-splash-mode .mogu-splash *{animation:none!important;transition:none!important}}
