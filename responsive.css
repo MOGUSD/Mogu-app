@@ -354,3 +354,14 @@ body.mogu-splash-mode .mogu-splash .splash-art{
   bottom:0!important;left:0!important;width:100%!important;
   height:100%!important;max-height:none!important;object-fit:cover!important;
 }
+
+
+/* iOS standalone safe-area underlay: match each opening screen's edge color.
+   The extra blue band was the body's fallback showing below the visual viewport. */
+html,body{background:#050408!important;background-color:#050408!important}
+body.mogu-splash-mode{background:#65c95c!important;background-color:#65c95c!important}
+body.mogu-splash-mode .app-shell,
+body.mogu-splash-mode #app-main,
+body.mogu-splash-mode .welcome-screen.mogu-splash{
+  background-color:transparent!important;
+}
