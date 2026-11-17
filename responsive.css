@@ -365,3 +365,20 @@ body.mogu-splash-mode #app-main,
 body.mogu-splash-mode .welcome-screen.mogu-splash{
   background-color:transparent!important;
 }
+
+
+/* MaDoni logo integration — header and opening cover, 2026-11-17. */
+.brand-mark{background:#fff!important;border-radius:15px!important;box-shadow:0 3px 0 #e5d9f4!important;}
+body.mogu-splash-mode .splash-brand-logo{
+  display:block!important;position:absolute!important;z-index:4!important;
+  top:max(12px,calc(env(safe-area-inset-top) + 8px))!important;
+  left:50%!important;right:auto!important;transform:translateX(-50%)!important;
+  width:clamp(138px,38vw,190px)!important;height:auto!important;max-height:19vh!important;
+  aspect-ratio:1/1!important;object-fit:contain!important;object-position:center!important;
+  background:#fff!important;border-radius:20px!important;
+  box-shadow:0 7px 20px rgba(35,20,90,.24)!important;
+  pointer-events:none!important;
+}
+@media(max-width:600px){
+  body.mogu-splash-mode .splash-brand-logo{width:clamp(136px,38vw,168px)!important;max-height:19vh!important;border-radius:18px!important;}
+}
