@@ -1,4 +1,4 @@
-const CACHE_NAME="mogu-browser-v58-madoni-start-screen";
+const CACHE_NAME="mogu-browser-v59-scene-editor";
 const APP_SHELL=[
   "./","./index.html","./manifest.webmanifest",
   "./styles.css?v=madoni-typography-v56",
@@ -6,8 +6,10 @@ const APP_SHELL=[
   "./responsive.css?v=splash-recovery-20261117",
   "./mini-games.css?v=madoni-stability-v54",
   "./arcade-games.css?v=madoni-stability-v54",
+  "./scene-editor.css?v=scene-editor-v1",
   "./app.js?v=splash-recovery-20261117",
   "./arcade-games.js?v=madoni-stability-v54",
+  "./scene-editor.js?v=scene-editor-v1",
   "./assets/fonts/DynaPuff[wdth,wght].ttf",
   "./assets/madoni-logo.webp","./assets/mogu-icon.svg",
   "./assets/mimi.svg","./assets/tiko.svg","./assets/luna.svg",
