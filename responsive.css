@@ -255,3 +255,48 @@ body.mogu-splash-mode .welcome-screen.mogu-splash{
 .mogu-splash .splash-play{left:auto;right:12%;top:auto;bottom:11%;width:clamp(88px,22vw,124px);height:clamp(88px,22vw,124px);border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#ffe65d 0%,#ff9d19 68%,#f47712 100%);border:5px solid #fff3bf;color:#fff;font-size:clamp(38px,9vw,54px);text-shadow:0 3px 0 #d66a0b;box-shadow:0 7px 0 #d66a0b,0 12px 26px rgba(104,59,12,.28),inset 0 3px 0 rgba(255,255,255,.75)}
 .mogu-splash .splash-play span[aria-hidden="true"]{transform:translateX(3px)}
 @media(max-width:600px) and (orientation:portrait){.mogu-splash .splash-madina{left:0;bottom:4%;height:48%;width:64vw}.mogu-splash .splash-play{right:11%;bottom:13%}}
+
+
+/* 2026-11-17: remove the blue bottom strip on the intro and welcome screens.
+   The old emergency fallback painted the page itself bright blue; on iOS the
+   browser's bottom safe-area/viewport edge could expose that underlay. */
+html, body {
+  background-color: #050408 !important;
+}
+body.mogu-splash-mode {
+  background: #050408 !important;
+  background-color: #050408 !important;
+}
+body.mogu-splash-mode .app-shell,
+body.mogu-splash-mode #app-main,
+body.mogu-splash-mode .welcome-screen.mogu-splash {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  min-height: 100vh !important;
+  min-height: 100dvh !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+body.mogu-splash-mode .welcome-screen.mogu-splash {
+  overflow: hidden !important;
+  background-color: #55c5f4 !important;
+}
+.festivo-intro {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  min-height: 100vh !important;
+  min-height: 100dvh !important;
+  box-sizing: border-box !important;
+  background: #050408 !important;
+}
+@supports (height: 100svh) {
+  .festivo-intro { min-height: 100svh !important; }
+}
