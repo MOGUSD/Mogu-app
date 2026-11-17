@@ -42,7 +42,7 @@
 @media(prefers-reduced-motion:reduce){.festivo-intro,.festivo-loader span{transition:none;animation-duration:.3s}}
 </style>
 <script>
-window.addEventListener("load",function(){var intro=document.getElementById("festivo-intro");if(!intro)return;intro.classList.add("is-loading");setTimeout(function(){if(typeof window.moguStartWelcome==="function")window.moguStartWelcome();setTimeout(function(){intro.classList.add("is-leaving");setTimeout(function(){intro.remove()},550)},30)},2000)},{once:true});
+(function(){var started=false;function startIntro(){if(started)return;started=true;var intro=document.getElementById("festivo-intro");if(!intro)return;intro.classList.add("is-loading");setTimeout(function(){if(typeof window.moguStartWelcome==="function")window.moguStartWelcome();setTimeout(function(){intro.classList.add("is-leaving");setTimeout(function(){intro.remove()},550)},30)},2000);setTimeout(function(){if(intro.isConnected){intro.classList.add("is-leaving");setTimeout(function(){if(intro.isConnected)intro.remove()},550)}},6000)}if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",startIntro,{once:true})}else{startIntro()}})();
 </script>
 
 <div class="app-shell">
