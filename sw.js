@@ -1,13 +1,13 @@
-const CACHE_NAME="mogu-browser-v66-talk-refresh";
+const CACHE_NAME="mogu-browser-v67-talk-refresh";
 const APP_SHELL=[
   "./","./index.html","./manifest.webmanifest?v=madoni-brand-v3-20261117",
-  "./styles.css?v=madoni-talk-3d-v5",
+  "./styles.css?v=madoni-talk-3d-v6",
   "./splash-fit-fix.css?v=6",
   "./responsive.css?v=madoni-brand-v3-20261117",
   "./mini-games.css?v=madoni-stability-v54",
   "./arcade-games.css?v=madoni-stability-v54",
   "./scene-editor.css?v=scene-editor-v1",
-  "./app.js?v=madoni-talk-glossy-v3",
+  "./app.js?v=madoni-talk-glossy-v4",
   "./arcade-games.js?v=madoni-stability-v54",
   "./scene-editor.js?v=scene-editor-v4",
   "./scene-background-remover.js?v=bg-remove-v1",
