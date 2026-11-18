@@ -1708,3 +1708,20 @@ body:has(.welcome-screen.mogu-splash) .topbar,
 body:has(.welcome-screen.mogu-splash) .bottom-nav,
 body.mogu-splash-mode .topbar,
 body.mogu-splash-mode .bottom-nav { display:none!important; }
+
+
+/* Correct the actual splash artwork element, not just its container background. */
+body:has(.welcome-screen.mogu-splash) .welcome-screen.mogu-splash .splash-art,
+body.mogu-splash-mode .welcome-screen.mogu-splash .splash-art {
+  position:absolute!important; inset:0!important;
+  display:block!important; width:100%!important; height:100%!important;
+  min-width:100%!important; min-height:100%!important; max-width:none!important; max-height:none!important;
+  margin:0!important; padding:0!important;
+  object-fit:fill!important; object-position:center center!important;
+}
+body:has(.welcome-screen.mogu-splash),
+body.mogu-splash-mode { background:transparent!important; }
+body:has(.welcome-screen.mogu-splash) .welcome-screen.mogu-splash,
+body.mogu-splash-mode .welcome-screen.mogu-splash {
+  background-color:transparent!important; background-image:none!important;
+}
