@@ -261,3 +261,29 @@ body.mogu-splash-mode .welcome-screen.mogu-splash .splash-settings,
 body.mogu-splash-mode .welcome-screen.mogu-splash .splash-play {
   z-index:5!important;
 }
+
+
+/* Normal MaDoni app canvas: replace the dark browser/page surround with a
+   cheerful, softly blended sky palette. The fixed loading and splash layers
+   remain above this background and keep their own artwork/colors. */
+html {
+  background-color:#55c9e9!important;
+  background-image:
+    radial-gradient(ellipse at 8% 12%,rgba(255,239,145,.82) 0%,rgba(255,239,145,0) 32%),
+    radial-gradient(ellipse at 92% 28%,rgba(255,177,211,.72) 0%,rgba(255,177,211,0) 34%),
+    radial-gradient(ellipse at 50% 100%,rgba(172,157,255,.78) 0%,rgba(172,157,255,0) 45%),
+    linear-gradient(145deg,#54d5ed 0%,#78bdf5 42%,#b49bf1 72%,#ffc4d8 100%)!important;
+  background-attachment:fixed!important;
+}
+body {
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+}
+body > .app-shell,
+body > #app-main,
+.app-shell,
+#app-main {
+  background:transparent!important;
+  background-color:transparent!important;
+}

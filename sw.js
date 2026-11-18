@@ -1,8 +1,8 @@
-const CACHE_NAME="mogu-browser-v73-pin-main-art-to-viewport";
+const CACHE_NAME="mogu-browser-v74-color-home-canvas";
 const APP_SHELL=[
   "./","./index.html","./manifest.webmanifest?v=madoni-brand-v3-20261117",
   "./styles.css?v=madoni-home-bg-v60",
-  "./splash-fit-fix.css?v=5",
+  "./splash-fit-fix.css?v=6",
   "./responsive.css?v=madoni-brand-v3-20261117",
   "./mini-games.css?v=madoni-stability-v54",
   "./arcade-games.css?v=madoni-stability-v54",
