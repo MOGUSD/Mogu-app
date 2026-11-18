@@ -1783,3 +1783,31 @@ body::before{display:none!important;content:none!important}
   background-color:transparent!important;
   background-image:none!important;
 }
+
+
+/* Final exported MaDoni start screen: the artwork includes its own logo, gear and Play button. */
+body.mogu-splash-mode .welcome-screen.mogu-splash .splash-art{
+  object-fit:cover!important;
+  object-position:center center!important;
+}
+body.mogu-splash-mode .welcome-screen.mogu-splash .splash-brand-logo{display:none!important}
+body.mogu-splash-mode .welcome-screen.mogu-splash .splash-settings,
+body.mogu-splash-mode .welcome-screen.mogu-splash .splash-play{
+  position:absolute!important;
+  display:block!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:50%!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:transparent!important;
+  opacity:1!important;
+  z-index:5!important;
+}
+body.mogu-splash-mode .welcome-screen.mogu-splash .splash-settings{
+  left:75%!important;top:2%!important;width:21%!important;height:13%!important;
+}
+body.mogu-splash-mode .welcome-screen.mogu-splash .splash-play{
+  left:49%!important;top:61%!important;width:39%!important;height:20%!important;
+}

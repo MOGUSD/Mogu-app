@@ -1,4 +1,4 @@
-const CACHE_NAME="mogu-browser-v67-root-canvas-bg";
+const CACHE_NAME="mogu-browser-v68-custom-startscreen";
 const APP_SHELL=[
   "./","./index.html","./manifest.webmanifest?v=madoni-brand-v3-20261117",
   "./styles.css?v=madoni-home-bg-v60",
