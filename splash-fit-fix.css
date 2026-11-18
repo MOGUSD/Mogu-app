@@ -196,3 +196,68 @@ body:has(#festivo-intro:not(.is-leaving)) {
   min-height:calc(100dvh + 220px)!important;
   height:calc(100dvh + 220px)!important;
 }
+
+
+/* Main MaDoni screen: the supplied portrait artwork is 430x930.
+   Pin the IMG itself to the device viewport and use cover (not intrinsic/contain)
+   so its natural aspect ratio cannot leave the root blue canvas exposed below. */
+body.mogu-splash-mode {
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100dvh!important;
+  min-height:100dvh!important;
+  max-height:100dvh!important;
+  overflow:hidden!important;
+  background-color:#0878ff!important;
+  background-image:url("https://d2ol7oe51mr4n9.cloudfront.net/user_3M8snLfUHmF7OTkFoeJSZeuV9Nf/34852209-61b0-4905-a1db-402afba31dd0.webp")!important;
+  background-size:cover!important;
+  background-position:center center!important;
+  background-repeat:no-repeat!important;
+}
+body.mogu-splash-mode .app-shell,
+body.mogu-splash-mode #app-main {
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100dvh!important;
+  min-height:100dvh!important;
+  max-height:100dvh!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+  background:transparent!important;
+}
+body.mogu-splash-mode .welcome-screen.mogu-splash {
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100dvh!important;
+  min-height:100dvh!important;
+  max-height:100dvh!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+  background:transparent!important;
+  z-index:2!important;
+}
+body.mogu-splash-mode .welcome-screen.mogu-splash .splash-art {
+  position:fixed!important;
+  inset:0!important;
+  display:block!important;
+  width:100vw!important;
+  height:100dvh!important;
+  min-width:100vw!important;
+  min-height:100dvh!important;
+  max-width:none!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:0!important;
+  object-fit:cover!important;
+  object-position:center center!important;
+  z-index:0!important;
+}
+body.mogu-splash-mode .welcome-screen.mogu-splash .splash-settings,
+body.mogu-splash-mode .welcome-screen.mogu-splash .splash-play {
+  z-index:5!important;
+}
