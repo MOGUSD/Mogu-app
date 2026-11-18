@@ -1667,3 +1667,44 @@ button,input,textarea,select{font-weight:600}
 #app-main,#app-main *{
   font-family:"Comfortaa","DynaPuff",system-ui,sans-serif!important;
 }
+
+
+/* MaDoni: final edge-to-edge correction for splash and loading screens. */
+html, body { margin:0!important; width:100%!important; min-width:0!important; }
+#festivo-intro {
+  position:fixed!important; inset:0!important;
+  width:100vw!important; height:100vh!important; height:100dvh!important;
+  min-height:100vh!important; min-height:100dvh!important;
+  margin:0!important; border:0!important; box-sizing:border-box!important;
+  background:#050408!important; overflow:hidden!important;
+}
+body:has(.welcome-screen.mogu-splash),
+body.mogu-splash-mode {
+  position:fixed!important; inset:0!important;
+  width:100vw!important; height:100vh!important; height:100dvh!important;
+  min-height:100vh!important; min-height:100dvh!important; max-height:100dvh!important;
+  margin:0!important; padding:0!important; overflow:hidden!important;
+  background:#0878ff!important;
+}
+body:has(.welcome-screen.mogu-splash) .app-shell,
+body.mogu-splash-mode .app-shell,
+body:has(.welcome-screen.mogu-splash) #app-main,
+body.mogu-splash-mode #app-main {
+  position:absolute!important; inset:0!important;
+  display:block!important; width:100vw!important; height:100vh!important; height:100dvh!important;
+  min-height:0!important; max-height:none!important; max-width:none!important;
+  margin:0!important; padding:0!important; overflow:hidden!important;
+}
+body:has(.welcome-screen.mogu-splash) .welcome-screen.mogu-splash,
+body.mogu-splash-mode .welcome-screen.mogu-splash {
+  position:fixed!important; inset:0!important;
+  display:block!important; width:100vw!important; height:100vh!important; height:100dvh!important;
+  min-height:0!important; max-height:none!important; margin:0!important; padding:0!important;
+  border:0!important; border-radius:0!important; box-shadow:none!important;
+  background-size:100% 100%!important; background-position:center center!important;
+  background-repeat:no-repeat!important; overflow:hidden!important;
+}
+body:has(.welcome-screen.mogu-splash) .topbar,
+body:has(.welcome-screen.mogu-splash) .bottom-nav,
+body.mogu-splash-mode .topbar,
+body.mogu-splash-mode .bottom-nav { display:none!important; }
