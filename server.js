@@ -238,7 +238,7 @@ const server = http.createServer(async (req, res) => {
     cleanScreenRooms();
     const code = url.pathname.split("/")[4];
     const room = screenRooms.get(code);
-    if (!/^\\d{6}$/.test(code) || !room) return json(res, 404, { error: "Код трансляции не найден или истёк" });
+    if (!/^[0-9]{6}$/.test(code) || !room) return json(res, 404, { error: "Код трансляции не найден или истёк" });
     room.lastSeen = Date.now();
     if (req.method === "POST" && url.pathname.endsWith("/join")) {
       const body = await readJson(req);
