@@ -74,3 +74,36 @@ body.mogu-splash-mode .welcome-screen.mogu-splash .splash-art {
   object-fit:fill!important;
   object-position:center center!important;
 }
+
+
+/* iOS Safari visual-viewport overscan.
+   Safari can leave a bottom strip outside 100dvh when its browser chrome/safe
+   area changes. Extend only the artwork and intro backdrop past the viewport;
+   keep the visible content anchored to the top and preserve all controls. */
+html, body { margin:0!important; }
+html { background:#050408!important; }
+body.mogu-splash-mode { background:#0878ff!important; }
+body.mogu-splash-mode .welcome-screen.mogu-splash {
+  position:fixed!important;
+  top:0!important; left:0!important; right:0!important; bottom:0!important;
+  height:100dvh!important;
+  overflow:hidden!important;
+  background:#0878ff!important;
+}
+body.mogu-splash-mode .welcome-screen.mogu-splash .splash-art {
+  position:fixed!important;
+  top:0!important; left:0!important;
+  width:100vw!important;
+  height:calc(100dvh + 180px)!important;
+  max-width:none!important; max-height:none!important;
+  object-fit:fill!important;
+  object-position:top center!important;
+}
+#festivo-intro {
+  position:fixed!important;
+  top:0!important; left:0!important; right:0!important; bottom:0!important;
+  height:100dvh!important;
+  overflow:visible!important;
+  background:#050408!important;
+  box-shadow:0 180px 0 #050408!important;
+}
