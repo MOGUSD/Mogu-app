@@ -102,7 +102,7 @@ async function startSender() {
   }
 }
 async function joinViewer() {
-  const entered = $("join-code").value.replace(/\D/g, "").slice(0, 6);
+  const entered = $("join-code").value.replace(/[^0-9]/g, "").slice(0, 6);
   if (entered.length !== 6) { status("Введи все 6 цифр кода."); return; }
   code = entered; role = "viewer"; stopped = false; pendingIce = []; remoteReady = false;
   try {
