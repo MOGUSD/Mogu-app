@@ -109,6 +109,18 @@ function adminAuthorized(url) {
 
 let cacheBytes = 0;
 const rates = new Map();
+const screenRooms = new Map();
+const SCREEN_ROOM_TTL = 15 * 60 * 1000;
+function cleanScreenRooms() {
+  const now = Date.now();
+  for (const [code, room] of screenRooms) if (now - room.lastSeen > SCREEN_ROOM_TTL) screenRooms.delete(code);
+}
+function newScreenCode() {
+  let code;
+  do { code = String(crypto.randomInt(100000, 1000000)); } while (screenRooms.has(code));
+  return code;
+}
+
 const MIME = {
   ".html":"text/html; charset=utf-8",".js":"text/javascript; charset=utf-8",
   ".css":"text/css; charset=utf-8",".json":"application/json; charset=utf-8",
@@ -216,6 +228,45 @@ const server = http.createServer(async (req, res) => {
   setCors(req, res);
   if (req.method === "OPTIONS") return send(res, 204, "");
   const url = new URL(req.url, "http://localhost");
+  if (url.pathname === "/api/screen/rooms" && req.method === "POST") {
+    cleanScreenRooms();
+    const code = newScreenCode();
+    screenRooms.set(code, { createdAt: Date.now(), lastSeen: Date.now(), joined: { sender: true, viewer: false }, queues: { sender: [], viewer: [] } });
+    return json(res, 201, { code, expiresIn: SCREEN_ROOM_TTL });
+  }
+  if (url.pathname.startsWith("/api/screen/rooms/")) {
+    cleanScreenRooms();
+    const code = url.pathname.split("/").pop();
+    const room = screenRooms.get(code);
+    if (!/^\\d{6}$/.test(code) || !room) return json(res, 404, { error: "Код трансляции не найден или истёк" });
+    room.lastSeen = Date.now();
+    if (req.method === "POST" && url.pathname.endsWith("/join")) {
+      const body = await readJson(req);
+      if (body.role !== "viewer" && body.role !== "sender") return json(res, 400, { error: "Invalid role" });
+      room.joined[body.role] = true;
+      return json(res, 200, { ok: true, joined: room.joined });
+    }
+    if (req.method === "POST" && url.pathname.endsWith("/messages")) {
+      const body = await readJson(req);
+      if ((body.role !== "sender" && body.role !== "viewer") || !body.message || typeof body.message.type !== "string") return json(res, 400, { error: "Invalid message" });
+      const target = body.role === "sender" ? "viewer" : "sender";
+      const queue = room.queues[target];
+      if (queue.length >= 120) queue.splice(0, queue.length - 100);
+      queue.push(body.message);
+      return json(res, 202, { ok: true });
+    }
+    if (req.method === "GET" && url.pathname.endsWith("/messages")) {
+      const role = url.searchParams.get("role");
+      if (role !== "sender" && role !== "viewer") return json(res, 400, { error: "Invalid role" });
+      const messages = room.queues[role].splice(0, 120);
+      return json(res, 200, { messages, joined: room.joined, age: Date.now() - room.createdAt }, { "Cache-Control": "no-store" });
+    }
+    if (req.method === "DELETE") {
+      screenRooms.delete(code);
+      return json(res, 200, { ok: true });
+    }
+    return json(res, 405, { error: "Method not allowed" });
+  }
   if (url.pathname.startsWith("/api/madina/")) {
     if (req.method === "GET" && url.pathname === "/api/madina/library/manifest.json") {
       if (!audioStorageReady()) return json(res,503,{error:"Audio library storage is not configured"});
