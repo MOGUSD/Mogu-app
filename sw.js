@@ -1,4 +1,4 @@
-const CACHE_NAME="mogu-browser-v76-talk-illustrations";
+const CACHE_NAME="mogu-browser-v78-talk-inline-svg";
 const APP_SHELL=[
   "./","./index.html","./manifest.webmanifest?v=madoni-brand-v3-20261117",
   "./styles.css?v=madoni-home-bg-v60",

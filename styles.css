@@ -1851,3 +1851,8 @@ body.mogu-splash-mode .welcome-screen.mogu-splash .splash-play{
 .say-button{background:linear-gradient(145deg,#ed70a6,#c44d91);box-shadow:0 6px 0 #963a70,0 9px 16px #a23b741e}
 @media(max-width:760px){.urgent-row{gap:9px}.urgent{min-height:88px;border-radius:21px}.urgent .pic-art{width:44px;height:44px;flex-basis:44px}.pictogram-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.pictogram{min-height:139px;padding:11px 5px 10px;border-radius:21px}.pictogram .pic-art,.pictogram .pic:not(.pic-art){width:65px;height:65px;border-radius:19px}.pictogram .pic:not(.pic-art){font-size:36px}.pictogram>strong{font-size:13px}}
 @media(max-width:390px){.pictogram-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.pictogram{min-height:148px}.pictogram .pic-art,.pictogram .pic:not(.pic-art){width:72px;height:72px}}
+
+/* Inline pictograms render consistently in iOS Safari */
+.talk-screen .pic-art svg{display:block;width:100%;height:100%;overflow:visible}
+.pictogram .pic-art svg{filter:drop-shadow(0 3px 2px #46304a25)}
+.urgent .pic-art svg{filter:drop-shadow(0 2px 1px #46304a22)}
