@@ -1856,3 +1856,11 @@ body.mogu-splash-mode .welcome-screen.mogu-splash .splash-play{
 .talk-screen .pic-art svg{display:block;width:100%;height:100%;overflow:visible}
 .pictogram .pic-art svg{filter:drop-shadow(0 3px 2px #46304a25)}
 .urgent .pic-art svg{filter:drop-shadow(0 2px 1px #46304a22)}
+
+/* Talk pictogram cards: image-first, no visible captions; sound control stays visible */
+.pictogram{position:relative;min-height:116px;justify-content:center;gap:0;padding:10px}
+.pictogram .pic-art{width:clamp(64px,17vw,92px);height:clamp(64px,17vw,92px)}
+.pictogram strong{display:none!important}
+.urgent{gap:0}
+.urgent .pic-art{width:52px;height:52px;flex:0 0 52px}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
