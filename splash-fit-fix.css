@@ -12,3 +12,65 @@
     height: 12% !important;
   }
 }
+
+
+/* iPhone full-viewport splash: pin the artwork to the visible screen, not the
+   document flow, so no root/background strip can appear below it. */
+html:has(body.mogu-splash-mode),
+body.mogu-splash-mode {
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100vh!important;
+  height:100dvh!important;
+  min-height:100vh!important;
+  min-height:100dvh!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+  background:#0878ff!important;
+}
+body.mogu-splash-mode .app-shell,
+body.mogu-splash-mode #app-main {
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100vh!important;
+  height:100dvh!important;
+  min-height:100vh!important;
+  min-height:100dvh!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+}
+body.mogu-splash-mode .welcome-screen.mogu-splash {
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100vh!important;
+  height:100dvh!important;
+  min-height:100vh!important;
+  min-height:100dvh!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+body.mogu-splash-mode .welcome-screen.mogu-splash .splash-art {
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:100%!important;
+  min-height:100%!important;
+  max-width:none!important;
+  max-height:none!important;
+  object-fit:fill!important;
+  object-position:center center!important;
+}

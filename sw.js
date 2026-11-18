@@ -1,8 +1,8 @@
-const CACHE_NAME="mogu-browser-v69-start-image-cdn";
+const CACHE_NAME="mogu-browser-v70-splash-viewport-fix";
 const APP_SHELL=[
   "./","./index.html","./manifest.webmanifest?v=madoni-brand-v3-20261117",
   "./styles.css?v=madoni-home-bg-v60",
-  "./splash-fit-fix.css?v=1",
+  "./splash-fit-fix.css?v=2",
   "./responsive.css?v=madoni-brand-v3-20261117",
   "./mini-games.css?v=madoni-stability-v54",
   "./arcade-games.css?v=madoni-stability-v54",
