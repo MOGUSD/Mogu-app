@@ -107,3 +107,92 @@ body.mogu-splash-mode .welcome-screen.mogu-splash .splash-art {
   background:#050408!important;
   box-shadow:0 180px 0 #050408!important;
 }
+
+
+/* Definitive iOS bottom-gap fix:
+   the prior artwork was clipped by overflow:hidden on #app-main and the
+   splash section. Let the image extend beyond the layout viewport and extend
+   the document backdrop too, so the uncovered safe-area can never be a stripe. */
+html, body { overflow:visible!important; }
+body.mogu-splash-mode {
+  position:relative!important;
+  inset:auto!important;
+  width:100vw!important;
+  height:calc(100dvh + 220px)!important;
+  min-height:calc(100dvh + 220px)!important;
+  max-height:none!important;
+  padding:0!important;
+  margin:0!important;
+  overflow:visible!important;
+  background-color:#0878ff!important;
+  background-image:url("https://d2ol7oe51mr4n9.cloudfront.net/user_3M8snLfUHmF7OTkFoeJSZeuV9Nf/34852209-61b0-4905-a1db-402afba31dd0.webp")!important;
+  background-size:100% 100%!important;
+  background-position:top center!important;
+  background-repeat:no-repeat!important;
+}
+body.mogu-splash-mode .app-shell,
+body.mogu-splash-mode #app-main {
+  position:relative!important;
+  inset:auto!important;
+  width:100vw!important;
+  height:100dvh!important;
+  min-height:100dvh!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:visible!important;
+}
+body.mogu-splash-mode .welcome-screen.mogu-splash {
+  position:fixed!important;
+  inset:0 0 auto 0!important;
+  width:100vw!important;
+  height:calc(100dvh + 220px)!important;
+  min-height:calc(100dvh + 220px)!important;
+  max-height:none!important;
+  overflow:visible!important;
+  background:transparent!important;
+}
+body.mogu-splash-mode .welcome-screen.mogu-splash .splash-art {
+  position:absolute!important;
+  inset:0 auto auto 0!important;
+  display:block!important;
+  width:100vw!important;
+  height:100%!important;
+  min-width:100vw!important;
+  min-height:100%!important;
+  max-width:none!important;
+  max-height:none!important;
+  object-fit:fill!important;
+  object-position:top center!important;
+}
+/* The intro overlay also extends below the iOS layout viewport. Its content
+   remains anchored to the visible screen instead of moving with the extension. */
+#festivo-intro {
+  position:fixed!important;
+  top:0!important;
+  left:0!important;
+  right:0!important;
+  bottom:-220px!important;
+  width:auto!important;
+  height:auto!important;
+  min-height:0!important;
+  overflow:visible!important;
+  background:#050408!important;
+}
+#festivo-intro .festivo-intro-brand {
+  position:fixed!important;
+  left:50%!important;
+  top:40%!important;
+  transform:translate(-50%,-50%)!important;
+}
+#festivo-intro .festivo-loader {
+  position:fixed!important;
+  left:10%!important;
+  right:10%!important;
+  bottom:calc(12vh + env(safe-area-inset-bottom))!important;
+}
+body:has(#festivo-intro:not(.is-leaving)) {
+  background:#050408!important;
+  min-height:calc(100dvh + 220px)!important;
+  height:calc(100dvh + 220px)!important;
+}
