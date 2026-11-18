@@ -236,7 +236,7 @@ const server = http.createServer(async (req, res) => {
   }
   if (url.pathname.startsWith("/api/screen/rooms/")) {
     cleanScreenRooms();
-    const code = url.pathname.split("/").pop();
+    const code = url.pathname.split("/")[4];
     const room = screenRooms.get(code);
     if (!/^\\d{6}$/.test(code) || !room) return json(res, 404, { error: "Код трансляции не найден или истёк" });
     room.lastSeen = Date.now();
