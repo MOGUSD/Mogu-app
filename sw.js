@@ -1,7 +1,7 @@
-const CACHE_NAME="mogu-browser-v61-edge-fit";
+const CACHE_NAME="mogu-browser-v62-splash-art-fit";
 const APP_SHELL=[
   "./","./index.html","./manifest.webmanifest?v=madoni-brand-v3-20261117",
-  "./styles.css?v=madoni-edge-v57",
+  "./styles.css?v=madoni-edge-v58",
   "./splash-fit-fix.css?v=1",
   "./responsive.css?v=madoni-brand-v3-20261117",
   "./mini-games.css?v=madoni-stability-v54",
