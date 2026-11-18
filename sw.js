@@ -1,4 +1,4 @@
-const CACHE_NAME="mogu-browser-v62-splash-art-fit";
+const CACHE_NAME="mogu-browser-v63-editor-background-tool";
 const APP_SHELL=[
   "./","./index.html","./manifest.webmanifest?v=madoni-brand-v3-20261117",
   "./styles.css?v=madoni-edge-v58",
@@ -9,7 +9,7 @@ const APP_SHELL=[
   "./scene-editor.css?v=scene-editor-v1",
   "./app.js?v=madoni-brand-v3-20261117",
   "./arcade-games.js?v=madoni-stability-v54",
-  "./scene-editor.js?v=scene-editor-v1",
+  "./scene-editor.js?v=scene-editor-v2",
   "./scene-background-remover.js?v=bg-remove-v1",
   "./assets/fonts/DynaPuff[wdth,wght].ttf",
   "./assets/madoni-logo.webp?v=madoni-brand-v3-20261117","./assets/madoni-icon.svg?v=madoni-brand-v3-20261117","./assets/madoni-icon-maskable.svg?v=madoni-brand-v3-20261117","./assets/mogu-icon.svg",
