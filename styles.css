@@ -1746,3 +1746,17 @@ body::before{
   filter:blur(3px);
   transform:scale(1.015);
 }
+
+
+/* MaDoni home background visibility fix: keep the image above the document canvas,
+   but below every app surface. */
+html { background:#07142f!important; }
+body { position:relative!important; isolation:isolate!important; background:transparent!important; }
+body::before {
+  z-index:0!important;
+  inset:-16px!important;
+  filter:blur(5px) brightness(.78) saturate(.68)!important;
+  transform:scale(1.04)!important;
+}
+body > .app-shell { position:relative!important; z-index:1!important; background:transparent!important; }
+body > .toast { z-index:30!important; }
