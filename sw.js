@@ -1,7 +1,7 @@
-const CACHE_NAME="mogu-browser-v65-editor-async-fix";
+const CACHE_NAME="mogu-browser-v66-home-bg-layer-fix";
 const APP_SHELL=[
   "./","./index.html","./manifest.webmanifest?v=madoni-brand-v3-20261117",
-  "./styles.css?v=madoni-edge-v58",
+  "./styles.css?v=madoni-home-bg-v59",
   "./splash-fit-fix.css?v=1",
   "./responsive.css?v=madoni-brand-v3-20261117",
   "./mini-games.css?v=madoni-stability-v54",
