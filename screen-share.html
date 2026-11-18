@@ -14,9 +14,9 @@
       <div class="card-icon">🖥️</div><h2>Я передаю экран</h2>
       <p>Открой эту страницу на компьютере, нажми кнопку и выбери экран или окно для показа.</p>
       <button class="primary-button" id="start-share">Начать трансляцию</button>
-      <div class="room-code-wrap" id="room-wrap" hidden><span>Код для телефона</span><strong id="room-code">------</strong><small>Введи этот код на iPhone</small></div>
+      <div class="room-code-wrap" id="room-wrap" hidden><span>Отсканируй QR-код камерой iPhone</span><div id="room-qr" class="room-qr" aria-label="QR-код для подключения"></div><strong id="room-code">------</strong><small>Или введи код вручную на телефоне</small></div>
     </article>
-    <article class="share-card viewer-card">
+    <article class="share-card viewer-card" id="viewer-card">
       <div class="card-icon">📱</div><h2>Я смотрю на телефоне</h2>
       <p>Введи шестизначный код, который показан на компьютере.</p>
       <label for="join-code">Код подключения</label>
@@ -33,5 +33,6 @@
   <p class="status" id="status" role="status" aria-live="polite">Выбери, с какого устройства начинаешь.</p>
   <footer>Для передачи экрана используй Chrome или Edge на компьютере. Устройства должны иметь доступ к интернету.</footer>
 </main>
-<script src="./screen-share.js?v=1" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+<script src="./screen-share.js?v=2" defer></script>
 </body></html>
