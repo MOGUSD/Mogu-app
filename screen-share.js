@@ -86,6 +86,18 @@ async function startSender() {
     const data = await post(API, {});
     code = data.code; role = "sender"; offerStarted = false; stopped = false;
     $("room-code").textContent = code; $("room-wrap").hidden = false;
+    const joinUrl = new URL(window.location.href);
+    joinUrl.search = ""; joinUrl.hash = ""; joinUrl.searchParams.set("join", code);
+    const qr = $("room-qr"); qr.replaceChildren();
+    if (window.QRCode) {
+      new QRCode(qr, { text: joinUrl.toString(), width: 192, height: 192, colorDark: "#172b4d", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.M });
+    } else {
+      const image = document.createElement("img");
+      image.alt = "QR-код подключения";
+      image.width = 192; image.height = 192;
+      image.src = "https://api.qrserver.com/v1/create-qr-code/?size=192x192&margin=8&data=" + encodeURIComponent(joinUrl.toString());
+      qr.appendChild(image);
+    }
     $("start-share").disabled = true;
     makePeer();
     localStream.getTracks().forEach(track => { pc.addTrack(track, localStream); track.addEventListener("ended", () => stop(true)); });
