@@ -1,7 +1,7 @@
-const CACHE_NAME="mogu-browser-v81-talk-glossy";
+const CACHE_NAME="mogu-browser-v82-talk-3d";
 const APP_SHELL=[
   "./","./index.html","./manifest.webmanifest?v=madoni-brand-v3-20261117",
-  "./styles.css?v=madoni-talk-glossy-v3",
+  "./styles.css?v=madoni-talk-3d-v4",
   "./splash-fit-fix.css?v=6",
   "./responsive.css?v=madoni-brand-v3-20261117",
   "./mini-games.css?v=madoni-stability-v54",
