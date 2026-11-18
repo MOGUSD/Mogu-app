@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#55c9e9"><title>Трансляция экрана — MaDoni</title>
-<link rel="stylesheet" href="./screen-share.css?v=1">
+<link rel="stylesheet" href="./screen-share.css?v=2">
 </head>
 <body>
 <main class="share-app">
@@ -14,7 +14,7 @@
       <div class="card-icon">🖥️</div><h2>Я передаю экран</h2>
       <p>Открой эту страницу на компьютере, нажми кнопку и выбери экран или окно для показа.</p>
       <button class="primary-button" id="start-share">Начать трансляцию</button>
-      <div class="room-code-wrap" id="room-wrap" hidden><span>Отсканируй QR-код камерой iPhone</span><div id="room-qr" class="room-qr" aria-label="QR-код для подключения"></div><strong id="room-code">------</strong><small>Или введи код вручную на телефоне</small></div>
+      
     </article>
     <article class="share-card viewer-card" id="viewer-card">
       <div class="card-icon">📱</div><h2>Я смотрю на телефоне</h2>
@@ -26,6 +26,7 @@
   </section>
   <section class="viewer-stage" id="stage" hidden>
     <div class="stage-top"><div><span class="live-dot"></span><strong id="stage-title">Трансляция</strong></div><button id="stop-share" class="stop-button">Отключиться</button></div>
+    <div class="room-code-wrap" id="room-wrap" hidden><span>Отсканируй QR-код камерой iPhone</span><div id="room-qr" class="room-qr" aria-label="QR-код для подключения"></div><strong id="room-code">------</strong><small>Или введи код вручную на телефоне</small></div>
     <video id="remote-video" autoplay playsinline controls></video>
     <p class="stage-hint" id="stage-hint">Ожидание изображения…</p>
     <button id="fullscreen" class="secondary-button">На весь экран</button>
@@ -34,5 +35,5 @@
   <footer>Для передачи экрана используй Chrome или Edge на компьютере. Устройства должны иметь доступ к интернету.</footer>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
-<script src="./screen-share.js?v=2" defer></script>
+<script src="./screen-share.js?v=3" defer></script>
 </body></html>
