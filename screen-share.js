@@ -141,6 +141,11 @@ async function stop(notify = true) {
   status("Трансляция завершена.");
   role = null; code = ""; offerStarted = false; remoteReady = false; pendingIce = [];
 }
+const quickJoinCode = new URLSearchParams(window.location.search).get("join");
+if (quickJoinCode && /^[0-9]{6}$/.test(quickJoinCode)) {
+  $("join-code").value = quickJoinCode;
+  joinViewer();
+}
 $("start-share").addEventListener("click", startSender);
 $("join-share").addEventListener("click", joinViewer);
 $("join-code").addEventListener("input", e => { e.target.value = e.target.value.replace(/\D/g, "").slice(0, 6); });
