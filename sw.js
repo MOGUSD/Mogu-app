@@ -1,7 +1,7 @@
-const CACHE_NAME="mogu-browser-v60-madoni-brand";
+const CACHE_NAME="mogu-browser-v61-edge-fit";
 const APP_SHELL=[
   "./","./index.html","./manifest.webmanifest?v=madoni-brand-v3-20261117",
-  "./styles.css?v=madoni-typography-v56",
+  "./styles.css?v=madoni-edge-v57",
   "./splash-fit-fix.css?v=1",
   "./responsive.css?v=madoni-brand-v3-20261117",
   "./mini-games.css?v=madoni-stability-v54",
@@ -10,6 +10,7 @@ const APP_SHELL=[
   "./app.js?v=madoni-brand-v3-20261117",
   "./arcade-games.js?v=madoni-stability-v54",
   "./scene-editor.js?v=scene-editor-v1",
+  "./scene-background-remover.js?v=bg-remove-v1",
   "./assets/fonts/DynaPuff[wdth,wght].ttf",
   "./assets/madoni-logo.webp?v=madoni-brand-v3-20261117","./assets/madoni-icon.svg?v=madoni-brand-v3-20261117","./assets/madoni-icon-maskable.svg?v=madoni-brand-v3-20261117","./assets/mogu-icon.svg",
   "./assets/mimi.svg","./assets/tiko.svg","./assets/luna.svg",
